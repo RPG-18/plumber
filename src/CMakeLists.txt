@@ -1,0 +1,5 @@
+add_subdirectory(core)
+add_subdirectory(components)
+add_subdirectory(configuration)
+add_subdirectory(services)
+add_subdirectory(utils)

@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/StartScreen.qml</file>
+        <file>qml/MainScreen.qml</file>
+        <file>qml/BrokerDelegate.qml</file>
+        <file>qml/LeftPanel/Panel.qml</file>
+        <file>qml/LeftPanel/MenuItem.qml</file>
+        <file>qml/LeftPanel/Menu.qml</file>
+        <file>qml/ClusterConfigurationDialog.qml</file>
+        <file>qml/style.js</file>
+        <file>qml/pages.js</file>
+        <file>qml/Overview.qml</file>
+        <file>qml/Brokers.qml</file>
+        <file>qml/Topics.qml</file>
+        <file>qml/Consumers.qml</file>
+        <file>qml/OverviewItem.qml</file>
+        <file>qml/constants.js</file>
+        <file>qml/Consumer/ConsumerScreen.qml</file>
+        <file>qml/Consumer/TypeCombobox.qml</file>
+        <file>qml/Components/TextButton.qml</file>
+        <file alias="kafka_icon.svg">../images/kafka_icon.svg</file>
+        <file alias="kafka_icon_reverse.svg">../images/kafka_icon_reverse.svg</file>
+        <file alias="home.svg">../images/home.svg</file>
+        <file alias="brokers.svg">../images/brokers.svg</file>
+        <file alias="topics.svg">../images/topics.svg</file>
+        <file alias="consumers.svg">../images/consumers.svg</file>
+        <file alias="search.svg">../images/search.svg</file>
+        <file alias="table.svg">../images/table.svg</file>
+        <file alias="left.svg">../images/left.svg</file>
+        <file alias="right.svg">../images/right.svg</file>
+        <file alias="list.svg">../images/list.svg</file>
+        <file alias="arrows-expand.svg">../images/arrows-expand.svg</file>
+        <file>qml/Consumer/FormatSelector.qml</file>
+        <file>qml/Consumer/RangeAndFilters.qml</file>
+        <file>qml/Consumer/StartInput.qml</file>
+        <file>qml/Consumer/FilterInput.qml</file>
+        <file>qml/Consumer/MessageTableView.qml</file>
+        <file>qml/Consumer/LimitInput.qml</file>
+        <file>qml/Consumer/MessageView.qml</file>
+    </qresource>
+</RCC>
