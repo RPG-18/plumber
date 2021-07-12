@@ -1,9 +1,9 @@
-#include <spdlog/spdlog.h>
 #include <thread>
-
 #include <QtCore/QDebug>
 
+#include "spdlog/spdlog.h"
 #include "AdminClient.hpp"
+
 #include "TopicModel.h"
 
 using namespace kafka;

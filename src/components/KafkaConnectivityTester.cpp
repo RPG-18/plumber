@@ -1,10 +1,10 @@
 #include <kafka/AdminClient.h>
-#include <spdlog/spdlog.h>
 #include <thread>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMetaObject>
 
+#include "spdlog/spdlog.h"
 #include "ClusterConfig.h"
 #include "KafkaConnectivityTester.h"
 

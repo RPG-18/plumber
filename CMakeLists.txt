@@ -28,7 +28,7 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools QuickControls2 REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
-find_package(spdlog REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 set(TS_FILES src/kafkaui_ru_RU.ts)
 
@@ -58,6 +58,8 @@ target_link_libraries(kafkaui
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Quick
         Qt${QT_VERSION_MAJOR}::QuickControls2
+        spdlog::spdlog
+        spdlog::spdlog_header_only
         Rdkafka
         core
         components

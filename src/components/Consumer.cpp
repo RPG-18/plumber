@@ -1,4 +1,4 @@
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>

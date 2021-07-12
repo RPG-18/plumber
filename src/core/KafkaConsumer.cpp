@@ -1,8 +1,8 @@
-#include <spdlog/spdlog.h>
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
 #include <QtCore/QTimerEvent>
 
+#include "spdlog/spdlog.h"
 #include "KafkaConsumer.h"
 
 namespace core {

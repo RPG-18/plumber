@@ -1,11 +1,11 @@
 #include <kafka/Properties.h>
-#include <spdlog/spdlog.h>
-
 #include <QtCore/QFile>
+
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 
+#include "spdlog/spdlog.h"
 #include "Configuration.h"
 
 namespace {

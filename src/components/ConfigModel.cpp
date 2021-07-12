@@ -1,9 +1,8 @@
 #include <kafka/Properties.h>
-#include <spdlog/spdlog.h>
-
 #include <QtCore/QSignalBlocker>
 #include <QtCore/QTextStream>
 
+#include "spdlog/spdlog.h"
 #include "ConfigModel.h"
 #include "Registry.h"
 
