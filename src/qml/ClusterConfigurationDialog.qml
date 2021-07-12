@@ -13,7 +13,7 @@ ssl.protocol=...
 ssl.enabled.protocols=...
 "
 
-    signal createBroker(string name, string bootstrap, string colorm, string properties)
+    signal createBroker(string name, string bootstrap, string color, string properties)
 
     function open() {
         if (dialog.visible)
@@ -168,13 +168,11 @@ ssl.enabled.protocols=...
                                 ConnectivityTester {
                                     id: tester
 
-                                    function checked(result) {
+                                    onIsTested: (result) => {
                                         page.state = "default";
                                         testConnectDialog.open();
                                         staclLayout.currentIndex = result ? 0 : 1;
                                     }
-
-                                    onIsTested: checked
                                 }
 
                             }
