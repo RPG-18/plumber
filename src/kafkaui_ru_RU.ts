@@ -67,22 +67,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="222"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="220"/>
         <source>Connection to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="222"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="220"/>
         <source> OK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>

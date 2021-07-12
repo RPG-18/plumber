@@ -5,7 +5,7 @@ import QtQuick.Controls 2.12
 Item {
     id: menuItem
 
-    property string brokerColor
+    property alias brokerColor: colorRect.color
     property string brokerName
     property string brokerBootstrap
 
@@ -20,6 +20,7 @@ Item {
         spacing: 2
 
         Rectangle {
+            id: colorRect
             height: menuItem.height
             width: 4
             color: brokerColor
