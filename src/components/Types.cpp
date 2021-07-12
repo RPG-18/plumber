@@ -58,6 +58,7 @@ QString format(Types type, const QByteArray &data)
         }
         case 8: {
             double val;
+            stream >> val;
             return QString::number(val);
         }
         default:

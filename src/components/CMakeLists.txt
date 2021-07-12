@@ -14,9 +14,12 @@ add_library(components
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(components
+        PRIVATE
         Qt${QT_VERSION_MAJOR}::Core
         Threads::Threads
         Rdkafka
         core
+        spdlog::spdlog
+        spdlog::spdlog_header_only
 )
 
