@@ -94,6 +94,8 @@ ssl.enabled.protocols=...
                                 id: clusterName
 
                                 placeholderText: qsTr("Enter Cluster Name")
+                                persistentSelection: true
+                                selectByMouse: true
                                 Layout.fillWidth: true
                             }
 
@@ -108,6 +110,8 @@ ssl.enabled.protocols=...
 
                                 placeholderText: qsTr("eg: localhost:9092")
                                 Layout.fillWidth: true
+                                persistentSelection: true
+                                selectByMouse: true
                             }
 
                             Text {
@@ -125,6 +129,8 @@ ssl.enabled.protocols=...
                                     id: addProperties
 
                                     placeholderText: dialog.propertiesPlaceholder
+                                    persistentSelection: true
+                                    selectByMouse: true
 
                                     background: Rectangle {
                                         implicitHeight: 150

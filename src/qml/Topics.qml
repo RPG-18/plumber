@@ -93,6 +93,8 @@ Rectangle {
                 TextField {
                     id: filterField
 
+                    persistentSelection: true
+                    selectByMouse: true
                     placeholderText: qsTr("Filter topic name...")
                 }
 

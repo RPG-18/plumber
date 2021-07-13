@@ -87,6 +87,8 @@ Item {
             visible: item.selectedLimit == 2
             width: 150
             Layout.minimumWidth: 150
+            persistentSelection: true
+            selectByMouse: true
         }
 
         SpinBox {

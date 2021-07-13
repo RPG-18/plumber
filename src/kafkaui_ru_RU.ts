@@ -42,47 +42,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="101"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="103"/>
         <source>Bootstrap Servers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="109"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="111"/>
         <source>eg: localhost:9092</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="114"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="118"/>
         <source>Additional Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="146"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="151"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="160"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="165"/>
         <source>Test Kafka Connectivity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="220"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="225"/>
         <source>Connection to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="220"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="225"/>
         <source> OK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="229"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="229"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -140,7 +140,7 @@
 <context>
     <name>LimitInput</name>
     <message>
-        <location filename="qml/Consumer/LimitInput.qml" line="115"/>
+        <location filename="qml/Consumer/LimitInput.qml" line="117"/>
         <source>Global</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,7 +286,7 @@
 <context>
     <name>StartInput</name>
     <message>
-        <location filename="qml/Consumer/StartInput.qml" line="91"/>
+        <location filename="qml/Consumer/StartInput.qml" line="92"/>
         <source>Time Based</source>
         <translation type="unfinished"></translation>
     </message>
@@ -317,7 +317,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="96"/>
+        <location filename="qml/Topics.qml" line="98"/>
         <source>Filter topic name...</source>
         <translation type="unfinished"></translation>
     </message>

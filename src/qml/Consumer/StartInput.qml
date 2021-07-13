@@ -71,6 +71,8 @@ Item {
                 text = timeString;
             }
 
+            persistentSelection: true
+            selectByMouse: true
             visible: false
             width: 150
             Layout.minimumWidth: 150

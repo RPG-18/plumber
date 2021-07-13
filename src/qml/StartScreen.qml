@@ -98,7 +98,7 @@ Item {
     ClusterConfigurationDialog {
         id: dialog
 
-        onCreateBroker: (name, bootstrap, color,  properties) => {
+        onCreateBroker: (name, bootstrap, color, properties) => {
             brokerModel.createBroker(name, bootstrap, color, properties);
         }
     }

@@ -21,6 +21,7 @@ Item {
 
         Rectangle {
             id: colorRect
+
             height: menuItem.height
             width: 4
             color: brokerColor

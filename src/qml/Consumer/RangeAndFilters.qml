@@ -114,6 +114,8 @@ Item {
                 id: key
 
                 placeholderText: "A key to match. Optional"
+                persistentSelection: true
+                selectByMouse: true
             }
 
             Text {
@@ -124,6 +126,8 @@ Item {
                 id: value
 
                 placeholderText: "A value to match. Optional"
+                persistentSelection: true
+                selectByMouse: true
             }
 
             Text {
@@ -137,12 +141,16 @@ Item {
                     id: headerKey
 
                     placeholderText: "Key. Optional"
+                    persistentSelection: true
+                    selectByMouse: true
                 }
 
                 TextField {
                     id: headerValue
 
                     placeholderText: "Value. Optional"
+                    persistentSelection: true
+                    selectByMouse: true
                 }
 
             }
