@@ -57,32 +57,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="151"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="152"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="165"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="166"/>
         <source>Test Kafka Connectivity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="225"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
         <source>Connection to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="225"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
         <source> OK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="229"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="230"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="229"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="230"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,7 +286,7 @@
 <context>
     <name>StartInput</name>
     <message>
-        <location filename="qml/Consumer/StartInput.qml" line="92"/>
+        <location filename="qml/Consumer/StartInput.qml" line="93"/>
         <source>Time Based</source>
         <translation type="unfinished"></translation>
     </message>

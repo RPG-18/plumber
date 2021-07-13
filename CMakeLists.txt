@@ -35,6 +35,7 @@ set(TS_FILES src/kafkaui_ru_RU.ts)
 set(PROJECT_SOURCES
         src/main.cpp
         src/qml.qrc
+        src/qtquickcontrols2.conf
         ${TS_FILES})
 
 add_subdirectory(src)

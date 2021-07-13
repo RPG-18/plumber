@@ -38,5 +38,6 @@
         <file>qml/Consumer/MessageTableView.qml</file>
         <file>qml/Consumer/LimitInput.qml</file>
         <file>qml/Consumer/MessageView.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>
