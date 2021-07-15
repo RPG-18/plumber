@@ -1,6 +1,10 @@
+#include <array>
 #include <memory>
 
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
+
+#include <QtGui/QFontDatabase>
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQuickControls2/QQuickStyle>
@@ -20,6 +24,28 @@ void init()
     auto cfg = std::make_shared<ConfigurationService>();
     cfg->load();
     Services->setConfiguration(cfg);
+}
+
+void loadFonts()
+{
+    const std::array<QString, 12> fonts = {QStringLiteral(":/fonts/Roboto-BlackItalic.ttf"),
+                                           QStringLiteral(":/fonts/Roboto-Black.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-BoldItalic.ttf"),
+                                           QStringLiteral(":/fonts/Roboto-Bold.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-Italic.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-LightItalic.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-Light.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-MediumItalic.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-Medium.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-Regular.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-ThinItalic.ttf"),
+                                           QStringLiteral(":/fonts//Roboto-Thin.ttf")};
+    for (const auto &font : fonts) {
+        const auto res = QFontDatabase::addApplicationFont(font);
+        if (res == -1) {
+            qDebug() << "failed load font" << font;
+        }
+    }
 }
 
 int main(int argc, char *argv[])
@@ -49,6 +75,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     init();
+    //loadFonts();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
