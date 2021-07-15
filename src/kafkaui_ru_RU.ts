@@ -117,22 +117,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="22"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="20"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="22"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="20"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="43"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="41"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="53"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="51"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>

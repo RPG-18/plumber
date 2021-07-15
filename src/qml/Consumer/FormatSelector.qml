@@ -8,13 +8,11 @@ Item {
     property alias valueTypeId: valueCbx.typeId
 
     width: 300
-    implicitHeight: contentGrid.visible ? label.height + contentGrid.height : label.height
-    implicitWidth: label.width
+    implicitHeight: content.height
+    implicitWidth: content.width
 
     ColumnLayout {
         id: content
-
-        anchors.fill: parent
 
         Text {
             id: label
