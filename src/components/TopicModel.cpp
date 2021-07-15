@@ -1,8 +1,8 @@
 #include <thread>
 #include <QtCore/QDebug>
 
-#include "spdlog/spdlog.h"
 #include "AdminClient.hpp"
+#include "spdlog/spdlog.h"
 
 #include "TopicModel.h"
 

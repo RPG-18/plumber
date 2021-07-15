@@ -4,9 +4,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMetaObject>
 
-#include "spdlog/spdlog.h"
 #include "ClusterConfig.h"
 #include "KafkaConnectivityTester.h"
+#include "spdlog/spdlog.h"
 
 using namespace kafka;
 

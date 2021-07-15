@@ -1,8 +1,8 @@
 #include <thread>
 
-#include "spdlog/spdlog.h"
 #include "AdminClient.hpp"
 #include "BrokerModel.h"
+#include "spdlog/spdlog.h"
 
 using namespace kafka;
 

@@ -2,9 +2,9 @@
 #include <QtCore/QSignalBlocker>
 #include <QtCore/QTextStream>
 
-#include "spdlog/spdlog.h"
 #include "ConfigModel.h"
 #include "Registry.h"
+#include "spdlog/spdlog.h"
 
 ConfigModel::ConfigModel(QObject *parent)
     : QAbstractListModel(parent)

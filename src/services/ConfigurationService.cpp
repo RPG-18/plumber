@@ -1,9 +1,9 @@
-#include <QtCore/QDir>
 #include <QtCore/QDebug>
+#include <QtCore/QDir>
 #include <QtCore/QStandardPaths>
 
-#include "spdlog/spdlog.h"
 #include "ConfigurationService.h"
+#include "spdlog/spdlog.h"
 
 const QString ConfigurationService::ConfigName("config.json");
 

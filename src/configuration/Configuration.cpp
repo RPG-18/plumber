@@ -5,8 +5,8 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 
-#include "spdlog/spdlog.h"
 #include "Configuration.h"
+#include "spdlog/spdlog.h"
 
 namespace {
 

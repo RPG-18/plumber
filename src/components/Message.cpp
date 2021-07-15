@@ -1,6 +1,8 @@
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonParseError>
 
 #include "Message.h"
 
@@ -26,6 +28,19 @@ QString MessageWrapper::key() const
 
 QString MessageWrapper::value() const
 {
+    switch (m_message.valueType) {
+    case Types::JSON: {
+        QJsonParseError err;
+        const auto doc = QJsonDocument::fromJson(m_message.value, &err);
+        if (err.error == QJsonParseError::NoError) {
+            const auto data = doc.toJson(QJsonDocument::Indented);
+            return QString::fromUtf8(data);
+        }
+
+    } break;
+    default:
+        return format(m_message.valueType, m_message.value);
+    }
     return format(m_message.valueType, m_message.value);
 }
 
