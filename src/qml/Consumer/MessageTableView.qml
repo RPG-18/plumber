@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
-//import Qt.labs.qmlmodels 1.0
 import "../style.js" as Style
 import "../pages.js" as Pages
 
@@ -34,6 +33,8 @@ Rectangle {
 
         ListView {
             model: main.model
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             ScrollBar.vertical: ScrollBar {
                 id: listVerticalBar
@@ -64,7 +65,6 @@ Rectangle {
                             text: model.timestamp
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
-
                             color: Style.MessageGrayColor
                         }
 
@@ -80,7 +80,6 @@ Rectangle {
                             text: model.key
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
-
                             color: Style.MessageGrayColor
                         }
 
@@ -243,7 +242,6 @@ Rectangle {
                             text: display
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
-
                             color: Style.MessageGrayColor
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -282,6 +280,7 @@ Rectangle {
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
                             elide: Text.ElideRight
+                            wrapMode: Text.WrapAnywhere
                             color: Style.MessageBlueColor
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -293,7 +292,6 @@ Rectangle {
                             Layout.fillWidth: true
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
-
                             elide: Text.ElideRight
                             color: Style.MessageGrayColor
                             verticalAlignment: Text.AlignVCenter

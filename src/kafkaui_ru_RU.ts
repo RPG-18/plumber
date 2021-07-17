@@ -166,7 +166,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="123"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="125"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
