@@ -13,7 +13,7 @@ Rectangle {
     property var columnWidths: [100, 50, 100, 150, 100, 350, 200]
     property bool visibleHeader: false
     property int rowHeight: 40
-    property int fontPixelSize: 16
+    property int fontPixelSize: 14
 
     function columnWidthProvider(column) {
         let visible = columnVisible[column];
@@ -63,6 +63,8 @@ Rectangle {
                         Text {
                             text: model.timestamp
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
+
                             color: Style.MessageGrayColor
                         }
 
@@ -70,12 +72,15 @@ Rectangle {
                             text: "#"
                             font.italic: true
                             font.bold: true
-                            font.pointSize: 12
+                            font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                         }
 
                         Text {
                             text: model.key
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
+
                             color: Style.MessageGrayColor
                         }
 
@@ -83,10 +88,12 @@ Rectangle {
 
                     Text {
                         Layout.fillWidth: true
+                        Layout.fillHeight: true
                         text: model.value
                         elide: Text.ElideRight
                         color: Style.MessageBlueColor
                         font.pixelSize: fontPixelSize
+                        font.family: Style.FontFamily
                     }
 
                 }
@@ -210,6 +217,7 @@ Rectangle {
                             // topic
                             text: display
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                             color: Style.MessageGrayColor
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -222,6 +230,7 @@ Rectangle {
                             // part
                             text: display
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                             color: Style.MessageGrayColor
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -233,6 +242,8 @@ Rectangle {
                             // offset
                             text: display
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
+
                             color: Style.MessageGrayColor
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -244,6 +255,7 @@ Rectangle {
                             // timestamp
                             text: display
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                             color: Style.MessageGrayColor
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -257,6 +269,7 @@ Rectangle {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -267,6 +280,7 @@ Rectangle {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
                             elide: Text.ElideRight
                             color: Style.MessageBlueColor
                             verticalAlignment: Text.AlignVCenter
@@ -278,6 +292,8 @@ Rectangle {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             font.pixelSize: fontPixelSize
+                            font.family: Style.FontFamily
+
                             elide: Text.ElideRight
                             color: Style.MessageGrayColor
                             verticalAlignment: Text.AlignVCenter
