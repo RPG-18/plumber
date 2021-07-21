@@ -52,24 +52,28 @@ int TopicModel::topics() const noexcept
 void TopicModel::loadTopics()
 {
     std::thread t([this, config = m_config]() {
-        AdminClientConfig cfg(config.properties->map());
-        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+        try {
+            AdminClientConfig cfg(config.properties->map());
+            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
 
-        core::AdminClient client(cfg);
+            core::AdminClient client(cfg);
 
-        const auto response = client.listTopics();
-        if (!response.errorCode()) {
-            QVector<QString> topics;
-            topics.reserve(response.topics.size());
-            for (const auto &topic : response.topics) {
-                topics.emplaceBack(QString::fromStdString(topic));
+            const auto response = client.listTopics();
+            if (!response.errorCode()) {
+                QVector<QString> topics;
+                topics.reserve(response.topics.size());
+                for (const auto &topic : response.topics) {
+                    topics.emplaceBack(QString::fromStdString(topic));
+                }
+                QMetaObject::invokeMethod(this,
+                                          "received",
+                                          Qt::QueuedConnection,
+                                          Q_ARG(QVector<QString>, topics));
+            } else {
+                spdlog::error("list topics {}", response.message());
             }
-            QMetaObject::invokeMethod(this,
-                                      "received",
-                                      Qt::QueuedConnection,
-                                      Q_ARG(QVector<QString>, topics));
-        } else {
-            spdlog::error("list topics {}", response.message());
+        } catch (const kafka::KafkaException &e) {
+            spdlog::error("Unexpected exception caught: {}", e.what());
         }
     });
     t.detach();

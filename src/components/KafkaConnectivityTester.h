@@ -9,7 +9,7 @@ class KafkaConnectivityTester : public QObject
 public:
     explicit KafkaConnectivityTester(QObject *parent = nullptr);
 
-    Q_INVOKABLE void test(QString url) noexcept;
+    Q_INVOKABLE void test(QString url, QString props) noexcept;
     Q_INVOKABLE void testBroker(QVariant broker) noexcept;
 
 signals:

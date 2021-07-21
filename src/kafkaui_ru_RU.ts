@@ -77,12 +77,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="230"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="233"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="230"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="233"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -166,7 +166,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="125"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="122"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
