@@ -52,17 +52,21 @@ void BrokerModel::setConfig(const ClusterConfig &broker)
 void BrokerModel::loadMetaData()
 {
     std::thread t([this, config = m_config]() {
-        AdminClientConfig cfg(config.properties->map());
-        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+        try {
+            AdminClientConfig cfg(config.properties->map());
+            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
 
-        core::AdminClient client(cfg);
-        const auto timeout = std::chrono::milliseconds(10000);
-        if (auto md = client.fetchNodesMetadata(timeout)) {
-            auto ptr = std::make_shared<BrokerMetadata>("");
-            *ptr = *md;
+            core::AdminClient client(cfg);
+            const auto timeout = std::chrono::milliseconds(10000);
+            if (auto md = client.fetchNodesMetadata(timeout)) {
+                auto ptr = std::make_shared<BrokerMetadata>("");
+                *ptr = *md;
 
-            std::atomic_store(&this->m_md, ptr);
-            QMetaObject::invokeMethod(this, "received", Qt::QueuedConnection);
+                std::atomic_store(&this->m_md, ptr);
+                QMetaObject::invokeMethod(this, "received", Qt::QueuedConnection);
+            }
+        } catch (const kafka::KafkaException &e) {
+            spdlog::error("Unexpected exception caught: {}", e.what());
         }
     });
     t.detach();

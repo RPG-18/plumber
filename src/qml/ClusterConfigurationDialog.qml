@@ -167,7 +167,7 @@ ssl.enabled.protocols=...
                                 onClicked: {
                                     if (bootstrapServers.text.length !== 0) {
                                         page.state = "testing";
-                                        tester.test(bootstrapServers.text);
+                                        tester.test(bootstrapServers.text, addProperties.text);
                                     }
                                 }
 
@@ -227,6 +227,9 @@ ssl.enabled.protocols=...
                 }
 
                 Text {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    wrapMode: Text.WordWrap
                     text: qsTr("It looks like [") + bootstrapServers.text + qsTr("] is not even accessible, check if the broker is up and its port opened.")
                 }
 
