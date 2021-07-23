@@ -1,0 +1,16 @@
+version: 0.0.{build}
+image:
+  - Visual Studio 2019
+configuration: Release
+environment:
+  matrix:
+    - platform: x64
+install:
+  - vcpkg install librdkafka[*]:x64-windows --recurse
+  - vcpkg install spdlog:x64-windows
+cache: c:\tools\vcpkg\installed
+before_build:
+  - ps: win\build.ps1
+artifacts:
+  - path: kafkaui_win64.zip
+    name: App
