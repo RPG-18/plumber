@@ -7,16 +7,16 @@
     <true/>
     <key>CFBundleExecutable</key>
     <string>kafkaui</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
     <key>CFBundleIdentifier</key>
     <string>com.github.RPG18.kafkaui</string>
     <key>CFBundleVersion</key>
     <string>0.0.0</string>
     <key>CFBundleShortVersionString</key>
     <string>0.0.0</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>11.5</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>11.5</string>
 </plist>
