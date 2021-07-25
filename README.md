@@ -30,3 +30,9 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
     [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\kafkaui\build\Debug
+
+### Mac OS X
+    
+    $ brew install librdkafka
+    $ brew install spdlog
+    $ brew install qt@6
