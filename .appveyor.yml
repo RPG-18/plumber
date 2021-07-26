@@ -14,3 +14,23 @@ before_build:
 artifacts:
   - path: kafkaui_win64.zip
     name: App
+deploy:
+  - provider: S3
+    access_key_id:
+      secure: YZGJ4/DWRlBCwNSu/UH5DLDjlEER4g6x6OHbqMXYCSA=
+    secret_access_key:
+      secure: FU/U7Gbtz/362xNQEVS+2keJ+iDUzwYwU9Hf9T5tdRN0g0ig9ovaiqTGm/peeBIa
+    region: eu-central-1
+    bucket: kafkaui-ci-packages
+    folder: kafkaui/appveyor-$(APPVEYOR_REPO_TAG_NAME)__sha-$(APPVEYOR_REPO_COMMIT)__bid-$(APPVEYOR_BUILD_ID)
+    artifact: App
+    max_error_retry: 3
+    on:
+      APPVEYOR_REPO_TAG: true
+notifications:
+  - provider: Email
+    to:
+      - dmitriy.mukhitov@gmail.com
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
