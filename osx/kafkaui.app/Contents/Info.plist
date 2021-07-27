@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <key>NSPrincipalClass</key>
-    <string>NSApplication</string>
-    <key>NSSupportsAutomaticGraphicsSwitching</key>
-    <true/>
-    <key>CFBundleExecutable</key>
-    <string>kafkaui</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleSignature</key>
-    <string>????</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.github.RPG18.kafkaui</string>
-    <key>CFBundleVersion</key>
-    <string>0.0.0</string>
-    <key>CFBundleShortVersionString</key>
-    <string>0.0.0</string>
-    <key>LSMinimumSystemVersion</key>
-    <string>11.5</string>
+    <dict>
+        <key>NSPrincipalClass</key>
+        <string>NSApplication</string>
+        <key>NSSupportsAutomaticGraphicsSwitching</key>
+        <true/>
+        <key>CFBundleExecutable</key>
+        <string>kafkaui</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleSignature</key>
+        <string>????</string>
+        <key>CFBundleIdentifier</key>
+        <string>com.github.RPG18.kafkaui</string>
+        <key>CFBundleVersion</key>
+        <string>0.0.0</string>
+        <key>CFBundleShortVersionString</key>
+        <string>0.0.0</string>
+        <key>LSMinimumSystemVersion</key>
+        <string>11.5</string>
+        <key>NSRequiresAquaSystemAppearance</key>
+        <string>true</string>
+    </dict>
 </plist>
