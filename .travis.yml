@@ -1,0 +1,17 @@
+language: cpp
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode12.5
+      compiler: clang
+
+addons:
+  homebrew:
+    packages:
+      - librdkafka
+      - spdlog
+      - qt@6
+    update: true
+
+script:
+  - osx/build.sh

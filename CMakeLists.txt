@@ -25,7 +25,7 @@ include_directories(3rdparty/modern-cpp-kafka/include
         )
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools QuickControls2 REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools QuickControls2 Svg REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
@@ -59,6 +59,7 @@ target_link_libraries(kafkaui
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Quick
         Qt${QT_VERSION_MAJOR}::QuickControls2
+        Qt${QT_VERSION_MAJOR}::Svg
         spdlog::spdlog
         spdlog::spdlog_header_only
         Rdkafka
