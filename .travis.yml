@@ -12,26 +12,6 @@ addons:
       - spdlog
       - qt@6
     update: true
-  artifacts:
-    paths:
-      - $HOME/kafkaui/osx/kafkaui.dmg
 
 script:
   - osx/build.sh
-
-deploy:
-  provider: s3
-  access_key_id:
-    secure: "fpoW1jjxwX4vslofb+bQrvQsA0J4sm+S3MJaCgOZnAKO6Lrm2c1W0QkllFPoTVfPm+bjLu0lwIBwl3TtApSvubYCyhbZJf4ZyvfiVf1eknrKAFU/KeMGJ5fimnNfD/Ie9XRkZaFcgvT6mLgo0b89Ey6tksWTHzzv8rlXkpzBuR6NP41+zwA3i3Tom+7IBgjFS4isnb+3O4zSL2keLsqCYXsjwm+w2m3hD3kXOpIdeIUMmGxI5SMUJ3kNwX8B2Lk6VOXNcJ1vtRJ8RQTP3gaTa0KultoNq/DnbQWboEZX7K4iP+hbi0UximdfAEFMua+2rpIRHQpWsM8y144q8G98ehNZxnqx7SEvb7VaKaa577nN4+V9MUV7rJQurqmWYzl83d1pofhs/GjRPa34bbpJS8hhSTHYFbnRX06kEk1BaKwLygnL8g0TGVusRfXwUK8GIr08nZfwZs1ppXUa2OsTi4g/Q1mqgQQGFy/fvs/HBzxpnsbAI78itAKe6nbDSk3XePTEVXfNDzdfMywORISZffgO4FHwc5kYF+Slxsp/M0ugL1XxbYlHTudgETol5/dSxCv3mxfjucdLbduIYm0Ovm5Fn1xmx9yxw/fM4xuk2vCN5fBhWVQ25VqE2WfUyzAGgUaZb78UKHSLhQNRuEPr5AljgFAGDaGvNVeMbq5sBlc="
-  secret_access_key:
-    secure: "hWGWoWAP2sPTvuIu8ChKF7JCwE4nPFgpT24XD0rwwCkryl2i7zOnbqKPVy6SZuXRwOA73ZMXQo53t8/diDdlueoSg5LRPCfmhyiQHjQtnET2LbJJM86Q47GAS90/yDah0vYrZg3j2SNDelNqpBH4YC2UiubdGyzePnzX652YERS8loIuCg+0WpWk2PvipoeQez+rDEcnj3JIq2ztSpawyhcvdIL/3CVF1JC3V52z7mvp8uKKCMxCYwd3nNJpdui5YQo/HfGMl91ns7qIUYb6IM4H4SnK25HKzCzedUEfS/c1w0j3AmOcrJe963FEKhLqpkkXpqZbmSJG3ULMOrdPsunhnS/mY3WmBp212eqTv4ynXSEPX0vADv1ESvP6uh0z/NSCHvORiUnEyv9uI21SYQ7zHj9mWaWfDmPGuXyaiSyDsDajD91e1rs56fiH8jOvC3nOO6YihmUtAyaJrf+hSaCeAzZy77IyAm6zE7GNWueBRfALkDkVQGlsDdX1cvPGeOQDqLkrR7EoguiC9GanA+8mWbQM5mHiCgYggWeMWCTpyfXzTULb2Nh7FPZzQ4sMWI6LksC1TKJ/uji/4TVO4vszUfPTjPH6v51sOW65Nkto9Em39imWMHvtQpL9pt8wvTp9ddBMbMn50rY8qbZ+UCxzktslQpWN+c6soB0cdfI="
-  bucket: kafkaui-ci-packages
-  region: eu-central-1
-  skip_cleanup: true
-  local-dir: artifacts
-  upload-dir: kafkaui/appveyor-${TRAVIS_TAG}__sha-${TRAVIS_COMMIT}__bid-${TRAVIS_JOB_NUMBER}
-  on:
-    repo: RPG-18/kafkaui
-    all_branches: true
-    tags: true
-    condition: $NO_ARTIFACTS != y

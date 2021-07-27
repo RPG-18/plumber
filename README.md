@@ -36,3 +36,6 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     $ brew install librdkafka
     $ brew install spdlog
     $ brew install qt@6
+    $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+    $ cmake --build build --config Release
+
