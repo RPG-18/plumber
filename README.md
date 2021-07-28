@@ -1,4 +1,5 @@
 # KafkaUI simple desktop application for Apache Kafka
+[![Build Status](https://travis-ci.com/RPG-18/kafkaui.svg?branch=main)](https://travis-ci.com/RPG-18/kafkaui)
 
 KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](https://github.com/edenhill/librdkafka) and
 [Qt](https://www.qt.io/) and written on C++.
