@@ -31,13 +31,13 @@ QString format(Types type, const QByteArray &data)
 
         switch (data.size()) {
         case 4: {
-            qint32 val;
+            qint32 val = 0;
             stream >> val;
             return QString::number(val, 10);
         }
 
         case 8: {
-            qint64 val;
+            qint64 val = 0;
             stream >> val;
             return QString::number(val, 10);
         }
@@ -52,12 +52,12 @@ QString format(Types type, const QByteArray &data)
 
         switch (data.size()) {
         case 4: {
-            float val;
+            float val = 0;
             stream >> val;
             return QString::number(val);
         }
         case 8: {
-            double val;
+            double val = 0;
             stream >> val;
             return QString::number(val);
         }

@@ -1,10 +1,10 @@
-#include <thread>
-#include <QtCore/QDebug>
-
+#include "TopicModel.h"
 #include "AdminClient.hpp"
 #include "spdlog/spdlog.h"
 
-#include "TopicModel.h"
+#include <QtCore/QDebug>
+
+#include <thread>
 
 using namespace kafka;
 
@@ -24,12 +24,10 @@ QVariant TopicModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const auto row = index.row();
-    switch (role) {
-    case Topic:
+    if (role == Topic) {
         return m_topics[row];
-    default:
-        return QVariant();
     }
+    return QVariant();
 }
 
 QHash<int, QByteArray> TopicModel::roleNames() const

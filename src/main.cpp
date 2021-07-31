@@ -28,18 +28,18 @@ void init()
 
 void loadFonts()
 {
-    const std::array<QString, 12> fonts = {QStringLiteral(":/fonts/Roboto-BlackItalic.ttf"),
-                                           QStringLiteral(":/fonts/Roboto-Black.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-BoldItalic.ttf"),
-                                           QStringLiteral(":/fonts/Roboto-Bold.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-Italic.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-LightItalic.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-Light.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-MediumItalic.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-Medium.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-Regular.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-ThinItalic.ttf"),
-                                           QStringLiteral(":/fonts//Roboto-Thin.ttf")};
+    const std::array<QString, 12> fonts = {":/fonts/Roboto-BlackItalic.ttf",
+                                           ":/fonts/Roboto-Black.ttf",
+                                           ":/fonts//Roboto-BoldItalic.ttf",
+                                           ":/fonts/Roboto-Bold.ttf",
+                                           ":/fonts//Roboto-Italic.ttf",
+                                           ":/fonts//Roboto-LightItalic.ttf",
+                                           ":/fonts//Roboto-Light.ttf",
+                                           ":/fonts//Roboto-MediumItalic.ttf",
+                                           ":/fonts//Roboto-Medium.ttf",
+                                           ":/fonts//Roboto-Regular.ttf",
+                                           ":/fonts//Roboto-ThinItalic.ttf",
+                                           ":/fonts//Roboto-Thin.ttf"};
     for (const auto &font : fonts) {
         const auto res = QFontDatabase::addApplicationFont(font);
         if (res == -1) {
@@ -78,17 +78,18 @@ int main(int argc, char *argv[])
     //loadFonts();
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
+    const QUrl url("qrc:/qml/main.qml");
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
         &app,
         [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
+            if (!obj && url == objUrl) {
                 QCoreApplication::exit(-1);
+            }
         },
         Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    return QGuiApplication::exec();
 }

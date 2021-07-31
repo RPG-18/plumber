@@ -62,9 +62,9 @@ int MessageWrapper::partition() const
 QString MessageWrapper::timestamp() const
 {
     const auto dt = QDateTime::fromMSecsSinceEpoch(m_message.timestamp.msSinceEpoch);
-    const auto out = QString("%1 (epoch: %2)")
-                         .arg(dt.toString("yyyy-MM-dd hh:mm:ss"))
-                         .arg(m_message.timestamp.msSinceEpoch);
+    auto out = QString("%1 (epoch: %2)")
+                   .arg(dt.toString("yyyy-MM-dd hh:mm:ss"))
+                   .arg(m_message.timestamp.msSinceEpoch);
     return out;
 }
 
@@ -100,12 +100,12 @@ HeaderTableModel::HeaderTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {}
 
-int HeaderTableModel::rowCount(const QModelIndex &) const
+int HeaderTableModel::rowCount(const QModelIndex & /*parent*/) const
 {
     return m_message.headers.size();
 }
 
-int HeaderTableModel::columnCount(const QModelIndex &) const
+int HeaderTableModel::columnCount(const QModelIndex & /*parent*/) const
 {
     return 2;
 }
@@ -122,8 +122,9 @@ QVariant HeaderTableModel::data(const QModelIndex &index, int role) const
         return m_message.headers[row].key;
     case 1:
         return m_message.headers[row].value;
+    default:
+        return QVariant();
     }
-    return QVariant();
 }
 
 QHash<int, QByteArray> HeaderTableModel::roleNames() const

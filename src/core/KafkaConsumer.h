@@ -26,7 +26,7 @@ public:
     static constexpr auto PoolInterval = std::chrono::milliseconds(500);
     static constexpr auto PoolTimeout = std::chrono::milliseconds(250);
 
-    KafkaConsumer(ClusterConfig cfg, QStringList topics, QObject *parent = nullptr);
+    KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObject *parent = nullptr);
 
     /*!
      * get records
@@ -34,7 +34,7 @@ public:
      */
     void records(ConsumerRecords &out);
 
-    void seekOnTimestamp(const QDateTime tm);
+    void seekOnTimestamp(const QDateTime &tm);
 
     void seekToBeginning();
 

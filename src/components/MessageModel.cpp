@@ -49,7 +49,7 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
         role = Topic + index.column();
     }
 
-    const auto record = m_records[index.row()];
+    auto *const record = m_records[index.row()];
     switch (role) {
     case Topic:
         return record->topic;
@@ -128,7 +128,7 @@ void MessageModel::append(core::ConsumerRecords &&records)
         return;
     }
 
-    beginInsertRows(QModelIndex(), 0, records.size() - 1);
+    beginInsertRows(QModelIndex(), 0, int(records.size() - 1));
     for (const auto &record : records) {
         m_records.push_front(record);
     }
@@ -136,7 +136,7 @@ void MessageModel::append(core::ConsumerRecords &&records)
 
     if (m_records.size() > MaxMessages) {
         const auto delta = m_records.size() - MaxMessages;
-        beginRemoveRows(QModelIndex(), MaxMessages, MaxMessages + delta);
+        beginRemoveRows(QModelIndex(), MaxMessages, int(MaxMessages + delta));
         while (m_records.size() > MaxMessages) {
             delete m_records.back();
             m_records.removeLast();

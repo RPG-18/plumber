@@ -199,7 +199,7 @@ QByteArray toBytes(Types type, const QString &value)
     case Types::Base64:
         return QByteArray::fromBase64(value.toLatin1());
     case Types::Float: {
-        bool ok;
+        bool ok = false;
         auto val = value.toFloat(&ok);
         if (ok) {
             QByteArray data;
@@ -207,12 +207,11 @@ QByteArray toBytes(Types type, const QString &value)
             stream.setByteOrder(QDataStream::BigEndian);
             stream << val;
             return data;
-        } else {
-            spdlog::error("failed convert string {} to float", value.toStdString());
         }
+        spdlog::error("failed convert string {} to float", value.toStdString());
     } break;
     case Types::Double: {
-        bool ok;
+        bool ok = false;
         auto val = value.toDouble(&ok);
         if (ok) {
             QByteArray data;
@@ -220,12 +219,11 @@ QByteArray toBytes(Types type, const QString &value)
             stream.setByteOrder(QDataStream::BigEndian);
             stream << val;
             return data;
-        } else {
-            spdlog::error("failed convert string {} to float", value.toStdString());
         }
+        spdlog::error("failed convert string {} to float", value.toStdString());
     } break;
     case Types::Long: {
-        bool ok;
+        bool ok = false;
         auto val = value.toLongLong(&ok);
         if (ok) {
             QByteArray data;
@@ -233,9 +231,8 @@ QByteArray toBytes(Types type, const QString &value)
             stream.setByteOrder(QDataStream::BigEndian);
             stream << val;
             return data;
-        } else {
-            spdlog::error("failed convert string {} to long", value.toStdString());
         }
+        spdlog::error("failed convert string {} to long", value.toStdString());
     } break;
     case Types::NoneType:
         return QByteArray();

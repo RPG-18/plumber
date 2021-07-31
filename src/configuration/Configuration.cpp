@@ -1,12 +1,12 @@
-#include <kafka/Properties.h>
-#include <QtCore/QFile>
+#include "Configuration.h"
+#include "spdlog/spdlog.h"
 
+#include <kafka/Properties.h>
+
+#include <QtCore/QFile>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
-
-#include "Configuration.h"
-#include "spdlog/spdlog.h"
 
 namespace {
 
@@ -55,7 +55,7 @@ ClusterConfig fromJson(const QJsonObject &obj) noexcept
 
 } // namespace
 
-Configuration::Configuration() {}
+Configuration::Configuration() = default;
 
 bool Configuration::loadFromFile(const QString &path) noexcept
 {

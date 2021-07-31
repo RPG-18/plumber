@@ -12,7 +12,7 @@ namespace core {
 class AbstractLimiter
 {
 public:
-    virtual ~AbstractLimiter();
+    virtual ~AbstractLimiter() = default;
 
     /**!
      * ExcessOfLimit implement a limit strategy

@@ -12,7 +12,7 @@ namespace core {
 class AbstractFilter
 {
 public:
-    virtual ~AbstractFilter();
+    virtual ~AbstractFilter() = default;
 
     virtual bool IsAcceptable(const ConsumerRecord *record) noexcept;
     bool isEmpty();
