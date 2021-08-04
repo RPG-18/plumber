@@ -24,19 +24,32 @@ Window {
 
         topic: window.topic
         broker: window.broker
-        keyType: format.keyTypeId
-        valueType: format.valueTypeId
-        filters: filter.selectedFilter
-        startFromTimeBased: filter.startFromTimeBase
-        specificDate: filter.specificDateText
-        keyFilter: filter.keyFilter
-        valueFilter: filter.valueFilter
-        headerKeyFilter: filter.headerKeyFilter
-        headerValueFilter: filter.headerValueFilter
-        limit: filter.selectedLimit
-        numberOfRecords: filter.numberOfRecords
-        maxSize: filter.maxSize
-        limitSpecificDate: filter.limitSpecificDateText
+
+        beginning: ConsumerBeginningSelector {
+            startFrom: filter.startFromTimeBase
+            specificDate: filter.specificDateText
+        }
+
+        types: ConsumerTypeSelector {
+            keyType: format.keyTypeId
+            valueType: format.valueTypeId
+        }
+
+        limiter: ConsumerLimiterSelector {
+            limit: filter.selectedLimit
+            numberOfRecords: filter.numberOfRecords
+            maxSize: filter.maxSize
+            specificDate: filter.limitSpecificDateText
+        }
+
+        filter: ConsumerFilterSelector {
+            filters: filter.selectedFilter
+            key: filter.keyFilter
+            value: filter.valueFilter
+            headerKey: filter.headerKeyFilter
+            headerValue: filter.headerValueFilter
+        }
+
     }
 
     RowLayout {

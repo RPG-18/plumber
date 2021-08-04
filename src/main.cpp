@@ -55,6 +55,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<Cluster>("kafkaui", 1, 0, "Cluster");
     qmlRegisterType<TopicFilterModel>("kafkaui", 1, 0, "TopicFilterModel");
     qmlRegisterType<Consumer>("kafkaui", 1, 0, "Consumer");
+    qmlRegisterType<ConsumerTypeSelector>("kafkaui", 1, 0, "ConsumerTypeSelector");
+    qmlRegisterType<ConsumerLimiterSelector>("kafkaui", 1, 0, "ConsumerLimiterSelector");
+    qmlRegisterType<ConsumerFilterSelector>("kafkaui", 1, 0, "ConsumerFilterSelector");
+    qmlRegisterType<ConsumerBeginningSelector>("kafkaui", 1, 0, "ConsumerBeginningSelector");
+
     qmlRegisterType<ConsumerTypesModel>("kafkaui", 1, 0, "ConsumerTypesModel");
     qmlRegisterType<StartFromTimeBasedModel>("kafkaui", 1, 0, "StartFromTimeBasedModel");
     qmlRegisterType<FiltersModel>("kafkaui", 1, 0, "FiltersModel");
