@@ -95,13 +95,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="204"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="218"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="214"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="228"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="227"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="237"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -312,12 +312,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="81"/>
+        <location filename="qml/Topics.qml" line="87"/>
+        <source>ACTIONS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="100"/>
+        <source>Consume selected Topics...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="142"/>
         <source>Topic Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="98"/>
+        <location filename="qml/Topics.qml" line="122"/>
         <source>Filter topic name...</source>
         <translation type="unfinished"></translation>
     </message>

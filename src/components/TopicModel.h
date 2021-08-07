@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QSet>
 #include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QVector>
 
@@ -13,9 +14,10 @@ class TopicModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int topics READ topics NOTIFY topicsChanged)
+    Q_PROPERTY(int selected READ selected NOTIFY selectedChanged)
 
 public:
-    enum Roles { Topic = Qt::UserRole + 1 };
+    enum Roles { Topic = Qt::UserRole + 1, Selected };
     explicit TopicModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -25,9 +27,16 @@ public:
     int topics() const noexcept;
     void setConfig(const ClusterConfig &broker);
 
+    void checked(const QModelIndex &index, bool state);
+
+    int selected() const;
+
+    Q_INVOKABLE QStringList selectedTopics() const;
+
 signals:
 
     void topicsChanged();
+    void selectedChanged();
 
 private slots:
 
@@ -39,6 +48,8 @@ private:
 private:
     ClusterConfig m_config;
     QVector<QString> m_topics;
+    QVector<bool> m_selected;
+    QSet<QString> m_selectedTopics;
 };
 
 /**!
@@ -58,6 +69,8 @@ public:
 
     QString filter() const;
     void setFilter(const QString &topic);
+
+    Q_INVOKABLE void checked(int row, bool state);
 
 private:
     QString m_filter;

@@ -18,6 +18,9 @@ Window {
     height: Constants.ConsumerScreenHeight
     title: qsTr("Consume from Topic: ") + window.topic
     color: Style.Background
+    Component.onCompleted: {
+        consumer.topics = topicModel.selectedTopics();
+    }
 
     Consumer {
         id: consumer
@@ -64,38 +67,45 @@ Window {
             Layout.maximumWidth: 330
             border.color: Style.BorderColor
 
-            ComboBox {
-                id: topicBox
-
-                width: parent.width
-                height: 30
-                model: window.topicModel
-                Component.onCompleted: currentIndex = indexOfValue(window.topic)
-
-                background: Rectangle {
-                    implicitWidth: 330
-                    implicitHeight: 30
-                    border.color: Style.BorderColor
-                }
-
-            }
-
             ColumnLayout {
-                anchors.top: topicBox.bottom
-                anchors.bottom: leftPanel.bottom
-                anchors.left: leftPanel.left
-                anchors.leftMargin: 6
+                anchors.fill: parent
+
+                ComboBox {
+                    id: topicBox
+
+                    textRole: "topic"
+                    valueRole: "topic"
+                    Layout.fillWidth: true
+                    height: 30
+                    model: topicModel
+                    onActivated: window.topic = currentValue
+                    visible: window.topicModel.selected === 0
+                    Component.onCompleted: {
+                        if (window.topic !== "")
+                            currentIndex = indexOfValue(window.topic);
+
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 330
+                        implicitHeight: 30
+                        border.color: Style.BorderColor
+                    }
+
+                }
 
                 FormatSelector {
                     id: format
 
                     Layout.fillWidth: true
+                    Layout.leftMargin: 6
                 }
 
                 RangeAndFilters {
                     id: filter
 
                     Layout.fillWidth: true
+                    Layout.leftMargin: 6
                 }
 
                 Item {

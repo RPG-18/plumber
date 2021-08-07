@@ -52,6 +52,7 @@ class Consumer : public QObject
     Q_PROPERTY(bool isRunning READ isRunning NOTIFY isRunningChanged)
     Q_PROPERTY(ClusterConfig broker READ broker WRITE setBroker NOTIFY brokerChanged)
     Q_PROPERTY(QString topic MEMBER m_topic)
+    Q_PROPERTY(QStringList topics MEMBER m_topics)
 
     Q_PROPERTY(ConsumerTypeSelector *types READ typeSelector WRITE setTypeSelector)
     Q_PROPERTY(ConsumerLimiterSelector *limiter READ limiter WRITE setLimiter)
@@ -124,6 +125,7 @@ private:
     ConsumerBeginningSelector *m_beginning;
 
     QString m_topic;
+    QStringList m_topics;
     ClusterConfig m_broker;
     core::KafkaConsumer *m_consumer;
     QThread m_consumerThread;

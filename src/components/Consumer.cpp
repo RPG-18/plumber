@@ -55,7 +55,11 @@ void Consumer::start()
     }
 
     if (m_consumer == nullptr) {
-        m_consumer = new core::KafkaConsumer(m_broker, {m_topic}, nullptr);
+        QStringList topics = {m_topic};
+        if (!m_topics.isEmpty()) {
+            topics = m_topics;
+        }
+        m_consumer = new core::KafkaConsumer(m_broker, topics, nullptr);
         setStartOnTime();
         setFilter();
         setLimit();
