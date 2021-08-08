@@ -1,4 +1,5 @@
 $Env:Path += ";C:\Qt\6.1.2\msvc2019_64\bin"
+$Env:VCINSTALLDIR = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC"
 
 & cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 & cmake --build build --config Release

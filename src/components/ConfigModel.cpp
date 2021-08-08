@@ -1,10 +1,11 @@
-#include <kafka/Properties.h>
-#include <QtCore/QSignalBlocker>
-#include <QtCore/QTextStream>
-
 #include "ConfigModel.h"
 #include "Registry.h"
 #include "spdlog/spdlog.h"
+
+#include <kafka/Properties.h>
+
+#include <QtCore/QSignalBlocker>
+#include <QtCore/QTextStream>
 
 ConfigModel::ConfigModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -17,7 +18,7 @@ ConfigModel::ConfigModel(QObject *parent)
     m_brokers = m_service->brokers();
 }
 
-int ConfigModel::rowCount(const QModelIndex &) const
+int ConfigModel::rowCount(const QModelIndex & /*parent*/) const
 {
     return m_brokers.size();
 }
@@ -55,7 +56,10 @@ void ConfigModel::configurationIsChanged()
     endResetModel();
 }
 
-void ConfigModel::createBroker(QString name, QString bootstrap, QString color, QString properties)
+void ConfigModel::createBroker(const QString &name,
+                               const QString &bootstrap,
+                               const QString &color,
+                               const QString &properties)
 {
     qDebug() << "PROPS" << properties;
     QSignalBlocker lock(m_service);
@@ -65,7 +69,8 @@ void ConfigModel::createBroker(QString name, QString bootstrap, QString color, Q
     broker.bootstrap = bootstrap;
     broker.color = color;
 
-    QTextStream stream(&properties, QIODeviceBase::ReadOnly);
+    QString props = properties;
+    QTextStream stream(&props, QIODeviceBase::ReadOnly);
     stream.skipWhiteSpace();
 
     const QChar sep('=');

@@ -15,7 +15,7 @@ KafkaConnectivityTester::KafkaConnectivityTester(QObject *parent)
     : QObject(parent)
 {}
 
-void KafkaConnectivityTester::test(QString url, QString props) noexcept
+void KafkaConnectivityTester::test(const QString &url, const QString &props) noexcept
 {
     if (url.isEmpty()) {
         return;
@@ -60,13 +60,13 @@ void KafkaConnectivityTester::tested(bool result)
     emit isTested(result);
 }
 
-void KafkaConnectivityTester::testBroker(QVariant v) noexcept
+void KafkaConnectivityTester::testBroker(const QVariant &variant) noexcept
 {
-    if (!v.canConvert<ClusterConfig>()) {
+    if (!variant.canConvert<ClusterConfig>()) {
         spdlog::error("can't convert QVariant to BrokerConfig");
         return;
     }
-    const auto broker = v.value<ClusterConfig>();
+    const auto broker = variant.value<ClusterConfig>();
     std::thread t([this, broker]() {
         try {
             AdminClientConfig cfg(broker.properties->map());

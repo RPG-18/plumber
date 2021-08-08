@@ -5,9 +5,7 @@
 #include "Limiter.h"
 
 namespace core {
-AbstractLimiter::~AbstractLimiter() {}
-
-bool AbstractLimiter::ExcessOfLimit(const ConsumerRecord *)
+bool AbstractLimiter::ExcessOfLimit(const ConsumerRecord * /* record */)
 {
     return false;
 }
@@ -19,7 +17,7 @@ NumberOfRecordsLimiter::NumberOfRecordsLimiter(int count)
     assert(count > 0);
 }
 
-bool NumberOfRecordsLimiter::ExcessOfLimit(const ConsumerRecord *record)
+bool NumberOfRecordsLimiter::ExcessOfLimit(const ConsumerRecord * /* record */)
 {
     if (m_count > m_limit) {
         return true;
@@ -31,6 +29,7 @@ bool NumberOfRecordsLimiter::ExcessOfLimit(const ConsumerRecord *record)
 
 MaxSizeLimiter::MaxSizeLimiter(unsigned int bytes)
     : m_limit(bytes)
+    , m_bytes(0)
 {
     assert(bytes > 0);
 }

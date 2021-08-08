@@ -34,9 +34,7 @@ bool equal(const T &left, const T &right) noexcept
 } // namespace
 
 namespace core {
-AbstractFilter::~AbstractFilter() {}
-
-bool AbstractFilter::IsAcceptable(const ConsumerRecord *record) noexcept
+bool AbstractFilter::IsAcceptable(const ConsumerRecord * /* record */) noexcept
 {
     return true;
 }

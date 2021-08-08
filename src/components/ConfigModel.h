@@ -19,10 +19,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    Q_INVOKABLE void createBroker(QString name,
-                                  QString bootstrap,
-                                  QString color,
-                                  QString properties);
+    Q_INVOKABLE void createBroker(const QString &name,
+                                  const QString &bootstrap,
+                                  const QString &color,
+                                  const QString &properties);
     Q_INVOKABLE void removeBroker(int index);
     Q_INVOKABLE QVariant broker(int index);
 

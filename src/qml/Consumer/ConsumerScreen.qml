@@ -18,25 +18,41 @@ Window {
     height: Constants.ConsumerScreenHeight
     title: qsTr("Consume from Topic: ") + window.topic
     color: Style.Background
+    Component.onCompleted: {
+        consumer.topics = topicModel.selectedTopics();
+    }
 
     Consumer {
         id: consumer
 
         topic: window.topic
         broker: window.broker
-        keyType: format.keyTypeId
-        valueType: format.valueTypeId
-        filters: filter.selectedFilter
-        startFromTimeBased: filter.startFromTimeBase
-        specificDate: filter.specificDateText
-        keyFilter: filter.keyFilter
-        valueFilter: filter.valueFilter
-        headerKeyFilter: filter.headerKeyFilter
-        headerValueFilter: filter.headerValueFilter
-        limit: filter.selectedLimit
-        numberOfRecords: filter.numberOfRecords
-        maxSize: filter.maxSize
-        limitSpecificDate: filter.limitSpecificDateText
+
+        beginning: ConsumerBeginningSelector {
+            startFrom: filter.startFromTimeBase
+            specificDate: filter.specificDateText
+        }
+
+        types: ConsumerTypeSelector {
+            keyType: format.keyTypeId
+            valueType: format.valueTypeId
+        }
+
+        limiter: ConsumerLimiterSelector {
+            limit: filter.selectedLimit
+            numberOfRecords: filter.numberOfRecords
+            maxSize: filter.maxSize
+            specificDate: filter.limitSpecificDateText
+        }
+
+        filter: ConsumerFilterSelector {
+            filters: filter.selectedFilter
+            key: filter.keyFilter
+            value: filter.valueFilter
+            headerKey: filter.headerKeyFilter
+            headerValue: filter.headerValueFilter
+        }
+
     }
 
     RowLayout {
@@ -51,38 +67,45 @@ Window {
             Layout.maximumWidth: 330
             border.color: Style.BorderColor
 
-            ComboBox {
-                id: topicBox
-
-                width: parent.width
-                height: 30
-                model: window.topicModel
-                Component.onCompleted: currentIndex = indexOfValue(window.topic)
-
-                background: Rectangle {
-                    implicitWidth: 330
-                    implicitHeight: 30
-                    border.color: Style.BorderColor
-                }
-
-            }
-
             ColumnLayout {
-                anchors.top: topicBox.bottom
-                anchors.bottom: leftPanel.bottom
-                anchors.left: leftPanel.left
-                anchors.leftMargin: 6
+                anchors.fill: parent
+
+                ComboBox {
+                    id: topicBox
+
+                    textRole: "topic"
+                    valueRole: "topic"
+                    Layout.fillWidth: true
+                    height: 30
+                    model: topicModel
+                    onActivated: window.topic = currentValue
+                    visible: window.topicModel.selected === 0
+                    Component.onCompleted: {
+                        if (window.topic !== "")
+                            currentIndex = indexOfValue(window.topic);
+
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 330
+                        implicitHeight: 30
+                        border.color: Style.BorderColor
+                    }
+
+                }
 
                 FormatSelector {
                     id: format
 
                     Layout.fillWidth: true
+                    Layout.leftMargin: 6
                 }
 
                 RangeAndFilters {
                     id: filter
 
                     Layout.fillWidth: true
+                    Layout.leftMargin: 6
                 }
 
                 Item {

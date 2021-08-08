@@ -1,10 +1,10 @@
-#include <thread>
-#include <QtCore/QDebug>
-
+#include "TopicModel.h"
 #include "AdminClient.hpp"
 #include "spdlog/spdlog.h"
 
-#include "TopicModel.h"
+#include <QtCore/QDebug>
+
+#include <thread>
 
 using namespace kafka;
 
@@ -27,6 +27,8 @@ QVariant TopicModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case Topic:
         return m_topics[row];
+    case Selected:
+        return m_selected[row];
     default:
         return QVariant();
     }
@@ -34,7 +36,7 @@ QVariant TopicModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> TopicModel::roleNames() const
 {
-    static QHash<int, QByteArray> roles{{Topic, "topic"}};
+    static QHash<int, QByteArray> roles{{Topic, "topic"}, {Selected, "selected"}};
     return roles;
 }
 
@@ -83,8 +85,33 @@ void TopicModel::received(QVector<QString> topics)
 {
     beginResetModel();
     m_topics.swap(topics);
+    m_selected.resize(m_topics.size(), false);
     endResetModel();
     emit topicsChanged();
+}
+
+void TopicModel::checked(const QModelIndex &index, bool state)
+{
+    const auto row = index.row();
+    m_selected[row] = state;
+    changePersistentIndex(index, index);
+    if (state) {
+        m_selectedTopics.insert(m_topics[row]);
+    } else {
+        m_selectedTopics.remove(m_topics[row]);
+    }
+    emit selectedChanged();
+}
+
+int TopicModel::selected() const
+{
+    return m_selectedTopics.size();
+}
+
+QStringList TopicModel::selectedTopics() const
+{
+    QStringList out(m_selectedTopics.begin(), m_selectedTopics.end());
+    return out;
 }
 
 TopicFilterModel::TopicFilterModel(QObject *parent)
@@ -112,4 +139,11 @@ void TopicFilterModel::setFilter(const QString &topic)
 {
     m_filter = topic;
     setFilterFixedString(m_filter);
+}
+
+void TopicFilterModel::checked(int row, bool state)
+{
+    const auto idx = index(row, 0);
+    const auto source = mapToSource(idx);
+    model()->checked(source, state);
 }

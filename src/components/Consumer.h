@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtCore/QThread>
 
@@ -12,21 +13,51 @@ namespace core {
 class KafkaConsumer;
 }
 
+/**!
+ * Key Value type selector
+ */
+class ConsumerTypeSelector : public QObject
+{
+    Q_OBJECT
+
+public:
+    Q_PROPERTY(Types keyType READ keyType WRITE setKeyType)
+    Q_PROPERTY(Types valueType READ valueType WRITE setValueType)
+
+    explicit ConsumerTypeSelector(QObject *parent = nullptr);
+
+    Types keyType() const;
+    void setKeyType(Types type);
+
+    Types valueType() const;
+    void setValueType(Types type);
+
+signals:
+
+    void typesChanged();
+
+private:
+    Types m_keyType;
+    Types m_valueType;
+};
+
+class ConsumerLimiterSelector;
+class ConsumerFilterSelector;
+class ConsumerBeginningSelector;
+
 class Consumer : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(MessageModel *messages READ messageModel NOTIFY messagesChanged)
-    Q_PROPERTY(QString specificDate MEMBER m_specificDate)
-    Q_PROPERTY(QString keyFilter MEMBER m_keyFilter)
-    Q_PROPERTY(QString valueFilter MEMBER m_valueFilter)
-    Q_PROPERTY(QString headerKeyFilter MEMBER m_headerKeyFilter)
-    Q_PROPERTY(QString headerValueFilter MEMBER m_headerValueFilter)
     Q_PROPERTY(bool isRunning READ isRunning NOTIFY isRunningChanged)
     Q_PROPERTY(ClusterConfig broker READ broker WRITE setBroker NOTIFY brokerChanged)
     Q_PROPERTY(QString topic MEMBER m_topic)
-    Q_PROPERTY(int numberOfRecords MEMBER m_numberOfRecords)
-    Q_PROPERTY(int maxSize MEMBER m_maxSize)
-    Q_PROPERTY(QString limitSpecificDate MEMBER m_limitSpecificDate)
+    Q_PROPERTY(QStringList topics MEMBER m_topics)
+
+    Q_PROPERTY(ConsumerTypeSelector *types READ typeSelector WRITE setTypeSelector)
+    Q_PROPERTY(ConsumerLimiterSelector *limiter READ limiter WRITE setLimiter)
+    Q_PROPERTY(ConsumerFilterSelector *filter READ filter WRITE setFilter)
+    Q_PROPERTY(ConsumerBeginningSelector *beginning READ beginning WRITE setBeginning)
 
 public:
     enum StartFromTimeBased { Now, LastHour, Today, Yesterday, SpecificDate, Earliest };
@@ -38,24 +69,8 @@ public:
     enum Limit { NoneLimit, NumbersOfRecords, SpecificDateLimit, MaxSizeBytes };
     Q_ENUM(Limit)
 
-    Q_PROPERTY(Types keyType READ keyType WRITE setKeyType)
-    Q_PROPERTY(Types valueType READ valueType WRITE setValueType)
-
-    Q_PROPERTY(StartFromTimeBased startFromTimeBased MEMBER m_startFromTime)
-    Q_PROPERTY(Limit limit MEMBER m_limit)
-    Q_PROPERTY(Filters filters READ filters WRITE setFilters)
-
     explicit Consumer(QObject *parent = nullptr);
     virtual ~Consumer();
-
-    Types keyType() const;
-    void setKeyType(Types type);
-
-    Types valueType() const;
-    void setValueType(Types type);
-
-    Filters filters() const;
-    void setFilters(Filters filter);
 
     ClusterConfig broker() const;
     void setBroker(const ClusterConfig &broker);
@@ -67,6 +82,18 @@ public:
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
 
+    ConsumerTypeSelector *typeSelector();
+    void setTypeSelector(ConsumerTypeSelector *selector);
+
+    ConsumerLimiterSelector *limiter();
+    void setLimiter(ConsumerLimiterSelector *limiter);
+
+    ConsumerFilterSelector *filter();
+    void setFilter(ConsumerFilterSelector *filter);
+
+    ConsumerBeginningSelector *beginning();
+    void setBeginning(ConsumerBeginningSelector *beginning);
+
 signals:
 
     void messagesChanged();
@@ -77,6 +104,10 @@ private slots:
 
     void onReceived();
     void onStopped();
+    void onKeyValueChanged();
+    void onLimiterChanged();
+    void onFilterChanged();
+    void onBeginningChanged();
 
 private:
     void setRunning(bool val);
@@ -86,25 +117,135 @@ private:
 
 private:
     bool m_isRunning;
-    Types m_keyType;
-    Types m_valueType;
-    StartFromTimeBased m_startFromTime;
-    Filters m_filters;
-    QString m_specificDate;
-    QString m_keyFilter;
-    QString m_valueFilter;
-    QString m_headerKeyFilter;
-    QString m_headerValueFilter;
+    bool m_argsChanged;
+
+    ConsumerTypeSelector *m_typeSelector;
+    ConsumerLimiterSelector *m_limiter;
+    ConsumerFilterSelector *m_filter;
+    ConsumerBeginningSelector *m_beginning;
+
     QString m_topic;
+    QStringList m_topics;
     ClusterConfig m_broker;
     core::KafkaConsumer *m_consumer;
     QThread m_consumerThread;
-    Limit m_limit;
-    int m_numberOfRecords;
-    int m_maxSize;
-    QString m_limitSpecificDate;
+    QList<QMetaObject::Connection> m_connections;
 
     MessageModel *m_messageModel;
 };
 Q_DECLARE_METATYPE(Consumer::StartFromTimeBased)
 Q_DECLARE_METATYPE(Consumer::Filters)
+Q_DECLARE_METATYPE(Consumer::Limit)
+
+/**!
+ * Limiter selector
+ */
+class ConsumerLimiterSelector : public QObject
+{
+    Q_OBJECT
+
+public:
+    Q_PROPERTY(Consumer::Limit limit READ limit WRITE setLimit)
+    Q_PROPERTY(int maxSize READ maxSize WRITE setMaxSize)
+    Q_PROPERTY(int numberOfRecords READ numberOfRecords WRITE setNumberOfRecords)
+    Q_PROPERTY(QString specificDate READ specificDate WRITE setSpecificDate)
+
+    explicit ConsumerLimiterSelector(QObject *parent = nullptr);
+
+    Consumer::Limit limit() const noexcept;
+    void setLimit(Consumer::Limit limit) noexcept;
+
+    int maxSize() const noexcept;
+    void setMaxSize(int size) noexcept;
+
+    int numberOfRecords() const noexcept;
+    void setNumberOfRecords(int records) noexcept;
+
+    const QString &specificDate() const;
+    void setSpecificDate(const QString &limit);
+
+    QDateTime specificDateTimePoint() const;
+
+signals:
+
+    void limitChanged();
+
+public:
+    Consumer::Limit m_limit;
+    int m_numberOfRecords;
+    int m_maxSize;
+    QString m_specificDate;
+};
+
+/**!
+ * Filter selector
+ */
+class ConsumerFilterSelector : public QObject
+{
+    Q_OBJECT
+
+public:
+    Q_PROPERTY(Consumer::Filters filters READ filters WRITE setFilters)
+    Q_PROPERTY(QString key READ key WRITE setKey)
+    Q_PROPERTY(QString value READ value WRITE setValue)
+    Q_PROPERTY(QString headerKey READ headerKey WRITE setHeaderKey)
+    Q_PROPERTY(QString headerValue READ headerValue WRITE setHeaderValue)
+
+    explicit ConsumerFilterSelector(QObject *parent = nullptr);
+
+    Consumer::Filters filters() const noexcept;
+    void setFilters(Consumer::Filters filters) noexcept;
+
+    const QString &key() const;
+    void setKey(const QString &key);
+
+    const QString &value() const;
+    void setValue(const QString &value);
+
+    const QString &headerKey() const;
+    void setHeaderKey(const QString &key);
+
+    const QString &headerValue() const;
+    void setHeaderValue(const QString &value);
+
+signals:
+
+    void filterChanged();
+
+private:
+    Consumer::Filters m_filters;
+    QString m_key;
+    QString m_value;
+    QString m_headerKey;
+    QString m_headerValue;
+};
+
+/**!
+ * Setup offsets
+ */
+class ConsumerBeginningSelector : public QObject
+{
+    Q_OBJECT
+
+public:
+    Q_PROPERTY(Consumer::StartFromTimeBased startFrom READ startFrom WRITE setStartFrom)
+    Q_PROPERTY(QString specificDate READ specificDate WRITE setSpecificDate)
+
+    explicit ConsumerBeginningSelector(QObject *parent = nullptr);
+
+    const QString &specificDate() const;
+    void setSpecificDate(const QString &date);
+
+    Consumer::StartFromTimeBased startFrom() const;
+    void setStartFrom(Consumer::StartFromTimeBased from);
+
+    QDateTime specificDateTimePoint() const;
+
+signals:
+
+    void beginningChanged();
+
+private:
+    Consumer::StartFromTimeBased m_startFromTime;
+    QString m_specificDate;
+};

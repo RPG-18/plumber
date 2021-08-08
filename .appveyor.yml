@@ -22,7 +22,7 @@ deploy:
       secure: FU/U7Gbtz/362xNQEVS+2keJ+iDUzwYwU9Hf9T5tdRN0g0ig9ovaiqTGm/peeBIa
     region: eu-central-1
     bucket: kafkaui-ci-packages
-    folder: kafkaui/(APPVEYOR_REPO_TAG_NAME)
+    folder: kafkaui/$(APPVEYOR_REPO_TAG_NAME)
     artifact: App
     max_error_retry: 3
     on:

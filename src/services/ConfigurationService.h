@@ -11,6 +11,8 @@ class ConfigurationService : public QObject
 public:
     static const QString ConfigName;
 
+    ConfigurationService() = default;
+
     /**!
    * read configuration from disk
    * config location: QStandardPaths::AppConfigLocation/config.json
@@ -42,7 +44,7 @@ signals:
     void configurationChanged();
 
 private:
-    void createDirs();
+    static void createDirs();
 
 private:
     Configuration m_cfg;

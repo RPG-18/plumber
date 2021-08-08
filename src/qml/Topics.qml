@@ -77,18 +77,42 @@ Rectangle {
             Layout.fillWidth: true
             height: 60
 
-            Text {
-                text: qsTr("Topic Name")
-                font.bold: true
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 40
-            }
-
             RowLayout {
-                anchors.right: parent.right
+                anchors.fill: parent
+                anchors.leftMargin: 6
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
+
+                Button {
+                    text: qsTr("ACTIONS") + " (" + topicModel.selected + ")"
+                    visible: topicModel.selected > 0
+                    onClicked: popup.open()
+
+                    Popup {
+                        id: popup
+
+                        modal: true
+                        focus: true
+                        y: parent.height
+
+                        Row {
+                            Button {
+                                text: qsTr("Consume selected Topics...")
+                                onClicked: {
+                                    Pages.createConsumerScreen("", topicModel, mainCluster.broker);
+                                    popup.close();
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 TextField {
                     id: filterField
@@ -98,6 +122,28 @@ Rectangle {
                     placeholderText: qsTr("Filter topic name...")
                 }
 
+            }
+
+            Rectangle {
+                height: 1
+                width: parent.width
+                anchors.bottom: parent.bottom
+                color: "#f2f2f2"
+            }
+
+        }
+
+        Item {
+            implicitWidth: 250
+            Layout.fillWidth: true
+            height: 60
+
+            Text {
+                text: qsTr("Topic Name")
+                font.bold: true
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 40
             }
 
             Rectangle {
@@ -125,9 +171,31 @@ Rectangle {
                 height: 40
                 width: item.width
 
+                MouseArea {
+                    id: area
+
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+
                 RowLayout {
                     anchors.fill: parent
                     anchors.leftMargin: 6
+
+                    Item {
+                        implicitWidth: box.width
+                        implicitHeight: box.height
+
+                        CheckBox {
+                            id: box
+
+                            visible: area.containsMouse || selected
+                            onCheckedChanged: {
+                                topicFilterModel.checked(index, box.checked);
+                            }
+                        }
+
+                    }
 
                     Button {
                         icon.source: "qrc:/search.svg"

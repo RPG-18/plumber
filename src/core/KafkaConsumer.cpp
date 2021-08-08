@@ -7,10 +7,10 @@
 
 namespace core {
 
-KafkaConsumer::KafkaConsumer(ClusterConfig cfg, QStringList topics, QObject *parent)
+KafkaConsumer::KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObject *parent)
     : QObject(parent)
     , m_timerId(0)
-    , m_cfg(cfg)
+    , m_cfg(std::move(cfg))
     , m_topics(topics)
     , m_toBeginning(false)
     , m_limiter(new AbstractLimiter)
@@ -137,7 +137,7 @@ void KafkaConsumer::append(ConsumerRecords &records)
     emit received();
 }
 
-void KafkaConsumer::seekOnTimestamp(const QDateTime tm)
+void KafkaConsumer::seekOnTimestamp(const QDateTime &tm)
 {
     m_seekOnTime = tm;
 }

@@ -7,7 +7,7 @@ ConfigurationService *Registry::configuration()
 
 void Registry::setConfiguration(std::shared_ptr<ConfigurationService> service)
 {
-    m_configuration = service;
+    m_configuration = std::move(service);
 }
 
 Registry *Registry::instance() noexcept

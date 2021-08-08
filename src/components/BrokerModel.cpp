@@ -22,12 +22,11 @@ QVariant BrokerModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const auto row = index.row();
-    switch (role) {
-    case Node:
+    if (role == Node) {
         return m_nodes[row];
-    default:
-        return QVariant();
     }
+
+    return QVariant();
 }
 
 QHash<int, QByteArray> BrokerModel::roleNames() const

@@ -11,12 +11,11 @@ public:
         : kafka::AdminClient(properties)
     {}
 
-    Optional<kafka::BrokerMetadata> fetchNodesMetadata(std::chrono::milliseconds timeout,
-                                                       bool disableErrorLogging = false);
+    Optional<kafka::BrokerMetadata> fetchNodesMetadata(std::chrono::milliseconds timeout);
 };
 
 inline Optional<kafka::BrokerMetadata> AdminClient::fetchNodesMetadata(
-    std::chrono::milliseconds timeout, bool disableErrorLogging)
+    std::chrono::milliseconds timeout)
 {
     Optional<kafka::BrokerMetadata> ret;
     const rd_kafka_metadata_t *rk_metadata = nullptr;
