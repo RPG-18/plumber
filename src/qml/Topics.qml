@@ -176,52 +176,53 @@ Rectangle {
 
                     anchors.fill: parent
                     hoverEnabled: true
-                }
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 6
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 6
 
-                    Item {
-                        implicitWidth: box.width
-                        implicitHeight: box.height
+                        Item {
+                            implicitWidth: box.width
+                            implicitHeight: box.height
 
-                        CheckBox {
-                            id: box
+                            CheckBox {
+                                id: box
 
-                            visible: area.containsMouse || selected
-                            onCheckedChanged: {
-                                topicFilterModel.checked(index, box.checked);
+                                visible: selected || area.containsMouse
+                                onCheckedChanged: {
+                                    topicFilterModel.checked(index, box.checked);
+                                }
+                            }
+
+                        }
+
+                        Button {
+                            icon.source: "qrc:/search.svg"
+                            implicitWidth: 28
+                            implicitHeight: 28
+                            onClicked: {
+                                Pages.createConsumerScreen(topic, topicModel, mainCluster.broker);
                             }
                         }
 
-                    }
-
-                    Button {
-                        icon.source: "qrc:/search.svg"
-                        implicitWidth: 28
-                        implicitHeight: 28
-                        onClicked: {
-                            Pages.createConsumerScreen(topic, topicModel, mainCluster.broker);
+                        Text {
+                            text: topic
+                            color: "#2a5fb0"
                         }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
                     }
 
-                    Text {
-                        text: topic
-                        color: "#2a5fb0"
+                    Rectangle {
+                        height: 1
+                        width: parent.width
+                        anchors.bottom: parent.bottom
+                        color: "#f2f2f2"
                     }
 
-                    Item {
-                        Layout.fillWidth: true
-                    }
-
-                }
-
-                Rectangle {
-                    height: 1
-                    width: parent.width
-                    anchors.bottom: parent.bottom
-                    color: "#f2f2f2"
                 }
 
             }
