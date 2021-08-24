@@ -45,6 +45,9 @@ class ConsumerLimiterSelector;
 class ConsumerFilterSelector;
 class ConsumerBeginningSelector;
 
+/**!
+ * Consumer wrapper for core::KafkaConsumer
+ */
 class Consumer : public QObject
 {
     Q_OBJECT
