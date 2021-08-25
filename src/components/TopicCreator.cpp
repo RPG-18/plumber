@@ -35,9 +35,9 @@ ErrorWrap TopicCreator::create()
                                           m_partitions,
                                           m_replicationFactor,
                                           topicConfig);
-        if (result.errorCode()) {
-            spdlog::error("topic create error {}", result.message());
-            return ErrorWrap{when, QString::fromStdString(result.message())};
+        if (result.error) {
+            spdlog::error("topic create error {}", result.error.message());
+            return ErrorWrap{when, QString::fromStdString(result.error.message())};
         }
     } catch (const kafka::KafkaException &e) {
         spdlog::error("topic create exception {}", e.what());

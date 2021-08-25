@@ -45,7 +45,7 @@ void KafkaConnectivityTester::test(const QString &url, const QString &props) noe
         try {
             AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
-            noErr = !res.errorCode();
+            noErr = !res.error;
         } catch (const kafka::KafkaException &e) {
             spdlog::error("Unexpected exception caught: {}", e.what());
             QMetaObject::invokeMethod(this, "tested", Qt::QueuedConnection, Q_ARG(bool, false));
@@ -74,7 +74,7 @@ void KafkaConnectivityTester::testBroker(const QVariant &variant) noexcept
 
             AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
-            const bool noErr = !res.errorCode();
+            const bool noErr = !res.error;
             QMetaObject::invokeMethod(this, "tested", Qt::QueuedConnection, Q_ARG(bool, noErr));
 
         } catch (const kafka::KafkaException &e) {

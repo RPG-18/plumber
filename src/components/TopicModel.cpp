@@ -61,7 +61,7 @@ void TopicModel::loadTopics()
             core::AdminClient client(cfg);
 
             const auto response = client.listTopics();
-            if (!response.errorCode()) {
+            if (!response.error) {
                 QVector<QString> topics;
                 topics.reserve(response.topics.size());
                 for (const auto &topic : response.topics) {
@@ -72,7 +72,7 @@ void TopicModel::loadTopics()
                                           Qt::QueuedConnection,
                                           Q_ARG(QVector<QString>, topics));
             } else {
-                spdlog::error("list topics {}", response.message());
+                spdlog::error("list topics {}", response.error.message());
             }
         } catch (const kafka::KafkaException &e) {
             spdlog::error("Unexpected exception caught: {}", e.what());
@@ -130,9 +130,9 @@ ErrorWrap TopicModel::removeSelectedTopics()
         }
 
         auto result = client.deleteTopics(topics);
-        if (result.errorCode()) {
-            spdlog::error("topic remove error {}", result.message());
-            return ErrorWrap{when, QString::fromStdString(result.message())};
+        if (result.error) {
+            spdlog::error("topic remove error {}", result.error.message());
+            return ErrorWrap{when, QString::fromStdString(result.error.message())};
         }
         refresh();
     } catch (const kafka::KafkaException &e) {
