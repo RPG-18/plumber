@@ -51,5 +51,8 @@
         <file>../fonts/Roboto-Regular.ttf</file>
         <file>../fonts/Roboto-ThinItalic.ttf</file>
         <file>../fonts/Roboto-Thin.ttf</file>
+        <file>qml/CreateTopicDialog.qml</file>
+        <file>qml/Components/ErrorDialog.qml</file>
+        <file>qml/Components/MessageBox.qml</file>
     </qresource>
 </RCC>

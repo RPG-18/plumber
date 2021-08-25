@@ -9,7 +9,9 @@ add_library(components
         ConsumerHelperModels.h ConsumerHelperModels.cpp
         MessageModel.cpp MessageModel.h
         Types.h Types.cpp
-        Message.cpp Message.h)
+        Message.cpp Message.h
+        TopicCreator.cpp TopicCreator.h
+        ErrorWrap.cpp ErrorWrap.h)
 
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

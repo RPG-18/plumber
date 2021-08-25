@@ -17,6 +17,7 @@
 #include "ConsumerHelperModels.h"
 #include "KafkaConnectivityTester.h"
 #include "Registry.h"
+#include "TopicCreator.h"
 #include "utils/KafkaUtility.h"
 
 void init()
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ConsumerLimiterSelector>("kafkaui", 1, 0, "ConsumerLimiterSelector");
     qmlRegisterType<ConsumerFilterSelector>("kafkaui", 1, 0, "ConsumerFilterSelector");
     qmlRegisterType<ConsumerBeginningSelector>("kafkaui", 1, 0, "ConsumerBeginningSelector");
+    qmlRegisterType<TopicCreator>("kafkaui", 1, 0, "TopicCreator");
 
     qmlRegisterType<ConsumerTypesModel>("kafkaui", 1, 0, "ConsumerTypesModel");
     qmlRegisterType<StartFromTimeBasedModel>("kafkaui", 1, 0, "StartFromTimeBasedModel");
