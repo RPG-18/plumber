@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 import kafkaui 1.0
 import "style.js" as Style
 import "pages.js" as Pages
+import "Components" as Components
 
 Rectangle {
     id: item
@@ -66,6 +67,21 @@ Rectangle {
 
                     }
 
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    ColumnLayout {
+                        Button {
+                            text: "CREATE"
+                            onClicked: {
+                                Pages.createTopicCreateScreen(mainCluster.broker);
+                            }
+                        }
+
+                    }
+
                 }
 
             }
@@ -86,24 +102,44 @@ Rectangle {
                 Button {
                     text: qsTr("ACTIONS") + " (" + topicModel.selected + ")"
                     visible: topicModel.selected > 0
-                    onClicked: popup.open()
+                    onClicked: topicMenu.open()
 
-                    Popup {
-                        id: popup
+                    Menu {
+                        id: topicMenu
 
-                        modal: true
-                        focus: true
                         y: parent.height
 
-                        Row {
-                            Button {
-                                text: qsTr("Consume selected Topics...")
-                                onClicked: {
-                                    Pages.createConsumerScreen("", topicModel, mainCluster.broker);
-                                    popup.close();
-                                }
+                        MenuItem {
+                            text: qsTr("Consume selected Topics...")
+                            onTriggered: {
+                                Pages.createConsumerScreen("", topicModel, mainCluster.broker);
+                            }
+                        }
+
+                        MenuSeparator {
+
+                            contentItem: Rectangle {
+                                implicitWidth: 200
+                                implicitHeight: 1
+                                color: "#f2f2f2"
                             }
 
+                        }
+
+                        MenuItem {
+                            text: qsTr("Delete selected Topics...")
+                            onTriggered: {
+                                confirm.accaptHanlder = () => {
+                                    let e = topicModel.removeSelectedTopics();
+                                    if (e.isError) {
+                                        err.show(e);
+                                        return ;
+                                    }
+                                };
+                                confirm.title = qsTr("Delete %1 topics").arg(topicModel.selected);
+                                confirm.text = qsTr("Confirm deleting %1 topics?").arg(topicModel.selected);
+                                confirm.open();
+                            }
                         }
 
                     }
@@ -176,58 +212,73 @@ Rectangle {
 
                     anchors.fill: parent
                     hoverEnabled: true
-                }
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 6
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 6
 
-                    Item {
-                        implicitWidth: box.width
-                        implicitHeight: box.height
+                        Item {
+                            implicitWidth: box.width
+                            implicitHeight: box.height
 
-                        CheckBox {
-                            id: box
+                            CheckBox {
+                                id: box
 
-                            visible: area.containsMouse || selected
-                            onCheckedChanged: {
-                                topicFilterModel.checked(index, box.checked);
+                                visible: selected || area.containsMouse
+                                onCheckedChanged: {
+                                    topicFilterModel.checked(index, box.checked);
+                                }
+                            }
+
+                        }
+
+                        Button {
+                            icon.source: "qrc:/search.svg"
+                            implicitWidth: 28
+                            implicitHeight: 28
+                            onClicked: {
+                                Pages.createConsumerScreen(topic, topicModel, mainCluster.broker);
                             }
                         }
 
-                    }
-
-                    Button {
-                        icon.source: "qrc:/search.svg"
-                        implicitWidth: 28
-                        implicitHeight: 28
-                        onClicked: {
-                            Pages.createConsumerScreen(topic, topicModel, mainCluster.broker);
+                        Text {
+                            text: topic
+                            color: "#2a5fb0"
                         }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
                     }
 
-                    Text {
-                        text: topic
-                        color: "#2a5fb0"
+                    Rectangle {
+                        height: 1
+                        width: parent.width
+                        anchors.bottom: parent.bottom
+                        color: "#f2f2f2"
                     }
 
-                    Item {
-                        Layout.fillWidth: true
-                    }
-
-                }
-
-                Rectangle {
-                    height: 1
-                    width: parent.width
-                    anchors.bottom: parent.bottom
-                    color: "#f2f2f2"
                 }
 
             }
 
         }
 
+    }
+
+    Components.ErrorDialog {
+        id: err
+
+        anchors.centerIn: parent
+        width: parent.width * 0.8
+    }
+
+    Components.MessageBox {
+        id: confirm
+
+        anchors.centerIn: parent
+        width: parent.width * 0.8
     }
 
 }

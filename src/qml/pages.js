@@ -42,3 +42,17 @@ function createMessageScreen(x,y,width,height,  message) {
 
     let consumer = component.createObject(appWindow, state);
 }
+
+function createTopicCreateScreen(broker) {
+    let component = Qt.createComponent("qrc:/qml/CreateTopicDialog.qml");
+    let posX = appWindow.x + appWindow.width/2 - Constants.ConsumerScreenWidth/2;
+    let posY = appWindow.y + appWindow.height/2 - Constants.ConsumerScreenHeight/2;
+
+    let state = {
+        x: posX,
+        y: posY,
+        broker:broker,
+    };
+
+    let dialog = component.createObject(appWindow, state);
+}

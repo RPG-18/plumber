@@ -6,6 +6,7 @@
 #include <QtCore/QVector>
 
 #include "ClusterConfig.h"
+#include "ErrorWrap.h"
 
 /**!
  * Show topics
@@ -32,6 +33,8 @@ public:
     int selected() const;
 
     Q_INVOKABLE QStringList selectedTopics() const;
+    Q_INVOKABLE void refresh();
+    Q_INVOKABLE ErrorWrap removeSelectedTopics();
 
 signals:
 

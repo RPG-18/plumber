@@ -61,7 +61,7 @@ void TopicModel::loadTopics()
             core::AdminClient client(cfg);
 
             const auto response = client.listTopics();
-            if (!response.errorCode()) {
+            if (!response.error) {
                 QVector<QString> topics;
                 topics.reserve(response.topics.size());
                 for (const auto &topic : response.topics) {
@@ -72,7 +72,7 @@ void TopicModel::loadTopics()
                                           Qt::QueuedConnection,
                                           Q_ARG(QVector<QString>, topics));
             } else {
-                spdlog::error("list topics {}", response.message());
+                spdlog::error("list topics {}", response.error.message());
             }
         } catch (const kafka::KafkaException &e) {
             spdlog::error("Unexpected exception caught: {}", e.what());
@@ -80,10 +80,17 @@ void TopicModel::loadTopics()
     });
     t.detach();
 }
+void TopicModel::refresh()
+{
+    beginResetModel();
+    loadTopics();
+    endResetModel();
+}
 
 void TopicModel::received(QVector<QString> topics)
 {
     beginResetModel();
+    m_selectedTopics.clear();
     m_topics.swap(topics);
     m_selected.resize(m_topics.size(), false);
     endResetModel();
@@ -106,6 +113,34 @@ void TopicModel::checked(const QModelIndex &index, bool state)
 int TopicModel::selected() const
 {
     return m_selectedTopics.size();
+}
+
+ErrorWrap TopicModel::removeSelectedTopics()
+{
+    const QString when("topic remove");
+
+    try {
+        kafka::AdminClientConfig cfg(m_config.properties->map());
+        cfg.put(kafka::AdminClientConfig::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
+
+        kafka::AdminClient client(cfg);
+        Topics topics;
+        for (const auto &topic : m_selectedTopics) {
+            topics.insert(topic.toStdString());
+        }
+
+        auto result = client.deleteTopics(topics);
+        if (result.error) {
+            spdlog::error("topic remove error {}", result.error.message());
+            return ErrorWrap{when, QString::fromStdString(result.error.message())};
+        }
+        refresh();
+    } catch (const kafka::KafkaException &e) {
+        spdlog::error("topic create exception {}", e.what());
+        return ErrorWrap{when, QString::fromStdString(e.what())};
+    }
+
+    return ErrorWrap{};
 }
 
 QStringList TopicModel::selectedTopics() const

@@ -2,6 +2,7 @@
 
 #include "kafka/Project.h"
 
+#include "kafka/Error.h"
 #include "kafka/RdKafkaHelper.h"
 #include "kafka/Types.h"
 
@@ -28,7 +29,7 @@ namespace Consumer
     /**
      * Null RebalanceCallback
      */
-#if __cplusplus >= 201703L
+#if COMPILER_SUPPORTS_CPP_17
     const inline RebalanceCallback NullRebalanceCallback = RebalanceCallback{};
 #else
     const static RebalanceCallback NullRebalanceCallback = RebalanceCallback{};
@@ -37,12 +38,12 @@ namespace Consumer
     /**
      * A callback interface that the user can implement to trigger custom actions when a commit request completes.
      */
-    using OffsetCommitCallback = std::function<void(const TopicPartitionOffsets& topicPartitionOffsets, std::error_code ec)>;
+    using OffsetCommitCallback = std::function<void(const TopicPartitionOffsets& topicPartitionOffsets, const Error& error)>;
 
     /**
      * Null OffsetCommitCallback
      */
-#if __cplusplus >= 201703L
+#if COMPILER_SUPPORTS_CPP_17
     const inline OffsetCommitCallback NullOffsetCommitCallback = OffsetCommitCallback{};
 #else
     const static OffsetCommitCallback NullOffsetCommitCallback = OffsetCommitCallback{};

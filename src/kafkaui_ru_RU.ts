@@ -107,6 +107,62 @@
     </message>
 </context>
 <context>
+    <name>CreateTopicDialog</name>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="22"/>
+        <source>Create New Topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="46"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="54"/>
+        <source>My new Topic name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="59"/>
+        <source>Partitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="72"/>
+        <source>Replication Factor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="86"/>
+        <source>Cleanup Policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="91"/>
+        <source>Retention (time or size)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="106"/>
+        <source>Compaction (key-based)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/CreateTopicDialog.qml" line="147"/>
+        <source>CREATE TOPIC</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ErrorDialog</name>
+    <message>
+        <location filename="qml/Components/ErrorDialog.qml" line="13"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FilterInput</name>
     <message>
         <location filename="qml/Consumer/FilterInput.qml" line="58"/>
@@ -302,33 +358,48 @@
 <context>
     <name>Topics</name>
     <message>
-        <location filename="qml/Topics.qml" line="30"/>
+        <location filename="qml/Topics.qml" line="31"/>
         <source>TOPICS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="56"/>
+        <location filename="qml/Topics.qml" line="57"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="87"/>
+        <location filename="qml/Topics.qml" line="103"/>
         <source>ACTIONS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="100"/>
+        <location filename="qml/Topics.qml" line="113"/>
         <source>Consume selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="142"/>
-        <source>Topic Name</source>
+        <location filename="qml/Topics.qml" line="130"/>
+        <source>Delete selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="122"/>
+        <location filename="qml/Topics.qml" line="139"/>
+        <source>Delete %1 topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="140"/>
+        <source>Confirm deleting %1 topics?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="158"/>
         <source>Filter topic name...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="178"/>
+        <source>Topic Name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -31,7 +31,8 @@ class KafkaClient
 {
 protected:
     using ConfigCallbacksRegister = std::function<void(rd_kafka_conf_t*)>;
-    using StatsCallback           = std::function<void(std::string)>;
+    using StatsCallback           = std::function<void(const std::string&)>;
+    using ErrorCallback           = std::function<void(const Error&)>;
 
     enum class ClientType { KafkaConsumer, KafkaProducer, AdminClient };
     static std::string getClientTypeString(ClientType type)
@@ -68,7 +69,7 @@ public:
     /**
      * Set a log callback for kafka clients, which do not have a client specific logging callback configured (see `setLogger`).
      */
-    static void setGlobalLogger(Logger logger = NoneLogger)
+    static void setGlobalLogger(Logger logger = NullLogger)
     {
         std::call_once(Global<>::initOnce, [](){}); // Then no need to init within KafkaClient constructor
         Global<>::logger = std::move(logger);
@@ -92,6 +93,11 @@ public:
     void setStatsCallback(StatsCallback cb) { _statsCb = std::move(cb); }
 
     /**
+     * Set callback for error notification.
+     */
+    void setErrorCallback(ErrorCallback cb) { _errorCb = std::move(cb); }
+
+    /**
      * Return the properties which took effect.
      */
     const Properties& properties() const { return _properties; }
@@ -103,6 +109,7 @@ public:
 
     /**
      * Fetch matadata from a available broker.
+     * Note: the Metadata response information may trigger a re-join if any subscribed topic has changed partition count or existence state.
      */
     Optional<BrokerMetadata> fetchBrokerMetadata(const std::string& topic,
                                                  std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_METADATA_TIMEOUT_MS),
@@ -171,11 +178,20 @@ protected:
     // Statistics callback (for librdkafka)
     static int statsCallback(rd_kafka_t* rk, char* jsonStrBuf, size_t jsonStrLen, void* opaque);
 
+    // Error callback (for librdkafka)
+    static void errorCallback(rd_kafka_t* rk, int err, const char* reason, void* opaque);
+
     // Validate properties (and fix it if necesary)
     static Properties validateAndReformProperties(const Properties& origProperties);
 
     // To avoid double-close
     bool _opened = false;
+
+#if COMPILER_SUPPORTS_CPP_17
+    static constexpr int EVENT_POLLING_INTERVAL_MS = 100;
+#else
+    enum { EVENT_POLLING_INTERVAL_MS  = 100 };
+#endif
 
 private:
     std::string         _clientId;
@@ -184,13 +200,17 @@ private:
     Logger              _logger;
     Properties          _properties;
     StatsCallback       _statsCb;
+    ErrorCallback       _errorCb;
     rd_kafka_unique_ptr _rk;
 
     // Log callback (for class instance)
     void onLog(int level, const char* fac, const char* buf) const;
 
     // Stats callback (for class instance)
-    void onStats(std::string&& jsonString);
+    void onStats(const std::string& jsonString);
+
+    // Error callback (for class instance)
+    void onError(const Error& error);
 
     static const constexpr char* BOOTSTRAP_SERVERS = "bootstrap.servers";
     static const constexpr char* CLIENT_ID         = "client.id";
@@ -199,7 +219,7 @@ private:
     static const constexpr char* SECURITY_PROTOCOL          = "security.protocol";
     static const constexpr char* SASL_KERBEROS_SERVICE_NAME = "sasl.kerberos.service.name";
 
-#if __cplusplus >= 201703L
+#if COMPILER_SUPPORTS_CPP_17
     static constexpr int DEFAULT_METADATA_TIMEOUT_MS = 10000;
 #else
     enum { DEFAULT_METADATA_TIMEOUT_MS = 10000 };
@@ -292,12 +312,12 @@ KafkaClient::KafkaClient(ClientType                     clientType,
         }
         catch (const std::exception& e)
         {
-            KAFKA_THROW_WITH_MSG(RD_KAFKA_RESP_ERR__INVALID_ARG, std::string("Invalid log_level[").append(*logLevel).append("], which must be an number!").append(e.what()));
+            KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG, std::string("Invalid log_level[").append(*logLevel).append("], which must be an number!").append(e.what())));
         }
 
         if (_logLevel < Log::Level::Emerg || _logLevel > Log::Level::Debug)
         {
-            KAFKA_THROW_WITH_MSG(RD_KAFKA_RESP_ERR__INVALID_ARG, std::string("Invalid log_level[").append(*logLevel).append("], which must be a value between 0 and 7!"));
+            KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG, std::string("Invalid log_level[").append(*logLevel).append("], which must be a value between 0 and 7!")));
         }
     }
 
@@ -334,6 +354,9 @@ KafkaClient::KafkaClient(ClientType                     clientType,
     // Statistics Callback
     rd_kafka_conf_set_stats_cb(rk_conf.get(), KafkaClient::statsCallback);
 
+    // Error Callback
+    rd_kafka_conf_set_error_cb(rk_conf.get(), KafkaClient::errorCallback);
+
     // Other Callbacks
     if (registerCallbacks)
     {
@@ -345,14 +368,14 @@ KafkaClient::KafkaClient(ClientType                     clientType,
                            rk_conf.release(),  // rk_conf's ownship would be transferred to rk, after the "rd_kafka_new()" call
                            errInfo.clear().str(),
                            errInfo.capacity()));
-    KAFKA_THROW_IF_WITH_RESP_ERROR(rd_kafka_last_error());
+    KAFKA_THROW_IF_WITH_ERROR(Error(rd_kafka_last_error()));
 
     // Add brokers
     auto brokers = properties.getProperty(BOOTSTRAP_SERVERS);
     if (rd_kafka_brokers_add(getClientHandle(), brokers->c_str()) == 0)
     {
-        KAFKA_THROW_WITH_MSG(RD_KAFKA_RESP_ERR__INVALID_ARG,\
-                             "No broker could be added successfully, BOOTSTRAP_SERVERS=[" + *brokers + "]");
+        KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG,\
+                                "No broker could be added successfully, BOOTSTRAP_SERVERS=[" + *brokers + "]"));
     }
 
     _opened = true;
@@ -366,8 +389,8 @@ KafkaClient::validateAndReformProperties(const Properties& origProperties)
     // BOOTSTRAP_SERVERS property is mandatory
     if (!properties.getProperty(BOOTSTRAP_SERVERS))
     {
-        KAFKA_THROW_WITH_MSG(RD_KAFKA_RESP_ERR__INVALID_ARG,\
-                             "Validation failed! With no property [" + std::string(BOOTSTRAP_SERVERS) + "]");
+        KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG,\
+                                "Validation failed! With no property [" + std::string(BOOTSTRAP_SERVERS) + "]"));
     }
 
     // If no "client.id" configured, generate a random one for user
@@ -383,8 +406,8 @@ KafkaClient::validateAndReformProperties(const Properties& origProperties)
         {
             if (!properties.getProperty(SASL_KERBEROS_SERVICE_NAME))
             {
-                KAFKA_THROW_WITH_MSG(RD_KAFKA_RESP_ERR__INVALID_ARG,\
-                                     "The \"sasl.kerberos.service.name\" property is mandatory for SASL connection!");
+                KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG,\
+                                        "The \"sasl.kerberos.service.name\" property is mandatory for SASL connection!"));
             }
         }
     }
@@ -436,7 +459,7 @@ KafkaClient::setLogLevel(int level)
 inline void
 KafkaClient::onLog(int level, const char* fac, const char* buf) const
 {
-    doLog(level, nullptr, 0, "%s | %s", fac, buf); // The `filename`/`lineno` here is NULL (just wouldn't help)
+    doLog(level, "LIBRDKAFKA", 0, "%s | %s", fac, buf); // The log is coming from librdkafka
 }
 
 inline void
@@ -446,26 +469,52 @@ KafkaClient::logCallback(const rd_kafka_t* rk, int level, const char* fac, const
 }
 
 inline void
-KafkaClient::onStats(std::string&& jsonString)
+KafkaClient::onStats(const std::string& jsonString)
 {
-    if (_statsCb) _statsCb(std::move(jsonString));
+    if (_statsCb) _statsCb(jsonString);
 }
 
 inline int
 KafkaClient::statsCallback(rd_kafka_t* rk, char* jsonStrBuf, size_t jsonStrLen, void* /*opaque*/)
 {
-    kafkaClient(rk).onStats(std::string(jsonStrBuf, jsonStrBuf+jsonStrLen));
+    std::string stats(jsonStrBuf, jsonStrBuf+jsonStrLen);
+    kafkaClient(rk).onStats(stats);
     return 0;
+}
+
+inline void
+KafkaClient::onError(const Error& error)
+{
+    if (_errorCb) _errorCb(error);
+}
+
+inline void
+KafkaClient::errorCallback(rd_kafka_t* rk, int err, const char* reason, void* /*opaque*/)
+{
+    auto respErr = static_cast<rd_kafka_resp_err_t>(err);
+
+    Error error;
+    if (respErr != RD_KAFKA_RESP_ERR__FATAL)
+    {
+        error = Error{respErr, reason};
+    }
+    else
+    {
+        LogBuffer<LOG_BUFFER_SIZE> errInfo;
+        respErr = rd_kafka_fatal_error(rk, errInfo.str(), errInfo.capacity());
+        error = Error{respErr, errInfo.c_str(), true};
+    }
+
+    kafkaClient(rk).onError(error);
 }
 
 inline Optional<BrokerMetadata>
 KafkaClient::fetchBrokerMetadata(const std::string& topic, std::chrono::milliseconds timeout, bool disableErrorLogging)
 {
-    Optional<BrokerMetadata> ret;
-    auto rkt = rd_kafka_topic_unique_ptr(rd_kafka_topic_new(getClientHandle(), topic.c_str(), nullptr));
-
     const rd_kafka_metadata_t* rk_metadata = nullptr;
-    rd_kafka_resp_err_t err = rd_kafka_metadata(getClientHandle(), false, rkt.get(), &rk_metadata, convertMsDurationToInt(timeout));
+    // Here the input parameter for `all_topics` is `true`, since we want the `cgrp_update`
+    rd_kafka_resp_err_t err = rd_kafka_metadata(getClientHandle(), true, nullptr, &rk_metadata, convertMsDurationToInt(timeout));
+
     auto guard = rd_kafka_metadata_unique_ptr(rk_metadata);
 
     if (err != RD_KAFKA_RESP_ERR_NO_ERROR)
@@ -474,30 +523,37 @@ KafkaClient::fetchBrokerMetadata(const std::string& topic, std::chrono::millisec
         {
             KAFKA_API_DO_LOG(Log::Level::Err, "failed to get BrokerMetadata! error[%s]", rd_kafka_err2str(err));
         }
-        return ret;
+        return Optional<BrokerMetadata>{};
     }
 
-    if (rk_metadata->topic_cnt != 1)
+    const rd_kafka_metadata_topic* metadata_topic = nullptr;
+    for (int i = 0; i < rk_metadata->topic_cnt; ++i)
+    {
+        if (rk_metadata->topics[i].topic == topic)
+        {
+            metadata_topic = &rk_metadata->topics[i];
+            break;
+        }
+    }
+
+    if (!metadata_topic || metadata_topic->err)
     {
         if (!disableErrorLogging)
         {
-            KAFKA_API_DO_LOG(Log::Level::Err, "failed to construct MetaData! topic_cnt[%d]", rk_metadata->topic_cnt);
+            if (!metadata_topic)
+            {
+                KAFKA_API_DO_LOG(Log::Level::Err, "failed to find BrokerMetadata for topic[%s]", topic.c_str());
+            }
+            else
+            {
+                KAFKA_API_DO_LOG(Log::Level::Err, "failed to get BrokerMetadata for topic[%s]! error[%s]", topic.c_str(), rd_kafka_err2str(metadata_topic->err));
+            }
         }
-        return ret;
-    }
-
-    const rd_kafka_metadata_topic& metadata_topic = rk_metadata->topics[0];
-    if (metadata_topic.err != 0)
-    {
-        if (!disableErrorLogging)
-        {
-            KAFKA_API_DO_LOG(Log::Level::Err, "failed to construct MetaData!  topic.err[%s]", rd_kafka_err2str(metadata_topic.err));
-        }
-        return ret;
+        return Optional<BrokerMetadata>{};
     }
 
     // Construct the BrokerMetadata
-    BrokerMetadata metadata(metadata_topic.topic);
+    BrokerMetadata metadata(metadata_topic->topic);
     metadata.setOrigNodeName(rk_metadata->orig_broker_name ? std::string(rk_metadata->orig_broker_name) : "");
 
     for (int i = 0; i < rk_metadata->broker_cnt; ++i)
@@ -505,9 +561,9 @@ KafkaClient::fetchBrokerMetadata(const std::string& topic, std::chrono::millisec
         metadata.addNode(rk_metadata->brokers[i].id, rk_metadata->brokers[i].host, rk_metadata->brokers[i].port);
     }
 
-    for (int i = 0; i < metadata_topic.partition_cnt; ++i)
+    for (int i = 0; i < metadata_topic->partition_cnt; ++i)
     {
-        const rd_kafka_metadata_partition& metadata_partition = metadata_topic.partitions[i];
+        const rd_kafka_metadata_partition& metadata_partition = metadata_topic->partitions[i];
 
         Partition partition = metadata_partition.id;
 
@@ -536,8 +592,7 @@ KafkaClient::fetchBrokerMetadata(const std::string& topic, std::chrono::millisec
         metadata.addPartitionInfo(partition, partitionInfo);
     }
 
-    ret = metadata;
-    return ret;
+    return metadata;
 }
 
 
