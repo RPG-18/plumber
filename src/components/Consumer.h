@@ -13,6 +13,8 @@ namespace core {
 class KafkaConsumer;
 }
 
+class QTimer;
+
 /**!
  * Key Value type selector
  */
@@ -63,6 +65,8 @@ class Consumer : public QObject
     Q_PROPERTY(ConsumerBeginningSelector *beginning READ beginning WRITE setBeginning)
 
 public:
+    static constexpr auto RefreshInterval = std::chrono::seconds(1);
+
     enum StartFromTimeBased { Now, LastHour, Today, Yesterday, SpecificDate, Earliest };
     Q_ENUM(StartFromTimeBased)
 
@@ -133,6 +137,7 @@ private:
     core::KafkaConsumer *m_consumer;
     QThread m_consumerThread;
     QList<QMetaObject::Connection> m_connections;
+    QTimer *m_refresh;
 
     MessageModel *m_messageModel;
 };

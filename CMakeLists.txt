@@ -45,11 +45,15 @@ include_directories(3rdparty/modern-cpp-kafka/include
         src
         )
 
+set(Boost_USE_RELEASE_LIBS       ON)
+set(Boost_USE_MULTITHREADED      ON)
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools QuickControls2 Svg REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(Boost REQUIRED)
 
 set(TS_FILES src/kafkaui_ru_RU.ts)
 
@@ -77,13 +81,14 @@ target_compile_definitions(kafkaui
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(kafkaui
         PRIVATE
+        Rdkafka
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Quick
         Qt${QT_VERSION_MAJOR}::QuickControls2
         Qt${QT_VERSION_MAJOR}::Svg
         spdlog::spdlog
         spdlog::spdlog_header_only
-        Rdkafka
+        Boost::boost
         core
         components
         configuration

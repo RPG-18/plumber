@@ -5,7 +5,7 @@
 #include "Limiter.h"
 
 namespace core {
-bool AbstractLimiter::ExcessOfLimit(const ConsumerRecord * /* record */)
+bool AbstractLimiter::ExcessOfLimit(const std::unique_ptr<ConsumerRecord> & /* record */)
 {
     return false;
 }
@@ -17,7 +17,7 @@ NumberOfRecordsLimiter::NumberOfRecordsLimiter(int count)
     assert(count > 0);
 }
 
-bool NumberOfRecordsLimiter::ExcessOfLimit(const ConsumerRecord * /* record */)
+bool NumberOfRecordsLimiter::ExcessOfLimit(const std::unique_ptr<ConsumerRecord> & /* record */)
 {
     if (m_count > m_limit) {
         return true;
@@ -34,25 +34,25 @@ MaxSizeLimiter::MaxSizeLimiter(unsigned int bytes)
     assert(bytes > 0);
 }
 
-bool MaxSizeLimiter::ExcessOfLimit(const ConsumerRecord *record)
+bool MaxSizeLimiter::ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record)
 {
     const auto size = record->key.size() + record->value.size();
     if (m_bytes > m_limit) {
         return true;
     }
-    qDebug() << m_limit << m_bytes;
+
     m_bytes += size;
     return false;
 }
 
-DateLimiter::DateLimiter(const QDateTime &tm)
-    : m_tm(tm)
+DateLimiter::DateLimiter(QDateTime tm)
+    : m_tm(std::move(tm))
 {
     assert(tm.isValid());
     m_msSinceEpoch = m_tm.toMSecsSinceEpoch();
 }
 
-bool DateLimiter::ExcessOfLimit(const ConsumerRecord *record)
+bool DateLimiter::ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record)
 {
     return record->timestamp.msSinceEpoch > m_msSinceEpoch;
 }

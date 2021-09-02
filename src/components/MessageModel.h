@@ -11,7 +11,7 @@ class MessageModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    static constexpr int MaxMessages = 1000;
+    static constexpr int MaxMessages = 500;
     enum Roles { Topic = Qt::UserRole + 1, Partition, Offset, Timestamp, Key, Value, Headers };
 
     MessageModel(QObject *parent = nullptr);
@@ -28,8 +28,7 @@ public:
     void setValueType(Types type);
 
     /*!
-     *
-     * @param records
+     * append records
      */
     void append(core::ConsumerRecords &&records);
 

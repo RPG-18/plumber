@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ConsumerRecord.h"
+#include <memory>
 #include <QtCore/QDateTime>
 
 namespace core {
@@ -21,7 +22,7 @@ public:
      *
      * Default implementation do nothing
      */
-    virtual bool ExcessOfLimit(const ConsumerRecord *record);
+    virtual bool ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record);
 };
 
 /**!
@@ -35,7 +36,7 @@ public:
      * @param count max messages
      */
     NumberOfRecordsLimiter(int count);
-    bool ExcessOfLimit(const ConsumerRecord *record) override;
+    bool ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record) override;
 
 private:
     int m_limit;
@@ -49,7 +50,7 @@ class MaxSizeLimiter final : public AbstractLimiter
 {
 public:
     MaxSizeLimiter(unsigned int bytes);
-    bool ExcessOfLimit(const ConsumerRecord *record) override;
+    bool ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record) override;
 
 private:
     unsigned int m_limit;
@@ -62,8 +63,8 @@ private:
 class DateLimiter final : public AbstractLimiter
 {
 public:
-    DateLimiter(const QDateTime &tm);
-    bool ExcessOfLimit(const ConsumerRecord *record) override;
+    DateLimiter(QDateTime tm);
+    bool ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record) override;
 
 private:
     QDateTime m_tm;
