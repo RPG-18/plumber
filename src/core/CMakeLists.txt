@@ -1,4 +1,4 @@
-add_library(core AdminClient.hpp KafkaConsumer.cpp KafkaConsumer.h ConsumerRecord.h Limiter.cpp Limiter.h Filter.cpp Filter.h)
+add_library(core AdminClient.hpp KafkaConsumer.cpp KafkaConsumer.h ConsumerRecord.h Limiter.cpp Limiter.h Filter.cpp Filter.h ConsumerRecordBuffer.cpp ConsumerRecordBuffer.h)
 
 target_link_libraries(core
         PRIVATE

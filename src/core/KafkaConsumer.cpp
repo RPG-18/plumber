@@ -1,3 +1,5 @@
+#include <boost/circular_buffer.hpp>
+
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
 #include <QtCore/QTimerEvent>
@@ -6,7 +8,6 @@
 #include "spdlog/spdlog.h"
 
 namespace core {
-
 KafkaConsumer::KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObject *parent)
     : QObject(parent)
     , m_timerId(0)
@@ -14,6 +15,7 @@ KafkaConsumer::KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObje
     , m_topics(topics)
     , m_toBeginning(false)
     , m_limiter(new AbstractLimiter)
+    , m_buff(MaxMessages)
 {
     for (const auto &topic : topics) {
         m_topicMapper.insert(topic.toStdString(), topic);
@@ -57,9 +59,11 @@ void KafkaConsumer::pool()
 
     try {
         auto records = m_consumer->poll(PoolTimeout);
-        ConsumerRecords received;
-        received.reserve(records.size());
+        uint64_t  messages = 0;
+        uint64_t bytes = 0;
+
         for (const auto &record : records) {
+            ++messages;
             auto rec = std::make_unique<ConsumerRecord>();
             rec->topic = m_topicMapper[record.topic()];
             rec->partition = record.partition();
@@ -77,19 +81,21 @@ void KafkaConsumer::pool()
                                       header.value.size())});
             }
 
-            if (m_filter != nullptr && !m_filter->IsAcceptable(rec.get())) {
+            bytes += rec->key.size() + rec->value.size();
+            if (m_filter != nullptr && !m_filter->IsAcceptable(rec)) {
                 continue;
             }
 
-            if (!m_limiter->ExcessOfLimit(rec.get())) {
-                received.push_back(rec.release());
+            if (!m_limiter->ExcessOfLimit(rec)) {
+                m_buff.push(std::move(rec));
+
             } else {
                 manualStop();
                 break;
             }
         }
 
-        append(received);
+        updateStat(messages, bytes);
     } catch (const kafka::KafkaException &e) {
         spdlog::error("Unexpected exception caught: {}", e.what());
     }
@@ -119,22 +125,8 @@ void KafkaConsumer::createConsumer()
 
 void KafkaConsumer::records(ConsumerRecords &out)
 {
-    QMutexLocker locker(&m_mutex);
-    m_records.swap(out);
-}
-
-void KafkaConsumer::append(ConsumerRecords &records)
-{
-    QMutexLocker locker(&m_mutex);
-
-    if (m_records.empty()) {
-        m_records.swap(records);
-        emit received();
-        return;
-    }
-
-    m_records.append(records);
-    emit received();
+    auto data = m_buff.records();
+    out.swap(data);
 }
 
 void KafkaConsumer::seekOnTimestamp(const QDateTime &tm)
@@ -186,4 +178,20 @@ void KafkaConsumer::manualStop()
     stop();
     emit stopped();
 }
+
+using Lock = std::lock_guard<std::mutex>;
+
+void KafkaConsumer::updateStat(uint64_t messages, uint64_t bytes)
+{
+    Lock l(m_statMu);
+    m_stat.messages += messages;
+    m_stat.bytes += bytes;
+}
+
+KafkaConsumer::ConsumeStat KafkaConsumer::stat()
+{
+    Lock l(m_statMu);
+    return m_stat;
+}
+
 } // namespace core
