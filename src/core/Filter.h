@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ConsumerRecord.h"
+#include <memory>
 
 namespace core {
 
@@ -14,7 +15,7 @@ class AbstractFilter
 public:
     virtual ~AbstractFilter() = default;
 
-    virtual bool IsAcceptable(const ConsumerRecord *record) noexcept;
+    virtual bool IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept;
     bool isEmpty();
 
     void setKey(const QByteArray &key);
@@ -33,7 +34,7 @@ protected:
 class ContainFilter final : public AbstractFilter
 {
 public:
-    bool IsAcceptable(const ConsumerRecord *record) noexcept override;
+    bool IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept override;
 };
 
 /**!
@@ -42,7 +43,7 @@ public:
 class NotContainFilter final : public AbstractFilter
 {
 public:
-    bool IsAcceptable(const ConsumerRecord *record) noexcept override;
+    bool IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept override;
 };
 
 /**!
@@ -51,6 +52,6 @@ public:
 class EqualFilter final : public AbstractFilter
 {
 public:
-    bool IsAcceptable(const ConsumerRecord *record) noexcept override;
+    bool IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept override;
 };
 } // namespace core

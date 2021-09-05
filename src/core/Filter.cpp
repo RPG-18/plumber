@@ -34,7 +34,7 @@ bool equal(const T &left, const T &right) noexcept
 } // namespace
 
 namespace core {
-bool AbstractFilter::IsAcceptable(const ConsumerRecord * /* record */) noexcept
+bool AbstractFilter::IsAcceptable(const std::unique_ptr<ConsumerRecord> & /* record */) noexcept
 {
     return true;
 }
@@ -60,7 +60,7 @@ bool AbstractFilter::isEmpty()
            && m_header.value.isEmpty();
 }
 
-bool ContainFilter::IsAcceptable(const ConsumerRecord *record) noexcept
+bool ContainFilter::IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept
 {
     if (contain(m_value, record->value)) {
         return true;
@@ -82,7 +82,7 @@ bool ContainFilter::IsAcceptable(const ConsumerRecord *record) noexcept
     return false;
 }
 
-bool NotContainFilter::IsAcceptable(const ConsumerRecord *record) noexcept
+bool NotContainFilter::IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept
 {
     if (noContain(m_value, record->value)) {
         return true;
@@ -104,7 +104,7 @@ bool NotContainFilter::IsAcceptable(const ConsumerRecord *record) noexcept
     return false;
 }
 
-bool EqualFilter::IsAcceptable(const ConsumerRecord *record) noexcept
+bool EqualFilter::IsAcceptable(const std::unique_ptr<ConsumerRecord> &record) noexcept
 {
     if (equal(m_value, record->value)) {
         return true;

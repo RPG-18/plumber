@@ -2,6 +2,7 @@
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
+#include <QtCore/QTimer>
 
 #include "Consumer.h"
 #include "KafkaConsumer.h"
@@ -15,8 +16,12 @@ Consumer::Consumer(QObject *parent)
     , m_filter(nullptr)
     , m_beginning(nullptr)
     , m_consumer(nullptr)
+    , m_refresh(new QTimer(this))
     , m_messageModel(new MessageModel(this))
-{}
+{
+    m_refresh->setInterval(RefreshInterval);
+    QObject::connect(m_refresh, &QTimer::timeout, this, &Consumer::onReceived);
+}
 
 Consumer::~Consumer()
 {
@@ -67,12 +72,11 @@ void Consumer::start()
         m_connections.push_back(
             connect(&m_consumerThread, &QThread::finished, m_consumer, &QObject::deleteLater));
         m_connections.push_back(
-            connect(m_consumer, &core::KafkaConsumer::received, this, &Consumer::onReceived));
-        m_connections.push_back(
             connect(m_consumer, &core::KafkaConsumer::stopped, this, &Consumer::onStopped));
 
         m_consumer->moveToThread(&m_consumerThread);
         m_consumerThread.start();
+        m_refresh->start();
     }
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     QMetaObject::invokeMethod(m_consumer, &core::KafkaConsumer::start, Qt::QueuedConnection);
@@ -83,6 +87,7 @@ void Consumer::stop()
 {
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     QMetaObject::invokeMethod(m_consumer, &core::KafkaConsumer::stop, Qt::QueuedConnection);
+    m_refresh->stop();
     setRunning(false);
 }
 
@@ -105,6 +110,14 @@ void Consumer::onReceived()
     core::ConsumerRecords records;
     m_consumer->records(records);
     m_messageModel->append(std::move(records));
+
+    updateStat();
+}
+
+void Consumer::updateStat()
+{
+    m_stat = m_consumer->stat();
+    emit statChanged();
 }
 
 void Consumer::onStopped()
@@ -366,6 +379,28 @@ void Consumer::setBeginning(ConsumerBeginningSelector *beginning)
 void Consumer::onBeginningChanged()
 {
     m_argsChanged = true;
+}
+
+QString Consumer::stat() const
+{
+    static const QStringList sizes={
+        "B",
+        "KiB",
+        "MiB",
+        "GiB",
+        "TiB",
+        "PiB"
+    };
+
+    double bytes = m_stat.bytes;
+    int i = 0;
+    while (bytes > 1024) {
+        ++i;
+        bytes /= 1024;
+    }
+    return QString("%1 records consumed %2 %3")
+        .arg(m_stat.messages)
+        .arg(bytes, 0, 'f', 2).arg(sizes.at(i));
 }
 
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)

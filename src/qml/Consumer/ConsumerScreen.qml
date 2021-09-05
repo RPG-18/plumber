@@ -208,6 +208,10 @@ Window {
                         Layout.fillWidth: true
                     }
 
+                    Text {
+                        text: consumer.stat;
+                    }
+
                     Button {
                         id: start
 

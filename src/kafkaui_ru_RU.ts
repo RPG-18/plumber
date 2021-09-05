@@ -95,13 +95,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="214"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="228"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="218"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="232"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="237"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="241"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
