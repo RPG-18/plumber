@@ -29,7 +29,7 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     .\vcpkg.exe install qt:x64-windows
     .\vcpkg.exe install librdkafka[*]:x64-windows --recurse
     .\vcpkg.exe install spdlog:x64-windows
-    .\vcpkg install boost-circular-buffer:x64-windows
+    .\vcpkg.exe install boost-circular-buffer:x64-windows
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
     [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\kafkaui\build\Debug
@@ -39,6 +39,7 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     $ brew install librdkafka
     $ brew install spdlog
     $ brew install qt@6
+    $ brew install boost
     $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
     $ cmake --build build --config Release
 
