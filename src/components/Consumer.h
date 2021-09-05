@@ -64,6 +64,8 @@ class Consumer : public QObject
     Q_PROPERTY(ConsumerFilterSelector *filter READ filter WRITE setFilter)
     Q_PROPERTY(ConsumerBeginningSelector *beginning READ beginning WRITE setBeginning)
 
+    Q_PROPERTY(QString stat READ stat NOTIFY statChanged)
+
 public:
     static constexpr auto RefreshInterval = std::chrono::seconds(1);
 
@@ -101,11 +103,14 @@ public:
     ConsumerBeginningSelector *beginning();
     void setBeginning(ConsumerBeginningSelector *beginning);
 
+    QString stat() const;
+
 signals:
 
     void messagesChanged();
     void brokerChanged();
     void isRunningChanged();
+    void statChanged();
 
 private slots:
 
@@ -121,6 +126,7 @@ private:
     void setStartOnTime();
     void setLimit();
     void setFilter();
+    void updateStat();
 
 private:
     bool m_isRunning;
@@ -138,6 +144,7 @@ private:
     QThread m_consumerThread;
     QList<QMetaObject::Connection> m_connections;
     QTimer *m_refresh;
+    core::KafkaConsumer::ConsumeStat m_stat;
 
     MessageModel *m_messageModel;
 };

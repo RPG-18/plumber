@@ -59,7 +59,11 @@ void KafkaConsumer::pool()
 
     try {
         auto records = m_consumer->poll(PoolTimeout);
+        uint64_t  messages = 0;
+        uint64_t bytes = 0;
+
         for (const auto &record : records) {
+            ++messages;
             auto rec = std::make_unique<ConsumerRecord>();
             rec->topic = m_topicMapper[record.topic()];
             rec->partition = record.partition();
@@ -77,6 +81,7 @@ void KafkaConsumer::pool()
                                       header.value.size())});
             }
 
+            bytes += rec->key.size() + rec->value.size();
             if (m_filter != nullptr && !m_filter->IsAcceptable(rec)) {
                 continue;
             }
@@ -89,6 +94,8 @@ void KafkaConsumer::pool()
                 break;
             }
         }
+
+        updateStat(messages, bytes);
     } catch (const kafka::KafkaException &e) {
         spdlog::error("Unexpected exception caught: {}", e.what());
     }
@@ -171,4 +178,20 @@ void KafkaConsumer::manualStop()
     stop();
     emit stopped();
 }
+
+using Lock = std::lock_guard<std::mutex>;
+
+void KafkaConsumer::updateStat(uint64_t messages, uint64_t bytes)
+{
+    Lock l(m_statMu);
+    m_stat.messages += messages;
+    m_stat.bytes += bytes;
+}
+
+KafkaConsumer::ConsumeStat KafkaConsumer::stat()
+{
+    Lock l(m_statMu);
+    return m_stat;
+}
+
 } // namespace core
