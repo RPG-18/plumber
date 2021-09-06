@@ -62,6 +62,11 @@ set(PROJECT_SOURCES
         src/qml.qrc
         src/qtquickcontrols2.conf
         ${TS_FILES})
+if (WIN32)
+    set(PROJECT_SOURCES
+            ${PROJECT_SOURCES}
+            win/rc/kafkaui.rc)
+endif (WIN32)
 
 add_subdirectory(src)
 
@@ -76,6 +81,13 @@ else()
             )
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
+
+if (WIN32)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        set_property(TARGET kafkaui PROPERTY WIN32_EXECUTABLE true)
+    endif()
+endif (WIN32)
+
 
 target_compile_definitions(kafkaui
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
