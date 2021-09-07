@@ -67,6 +67,11 @@ if (WIN32)
             ${PROJECT_SOURCES}
             win/rc/kafkaui.rc)
 endif (WIN32)
+if (APPLE)
+    set(PROJECT_SOURCES
+            ${PROJECT_SOURCES}
+            osx/kafkaui.app/Contents/Resources/kafkaui.icns)
+endif (APPLE)
 
 add_subdirectory(src)
 
@@ -87,6 +92,11 @@ if (WIN32)
         set_property(TARGET kafkaui PROPERTY WIN32_EXECUTABLE true)
     endif()
 endif (WIN32)
+if (APPLE)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        set_property(TARGET kafkaui PROPERTY MACOSX_BUNDLE_EXECUTABLE true)
+    endif()
+endif (APPLE)
 
 
 target_compile_definitions(kafkaui
