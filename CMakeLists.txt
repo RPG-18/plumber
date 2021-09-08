@@ -57,50 +57,44 @@ find_package(Boost REQUIRED)
 
 set(TS_FILES src/kafkaui_ru_RU.ts)
 
+set(MACOSX_BUNDLE_ICON_FILE kafkaui.icns)
+set(MACOSX_BUNDLE_GUI_IDENTIFIER com.github.RPG18.kafkaui)
+set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/kafkaui.icns)
+set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES
+        MACOSX_PACKAGE_LOCATION "Resources")
+
 set(PROJECT_SOURCES
         src/main.cpp
         src/qml.qrc
         src/qtquickcontrols2.conf
-        ${TS_FILES})
-if (WIN32)
-    set(PROJECT_SOURCES
-            ${PROJECT_SOURCES}
-            win/rc/kafkaui.rc)
-endif (WIN32)
-if (APPLE)
-    set(PROJECT_SOURCES
-            ${PROJECT_SOURCES}
-            osx/kafkaui.app/Contents/Resources/kafkaui.icns)
-endif (APPLE)
+        win/rc/kafkaui.rc
+        ${TS_FILES}
+        ${APP_ICON_MACOSX})
 
 add_subdirectory(src)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(kafkaui
+            WIN32
+            MACOSX_BUNDLE
             ${PROJECT_SOURCES}
             )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     add_executable(kafkaui
+            WIN32
+            MACOSX_BUNDLE
             ${PROJECT_SOURCES}
             )
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-if (WIN32)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        set_property(TARGET kafkaui PROPERTY WIN32_EXECUTABLE true)
-    endif()
-endif (WIN32)
-if (APPLE)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        set_property(TARGET kafkaui PROPERTY MACOSX_BUNDLE_EXECUTABLE true)
-    endif()
-endif (APPLE)
-
+set_target_properties(kafkaui PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/Info.plist.in")
 
 target_compile_definitions(kafkaui
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
 target_link_libraries(kafkaui
         PRIVATE
         Rdkafka
