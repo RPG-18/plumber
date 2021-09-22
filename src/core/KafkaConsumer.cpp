@@ -59,7 +59,7 @@ void KafkaConsumer::pool()
 
     try {
         auto records = m_consumer->poll(PoolTimeout);
-        uint64_t  messages = 0;
+        uint64_t messages = 0;
         uint64_t bytes = 0;
 
         for (const auto &record : records) {
@@ -103,9 +103,6 @@ void KafkaConsumer::pool()
 
 void KafkaConsumer::createConsumer()
 {
-    qDebug() << m_cfg.bootstrap;
-    qDebug() << m_topics;
-
     try {
         kafka::ConsumerConfig props(m_cfg.properties->map());
         props.put(kafka::ConsumerConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());

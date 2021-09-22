@@ -16,6 +16,7 @@
 #include "Consumer.h"
 #include "ConsumerHelperModels.h"
 #include "KafkaConnectivityTester.h"
+#include "Producer.h"
 #include "Registry.h"
 #include "TopicCreator.h"
 #include "utils/KafkaUtility.h"
@@ -62,6 +63,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<ConsumerBeginningSelector>("kafkaui", 1, 0, "ConsumerBeginningSelector");
     qmlRegisterType<TopicCreator>("kafkaui", 1, 0, "TopicCreator");
 
+    qmlRegisterType<Producer>("kafkaui", 1, 0, "Producer");
+    qmlRegisterType<ProducerOptions>("kafkaui", 1, 0, "ProducerOptions");
+
     qmlRegisterType<ConsumerTypesModel>("kafkaui", 1, 0, "ConsumerTypesModel");
     qmlRegisterType<StartFromTimeBasedModel>("kafkaui", 1, 0, "StartFromTimeBasedModel");
     qmlRegisterType<FiltersModel>("kafkaui", 1, 0, "FiltersModel");
@@ -76,13 +80,9 @@ int main(int argc, char *argv[])
     kafka::KafkaClient::setGlobalLogger(KafkaSpdLogger);
     QCoreApplication::setApplicationName("kafkaui");
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
     QGuiApplication app(argc, argv);
     init();
-    //loadFonts();
+    loadFonts();
 
     QQmlApplicationEngine engine;
     const QUrl url("qrc:/qml/main.qml");

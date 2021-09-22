@@ -16,9 +16,10 @@
         <file>qml/Consumers.qml</file>
         <file>qml/OverviewItem.qml</file>
         <file>qml/constants.js</file>
-        <file>qml/Consumer/ConsumerScreen.qml</file>
-        <file>qml/Consumer/TypeCombobox.qml</file>
         <file>qml/Components/TextButton.qml</file>
+        <file>qml/Components/TypeCombobox.qml</file>
+        <file>qml/Components/ErrorDialog.qml</file>
+        <file>qml/Components/MessageBox.qml</file>
         <file alias="kafka_icon.svg">../images/kafka_icon.svg</file>
         <file alias="kafka_icon_reverse.svg">../images/kafka_icon_reverse.svg</file>
         <file alias="home.svg">../images/home.svg</file>
@@ -38,6 +39,7 @@
         <file>qml/Consumer/MessageTableView.qml</file>
         <file>qml/Consumer/LimitInput.qml</file>
         <file>qml/Consumer/MessageView.qml</file>
+        <file>qml/Consumer/ConsumerScreen.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>../fonts/Roboto-BlackItalic.ttf</file>
         <file>../fonts/Roboto-Black.ttf</file>
@@ -52,7 +54,9 @@
         <file>../fonts/Roboto-ThinItalic.ttf</file>
         <file>../fonts/Roboto-Thin.ttf</file>
         <file>qml/CreateTopicDialog.qml</file>
-        <file>qml/Components/ErrorDialog.qml</file>
-        <file>qml/Components/MessageBox.qml</file>
+        <file>qml/Producer/ProducerScreen.qml</file>
+        <file>qml/Components/TextArea.qml</file>
+        <file>qml/Producer/DataPage.qml</file>
+        <file>qml/Producer/OptionsPage.qml</file>
     </qresource>
 </RCC>

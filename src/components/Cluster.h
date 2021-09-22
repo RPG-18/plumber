@@ -7,7 +7,7 @@
 #include "TopicModel.h"
 
 /**!
- * Cluster componet
+ * Cluster component
  */
 class Cluster : public QObject
 {

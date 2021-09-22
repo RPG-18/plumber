@@ -64,7 +64,7 @@ void Consumer::start()
         if (!m_topics.isEmpty()) {
             topics = m_topics;
         }
-        m_consumer = new core::KafkaConsumer(m_broker, topics, nullptr);
+        m_consumer = new core::KafkaConsumer(m_broker, topics, this);
         setStartOnTime();
         setFilter();
         setLimit();
@@ -197,56 +197,6 @@ void Consumer::setLimit()
     m_consumer->setLimiter(std::move(limiter));
 }
 
-QByteArray toBytes(Types type, const QString &value)
-{
-    switch (type) {
-    case Types::JSON:
-    case Types::String:
-        return value.toUtf8();
-    case Types::Base64:
-        return QByteArray::fromBase64(value.toLatin1());
-    case Types::Float: {
-        bool ok = false;
-        auto val = value.toFloat(&ok);
-        if (ok) {
-            QByteArray data;
-            QDataStream stream(&data, QIODeviceBase::WriteOnly);
-            stream.setByteOrder(QDataStream::BigEndian);
-            stream << val;
-            return data;
-        }
-        spdlog::error("failed convert string {} to float", value.toStdString());
-    } break;
-    case Types::Double: {
-        bool ok = false;
-        auto val = value.toDouble(&ok);
-        if (ok) {
-            QByteArray data;
-            QDataStream stream(&data, QIODeviceBase::WriteOnly);
-            stream.setByteOrder(QDataStream::BigEndian);
-            stream << val;
-            return data;
-        }
-        spdlog::error("failed convert string {} to float", value.toStdString());
-    } break;
-    case Types::Long: {
-        bool ok = false;
-        auto val = value.toLongLong(&ok);
-        if (ok) {
-            QByteArray data;
-            QDataStream stream(&data, QIODeviceBase::WriteOnly);
-            stream.setByteOrder(QDataStream::BigEndian);
-            stream << val;
-            return data;
-        }
-        spdlog::error("failed convert string {} to long", value.toStdString());
-    } break;
-    case Types::NoneType:
-        return QByteArray();
-    }
-    return QByteArray();
-}
-
 void Consumer::setFilter()
 {
     if (m_limiter == nullptr) {
@@ -270,11 +220,11 @@ void Consumer::setFilter()
     }
 
     if (!m_filter->key().isEmpty()) {
-        filter->setKey(toBytes(m_typeSelector->keyType(), m_filter->key()));
+        filter->setKey(bytes(m_typeSelector->keyType(), m_filter->key()));
     }
 
     if (!m_filter->value().isEmpty()) {
-        filter->setValue(toBytes(m_typeSelector->valueType(), m_filter->value()));
+        filter->setValue(bytes(m_typeSelector->valueType(), m_filter->value()));
     }
 
     if (!m_filter->headerKey().isEmpty() || !m_filter->headerValue().isEmpty()) {
@@ -383,14 +333,7 @@ void Consumer::onBeginningChanged()
 
 QString Consumer::stat() const
 {
-    static const QStringList sizes={
-        "B",
-        "KiB",
-        "MiB",
-        "GiB",
-        "TiB",
-        "PiB"
-    };
+    static const QStringList sizes = {"B", "KiB", "MiB", "GiB", "TiB", "PiB"};
 
     double bytes = m_stat.bytes;
     int i = 0;
@@ -400,7 +343,8 @@ QString Consumer::stat() const
     }
     return QString("%1 records consumed %2 %3")
         .arg(m_stat.messages)
-        .arg(bytes, 0, 'f', 2).arg(sizes.at(i));
+        .arg(bytes, 0, 'f', 2)
+        .arg(sizes.at(i));
 }
 
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)

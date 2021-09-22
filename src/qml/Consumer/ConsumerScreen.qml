@@ -209,7 +209,7 @@ Window {
                     }
 
                     Text {
-                        text: consumer.stat;
+                        text: consumer.stat
                     }
 
                     Button {

@@ -108,7 +108,7 @@ public:
 
     /**
      * Seek to the first offset for each of the given partitions.
-     * This function evaluates lazily, seeking to the first offset in all partitions only when poll(long) or position(TopicPartition) are called.
+     * This function evaluates lazily, seeking to the first offset in all partitions only where poll(long) or position(TopicPartition) are called.
      * If no partitions are provided, seek to the first offset for all of the currently assigned partitions.
      * Throws KafkaException with errors:
      *   - RD_KAFKA_RESP_ERR__TIMED_OUT:         Operation timed out
@@ -121,7 +121,7 @@ public:
 
     /**
      * Seek to the last offset for each of the given partitions.
-     * This function evaluates lazily, seeking to the final offset in all partitions only when poll(long) or position(TopicPartition) are called.
+     * This function evaluates lazily, seeking to the final offset in all partitions only where poll(long) or position(TopicPartition) are called.
      * If no partitions are provided, seek to the first offset for all of the currently assigned partitions.
      * Throws KafkaException with errors:
      *   - RD_KAFKA_RESP_ERR__TIMED_OUT:         Operation timed out

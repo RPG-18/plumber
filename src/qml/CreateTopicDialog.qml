@@ -11,11 +11,6 @@ Window {
 
     property alias broker: topic.broker
 
-    function showError(e) {
-        errText.text = e.what;
-        errDialog.open();
-    }
-
     visible: true
     height: 280
     width: 800

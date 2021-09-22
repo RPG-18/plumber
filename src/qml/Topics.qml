@@ -73,11 +73,17 @@ Rectangle {
                     }
 
                     ColumnLayout {
+                        Layout.fillHeight: true
+
                         Button {
                             text: "CREATE"
                             onClicked: {
                                 Pages.createTopicCreateScreen(mainCluster.broker);
                             }
+                        }
+
+                        Item {
+                            Layout.fillHeight: true
                         }
 
                     }

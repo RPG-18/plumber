@@ -10,3 +10,6 @@ const ConsumerScreenHeight = 650;
 
 const MessageViewWidth = 820;
 const MessageViewHeight = 600;
+
+const ProducerScreenWidth = 975;
+const ProducerScreenHeight = 650;
