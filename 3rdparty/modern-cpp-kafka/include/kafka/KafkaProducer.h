@@ -38,7 +38,7 @@ public:
     enum class SendOption { NoCopyRecordValue, ToCopyRecordValue };
 
     /**
-     * Needs to be called before any other methods where the transactional.id is set in the configuration.
+     * Needs to be called before any other methods when the transactional.id is set in the configuration.
      */
     void initTransactions(std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaProducer::DEFAULT_INIT_TRANSACTIONS_TIMEOUT_MS));
 
@@ -198,7 +198,7 @@ KafkaProducer::validateAndReformProperties(const Properties& origProperties)
             if (std::stoi(*maxInFlight) > KAFKA_IDEMP_MAX_INFLIGHT)
             {
                 KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG,\
-                                        "`max.in.flight` must be set <= " + std::to_string(KAFKA_IDEMP_MAX_INFLIGHT) + " where `enable.idempotence` is `true`"));
+                                        "`max.in.flight` must be set <= " + std::to_string(KAFKA_IDEMP_MAX_INFLIGHT) + " when `enable.idempotence` is `true`"));
             }
         }
 
@@ -207,7 +207,7 @@ KafkaProducer::validateAndReformProperties(const Properties& origProperties)
             if (*acks != "all" && *acks != "-1")
             {
                 KAFKA_THROW_ERROR(Error(RD_KAFKA_RESP_ERR__INVALID_ARG,\
-                                        "`acks` must be set to `all`/`-1` where `enable.idempotence` is `true`"));
+                                        "`acks` must be set to `all`/`-1` when `enable.idempotence` is `true`"));
             }
         }
     }

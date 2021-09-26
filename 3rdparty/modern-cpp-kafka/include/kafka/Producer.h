@@ -181,7 +181,7 @@ namespace Producer
 
     /**
      * A callback method could be used to provide asynchronous handling of request completion.
-     * This method will be called where the record sent (by KafkaAsyncProducer) to the server has been acknowledged.
+     * This method will be called when the record sent (by KafkaAsyncProducer) to the server has been acknowledged.
      */
     using Callback = std::function<void(const RecordMetadata& metadata, const Error& error)>;
 

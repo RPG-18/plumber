@@ -16,13 +16,13 @@ namespace KAFKA_API {
 namespace Consumer
 {
     /**
-     * To identify which kind of re-balance event is handling, where the set of partitions assigned to the consumer changes.
+     * To identify which kind of re-balance event is handling, when the set of partitions assigned to the consumer changes.
      * It's guaranteed that rebalance callback will be called twice (first with PartitionsRevoked, and then with PartitionsAssigned).
      */
     enum class RebalanceEventType { PartitionsAssigned, PartitionsRevoked };
 
     /**
-     * A callback interface that the user can implement to trigger custom actions where the set of partitions assigned to the consumer changes.
+     * A callback interface that the user can implement to trigger custom actions when the set of partitions assigned to the consumer changes.
      */
     using RebalanceCallback = std::function<void(RebalanceEventType eventType, const TopicPartitions& topicPartitions)>;
 
@@ -36,7 +36,7 @@ namespace Consumer
 #endif
 
     /**
-     * A callback interface that the user can implement to trigger custom actions where a commit request completes.
+     * A callback interface that the user can implement to trigger custom actions when a commit request completes.
      */
     using OffsetCommitCallback = std::function<void(const TopicPartitionOffsets& topicPartitionOffsets, const Error& error)>;
 
