@@ -4,8 +4,8 @@ ErrorWrap::ErrorWrap()
     : isError(false)
 {}
 
-ErrorWrap::ErrorWrap(QString wn, QString wt)
+ErrorWrap::ErrorWrap(QString wh, QString wt)
     : isError(true)
-    , when(std::move(wn))
+    , where(std::move(wh))
     , what(std::move(wt))
 {}

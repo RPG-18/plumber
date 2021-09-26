@@ -56,3 +56,16 @@ function createTopicCreateScreen(broker) {
 
     let dialog = component.createObject(appWindow, state);
 }
+
+function createProducerScreen(topicModel, broker) {
+    let component = Qt.createComponent("qrc:/qml/Producer/ProducerScreen.qml");
+    let posX = appWindow.x + appWindow.width/2 - Constants.ConsumerScreenWidth/2;
+    let posY = appWindow.y + appWindow.height/2 - Constants.ConsumerScreenHeight/2;
+    let state = {
+        x: posX,
+        y: posY,
+        topicModel: topicModel,
+        broker: broker
+    }
+    let producer = component.createObject(appWindow, state);
+}

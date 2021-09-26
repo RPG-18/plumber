@@ -3,7 +3,6 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import kafkaui 1.0
 import "../style.js" as Style
-import "../Components" as Components
 
 Item {
     id: item
@@ -68,7 +67,7 @@ Item {
             }
 
             Repeater {
-                Components.TextButton {
+                TextButton {
                     text: typeName
                     onClickecd: {
                         item.typeName = typeName;

@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import "../style.js" as Style
+import "../Components"
 
 Item {
     property alias keyTypeId: keyCbx.typeId

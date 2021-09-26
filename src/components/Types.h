@@ -14,3 +14,4 @@ enum Types {
 Q_DECLARE_METATYPE(Types)
 
 QString format(Types type, const QByteArray &data);
+QByteArray bytes(Types type, const QString &value);

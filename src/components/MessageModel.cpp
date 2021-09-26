@@ -38,9 +38,6 @@ int MessageModel::columnCount(const QModelIndex &index) const
 
 QVariant MessageModel::data(const QModelIndex &index, int role) const
 {
-    Q_UNUSED(index)
-    Q_UNUSED(role)
-
     if (role < Qt::DisplayRole) {
         return QVariant();
     }

@@ -2,6 +2,7 @@
 #include <QtEndian>
 
 #include "Types.h"
+#include "spdlog/spdlog.h"
 
 namespace {
 const QString NULL_VALUE("(null)");
@@ -69,4 +70,54 @@ QString format(Types type, const QByteArray &data)
     default:
         return QString("Unknown");
     }
+}
+
+QByteArray bytes(Types type, const QString &value)
+{
+    switch (type) {
+    case Types::JSON:
+    case Types::String:
+        return value.toUtf8();
+    case Types::Base64:
+        return QByteArray::fromBase64(value.toLatin1());
+    case Types::Float: {
+        bool ok = false;
+        auto val = value.toFloat(&ok);
+        if (ok) {
+            QByteArray data;
+            QDataStream stream(&data, QIODeviceBase::WriteOnly);
+            stream.setByteOrder(QDataStream::BigEndian);
+            stream << val;
+            return data;
+        }
+        spdlog::error("failed convert string {} to float", value.toStdString());
+    } break;
+    case Types::Double: {
+        bool ok = false;
+        auto val = value.toDouble(&ok);
+        if (ok) {
+            QByteArray data;
+            QDataStream stream(&data, QIODeviceBase::WriteOnly);
+            stream.setByteOrder(QDataStream::BigEndian);
+            stream << val;
+            return data;
+        }
+        spdlog::error("failed convert string {} to float", value.toStdString());
+    } break;
+    case Types::Long: {
+        bool ok = false;
+        auto val = value.toLongLong(&ok);
+        if (ok) {
+            QByteArray data;
+            QDataStream stream(&data, QIODeviceBase::WriteOnly);
+            stream.setByteOrder(QDataStream::BigEndian);
+            stream << val;
+            return data;
+        }
+        spdlog::error("failed convert string {} to long", value.toStdString());
+    } break;
+    case Types::NoneType:
+        return QByteArray();
+    }
+    return QByteArray();
 }

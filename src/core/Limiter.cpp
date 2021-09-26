@@ -48,7 +48,7 @@ bool MaxSizeLimiter::ExcessOfLimit(const std::unique_ptr<ConsumerRecord> &record
 DateLimiter::DateLimiter(QDateTime tm)
     : m_tm(std::move(tm))
 {
-    assert(tm.isValid());
+    assert(m_tm.isValid());
     m_msSinceEpoch = m_tm.toMSecsSinceEpoch();
 }
 

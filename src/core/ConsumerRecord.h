@@ -5,11 +5,9 @@
 #include <QtCore/QString>
 #include <QtCore/QVector>
 
+#include "Types.h"
+
 namespace core {
-
-using Partition = int32_t;
-using Offset = int64_t;
-
 struct Header
 {
     QString key;

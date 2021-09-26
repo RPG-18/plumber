@@ -1,8 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 import "style.js" as Style
 import "./LeftPanel" as LeftPanel
+import "pages.js" as Pages
 import kafkaui 1.0
 
 Rectangle {
@@ -18,53 +19,75 @@ Rectangle {
         broker: mainScreen.broker
     }
 
-    RowLayout {
-        spacing: 8
+    ColumnLayout {
         anchors.fill: parent
         anchors.margins: 4
 
-        LeftPanel.Panel {
-            id: menu
-
-            broker: mainScreen.broker
-            Layout.fillHeight: true
-            onActivatedItem: (indx) => {
-                stackLayout.currentIndex = indx;
-            }
-        }
-
-        Item {
-            Layout.fillHeight: true
+        RowLayout {
             Layout.fillWidth: true
 
-            StackLayout {
-                id: stackLayout
+            Item {
+                Layout.fillWidth: true
+            }
 
-                anchors.fill: parent
-                currentIndex: 0
+            Button {
+                text: "PRODUCER"
+                onClicked: {
+                    Pages.createProducerScreen(mainCluster.topicModel(), mainScreen.broker);
+                }
+            }
 
-                Overview {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    onActivatedItem: (indx) => {
-                        stackLayout.currentIndex = indx;
-                        menu.setActiveItem(indx);
+        }
+
+        RowLayout {
+            spacing: 8
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            LeftPanel.Panel {
+                id: menu
+
+                broker: mainScreen.broker
+                Layout.fillHeight: true
+                onActivatedItem: (indx) => {
+                    stackLayout.currentIndex = indx;
+                }
+            }
+
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                StackLayout {
+                    id: stackLayout
+
+                    anchors.fill: parent
+                    currentIndex: 0
+
+                    Overview {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        onActivatedItem: (indx) => {
+                            stackLayout.currentIndex = indx;
+                            menu.setActiveItem(indx);
+                        }
                     }
-                }
 
-                Brokers {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                }
+                    Brokers {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
 
-                Topics {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                }
+                    Topics {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
 
-                Consumers {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
+                    Consumers {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
+
                 }
 
             }

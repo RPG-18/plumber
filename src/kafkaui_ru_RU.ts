@@ -109,48 +109,66 @@
 <context>
     <name>CreateTopicDialog</name>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="22"/>
+        <location filename="qml/CreateTopicDialog.qml" line="17"/>
         <source>Create New Topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="46"/>
+        <location filename="qml/CreateTopicDialog.qml" line="41"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="54"/>
+        <location filename="qml/CreateTopicDialog.qml" line="49"/>
         <source>My new Topic name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="59"/>
+        <location filename="qml/CreateTopicDialog.qml" line="54"/>
         <source>Partitions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="72"/>
+        <location filename="qml/CreateTopicDialog.qml" line="67"/>
         <source>Replication Factor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="86"/>
+        <location filename="qml/CreateTopicDialog.qml" line="81"/>
         <source>Cleanup Policy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="91"/>
+        <location filename="qml/CreateTopicDialog.qml" line="86"/>
         <source>Retention (time or size)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="106"/>
+        <location filename="qml/CreateTopicDialog.qml" line="101"/>
         <source>Compaction (key-based)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="147"/>
+        <location filename="qml/CreateTopicDialog.qml" line="142"/>
         <source>CREATE TOPIC</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DataPage</name>
+    <message>
+        <location filename="qml/Producer/DataPage.qml" line="43"/>
+        <source>Topic:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/DataPage.qml" line="56"/>
+        <source>Key:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/DataPage.qml" line="89"/>
+        <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -173,22 +191,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="20"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="21"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="20"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="21"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="41"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="42"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="51"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="52"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -276,6 +294,24 @@
     </message>
 </context>
 <context>
+    <name>OptionsPage</name>
+    <message>
+        <location filename="qml/Producer/OptionsPage.qml" line="50"/>
+        <source>Compression Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/OptionsPage.qml" line="96"/>
+        <source>Idempotence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/OptionsPage.qml" line="104"/>
+        <source>Ack</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Overview</name>
     <message>
         <location filename="qml/Overview.qml" line="21"/>
@@ -308,6 +344,34 @@
     <message>
         <location filename="qml/LeftPanel/Panel.qml" line="147"/>
         <source>« Collapse</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ProducerScreen</name>
+    <message>
+        <location filename="qml/Producer/ProducerScreen.qml" line="21"/>
+        <source>Produce to Topic: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/ProducerScreen.qml" line="74"/>
+        <source>Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/ProducerScreen.qml" line="80"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/ProducerScreen.qml" line="70"/>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="qml/Producer/ProducerScreen.qml" line="179"/>
+        <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -368,37 +432,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="103"/>
+        <location filename="qml/Topics.qml" line="109"/>
         <source>ACTIONS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="113"/>
+        <location filename="qml/Topics.qml" line="119"/>
         <source>Consume selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="130"/>
+        <location filename="qml/Topics.qml" line="136"/>
         <source>Delete selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="139"/>
+        <location filename="qml/Topics.qml" line="145"/>
         <source>Delete %1 topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="140"/>
+        <location filename="qml/Topics.qml" line="146"/>
         <source>Confirm deleting %1 topics?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="158"/>
+        <location filename="qml/Topics.qml" line="164"/>
         <source>Filter topic name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="178"/>
+        <location filename="qml/Topics.qml" line="184"/>
         <source>Topic Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -406,7 +470,7 @@
 <context>
     <name>TypeCombobox</name>
     <message>
-        <location filename="qml/Consumer/TypeCombobox.qml" line="59"/>
+        <location filename="qml/Components/TypeCombobox.qml" line="58"/>
         <source>Simple</source>
         <translation type="unfinished"></translation>
     </message>

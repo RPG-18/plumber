@@ -23,7 +23,6 @@ class KafkaConsumer : public QObject
 {
     Q_OBJECT
 public:
-
     static constexpr auto PoolInterval = std::chrono::milliseconds(0);
     static constexpr auto PoolTimeout = std::chrono::milliseconds(1000);
     static constexpr int MaxMessages = 500;
@@ -31,7 +30,7 @@ public:
     struct ConsumeStat
     {
         uint64_t messages = 0; //!< read messages
-        uint64_t bytes = 0; //!< read bytes
+        uint64_t bytes = 0;    //!< read bytes
     };
 
     KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObject *parent = nullptr);
@@ -84,7 +83,6 @@ private:
     void setOnTimeOffset();
     void manualStop();
     void updateStat(uint64_t messages, uint64_t bytes);
-
 
 private:
     int m_timerId;
