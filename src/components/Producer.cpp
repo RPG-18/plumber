@@ -1,3 +1,4 @@
+#include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 
 #include "KafkaProducer.h"
@@ -11,6 +12,7 @@ Producer::Producer(QObject *parent)
     , m_options(nullptr)
     , m_keyType(String)
     , m_valueType(String)
+    , m_logModel(new ProducerLogModel(this))
 {}
 
 ProducerOptions *Producer::options()
@@ -26,8 +28,6 @@ void Producer::setOptions(ProducerOptions *option)
 
 ErrorWrap Producer::send(const QString &key, const QString &value)
 {
-    qDebug() << "Send" << m_topic << m_keyType << key << m_valueType << value << m_options->ack()
-             << m_options->compression() << "idempotence" << m_options->idempotence();
     if (m_producer == nullptr) {
         createProducer();
     }
@@ -37,8 +37,7 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
 
     core::ProducerRecord rec{m_topic, keyData, valueData};
     if (auto meta = m_producer->send(rec)) {
-        auto md = *meta;
-        qDebug() << md.topic << md.offset;
+        m_logModel->append(std::move(*meta));
         return ErrorWrap{};
     }
     return ErrorWrap("producer", m_producer->lastError());
@@ -93,6 +92,11 @@ void Producer::setBroker(const ClusterConfig &broker)
     emit brokerChanged();
 }
 
+ProducerLogModel *Producer::log() noexcept
+{
+    return m_logModel;
+}
+
 ProducerOptions::ProducerOptions(QObject *parent)
     : QObject(parent)
     , m_compression(Producer::Compression::NoneCompression)
@@ -131,4 +135,69 @@ void ProducerOptions::setIdempotence(bool value) noexcept
 {
     m_idempotence = value;
     emit changed();
+}
+
+ProducerLogModel::ProducerLogModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_isEmpty(true)
+{
+    m_meta.reserve(Reserve);
+}
+
+int ProducerLogModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return m_meta.size();
+}
+
+QVariant ProducerLogModel::data(const QModelIndex &index, int role) const
+{
+    if (role < Qt::DisplayRole) {
+        return QVariant();
+    }
+    if (index.row() >= m_meta.size()) {
+        return {};
+    }
+
+    const auto &meta = m_meta[index.row()];
+    switch (role) {
+    case Topic:
+        return meta.topic;
+    case Partition:
+        return meta.partition;
+    case Offset:
+        return qint64(meta.offset);
+    case Timestamp: {
+        const auto msgTime = QDateTime::fromMSecsSinceEpoch(meta.timestamp.msSinceEpoch);
+        return msgTime.toString("yyyy-MM-dd hh:mm:ss");
+    }
+    default:
+        return {};
+    }
+}
+
+QHash<int, QByteArray> ProducerLogModel::roleNames() const
+{
+    static QHash<int, QByteArray> roles{{Topic, "topic"},
+                                        {Partition, "partition"},
+                                        {Offset, "offset"},
+                                        {Timestamp, "timestamp"}};
+    return roles;
+}
+
+void ProducerLogModel::append(core::ProducerMetadata &&metadata)
+{
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_meta.push_front(metadata);
+    endInsertRows();
+    updateEmptyFlag();
+}
+
+void ProducerLogModel::updateEmptyFlag()
+{
+    const auto old = m_isEmpty;
+    m_isEmpty = m_meta.isEmpty();
+    if (old != m_isEmpty) {
+        emit isEmptyChanged();
+    }
 }

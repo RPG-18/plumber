@@ -167,7 +167,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="88"/>
+        <location filename="qml/Producer/DataPage.qml" line="89"/>
         <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -355,12 +355,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="73"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="74"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="79"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="80"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -370,7 +370,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="134"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="179"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>

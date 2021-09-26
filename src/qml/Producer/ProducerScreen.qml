@@ -40,6 +40,7 @@ Window {
         anchors.fill: parent
 
         Rectangle {
+            visible: false
             SplitView.preferredWidth: 200
             SplitView.maximumWidth: 400
             SplitView.fillHeight: true
@@ -114,7 +115,51 @@ Window {
                     Layout.fillHeight: true
                     border.color: Style.BorderColor
                     border.width: 1
-                    color: "#f5f5f5"
+                    color: producer.log.isEmpty ? "#f5f5f5" : "white"
+
+                    ListView {
+                        anchors.fill: parent
+                        anchors.margins: 1
+                        model: producer.log
+
+                        delegate: Rectangle {
+                            width: parent.width
+                            height: 68
+                            color: hover.containsMouse ? "#f5f5f5" : "white"
+
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 2
+
+                                Text {
+                                    text: timestamp
+                                }
+
+                                Text {
+                                    text: "> " + topic + "-" + partition
+                                }
+
+                                Text {
+                                    text: "Offset: " + offset
+                                }
+
+                                Item {
+                                    Layout.fillHeight: true
+                                }
+
+                            }
+
+                            MouseArea {
+                                id: hover
+
+                                anchors.fill: parent
+                                hoverEnabled: true
+                            }
+
+                        }
+
+                    }
+
                 }
 
                 Item {
@@ -156,10 +201,12 @@ Window {
         }
 
     }
+
     Components.ErrorDialog {
         id: err
 
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
+
 }
