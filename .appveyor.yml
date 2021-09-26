@@ -13,7 +13,7 @@ cache: c:\tools\vcpkg\installed
 before_build:
   - ps: win\build.ps1
 artifacts:
-  - path: kafkaui_win64.zip
+  - path: plumber_win64.zip
     name: App
 deploy:
   - provider: S3

@@ -1,8 +1,13 @@
-# KafkaUI simple desktop application for Apache Kafka
-[![Build status](https://ci.appveyor.com/api/projects/status/em41ysnqfi2cwgmt/branch/main?svg=true)](https://ci.appveyor.com/project/RPG-18/kafkaui/branch/main)
+# Plumber simple desktop application for Apache Kafka
+[![Build status](https://ci.appveyor.com/api/projects/status/em41ysnqfi2cwgmt/branch/main?svg=true)](https://ci.appveyor.com/project/RPG-18/plumber/branch/main)
 
-KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](https://github.com/edenhill/librdkafka) and
+Plumber simple GUI desktop application for Apache Kafka based on [librdkafka](https://github.com/edenhill/librdkafka) and
 [Qt](https://www.qt.io/) and written on C++.
+
+## What happened to kafkaui?
+
+**plumber is kafkaui**. The kafkaui project was renamed to adhere to the Apache Software Foundation's (ASF) trademark policies.
+Apart from the name, nothing else was changed.
 
 ## Build from source
 
@@ -19,7 +24,7 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     $ cd build
     $ cmake -DCMAKE_BUILD_TYPE=Release ..
     $ make
-    $ ./kafkaui
+    $ ./plumber
 
 
 #### Windows
@@ -32,7 +37,7 @@ KafkaUI simple GUI desktop application for Apache Kafka based on [librdkafka](ht
     .\vcpkg.exe install boost-circular-buffer:x64-windows
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
-    [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\kafkaui\build\Debug
+    [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\plumber\build\Debug
 
 ### Mac OS X
     

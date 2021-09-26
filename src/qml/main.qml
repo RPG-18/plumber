@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 
 ApplicationWindow {
     id: appWindow
+    title: "Plumber"
 
     width: 700
     height: 400

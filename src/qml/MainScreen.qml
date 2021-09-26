@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 import "style.js" as Style
 import "./LeftPanel" as LeftPanel
 import "pages.js" as Pages
-import kafkaui 1.0
+import plumber 1.0
 
 Rectangle {
     id: mainScreen

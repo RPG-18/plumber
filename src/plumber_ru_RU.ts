@@ -365,11 +365,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="70"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="qml/Producer/ProducerScreen.qml" line="179"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>

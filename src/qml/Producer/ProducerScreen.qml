@@ -2,7 +2,7 @@ import QtQuick 6.0
 import QtQuick.Controls 6.0
 import QtQuick.Window 6.0
 import QtQuick.Layouts 6.0
-import kafkaui 1.0
+import plumber 1.0
 import "../style.js" as Style
 import "../constants.js" as Constants
 import "../Components" as Components

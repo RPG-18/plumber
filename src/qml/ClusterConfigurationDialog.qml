@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
-import kafkaui 1.0
+import plumber 1.0
 import "style.js" as Style
 
 Window {

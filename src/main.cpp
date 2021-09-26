@@ -52,33 +52,33 @@ void loadFonts()
 
 int main(int argc, char *argv[])
 {
-    qmlRegisterType<KafkaConnectivityTester>("kafkaui", 1, 0, "ConnectivityTester");
-    qmlRegisterType<ConfigModel>("kafkaui", 1, 0, "ConfigModel");
-    qmlRegisterType<Cluster>("kafkaui", 1, 0, "Cluster");
-    qmlRegisterType<TopicFilterModel>("kafkaui", 1, 0, "TopicFilterModel");
-    qmlRegisterType<Consumer>("kafkaui", 1, 0, "Consumer");
-    qmlRegisterType<ConsumerTypeSelector>("kafkaui", 1, 0, "ConsumerTypeSelector");
-    qmlRegisterType<ConsumerLimiterSelector>("kafkaui", 1, 0, "ConsumerLimiterSelector");
-    qmlRegisterType<ConsumerFilterSelector>("kafkaui", 1, 0, "ConsumerFilterSelector");
-    qmlRegisterType<ConsumerBeginningSelector>("kafkaui", 1, 0, "ConsumerBeginningSelector");
-    qmlRegisterType<TopicCreator>("kafkaui", 1, 0, "TopicCreator");
+    qmlRegisterType<KafkaConnectivityTester>("plumber", 1, 0, "ConnectivityTester");
+    qmlRegisterType<ConfigModel>("plumber", 1, 0, "ConfigModel");
+    qmlRegisterType<Cluster>("plumber", 1, 0, "Cluster");
+    qmlRegisterType<TopicFilterModel>("plumber", 1, 0, "TopicFilterModel");
+    qmlRegisterType<Consumer>("plumber", 1, 0, "Consumer");
+    qmlRegisterType<ConsumerTypeSelector>("plumber", 1, 0, "ConsumerTypeSelector");
+    qmlRegisterType<ConsumerLimiterSelector>("plumber", 1, 0, "ConsumerLimiterSelector");
+    qmlRegisterType<ConsumerFilterSelector>("plumber", 1, 0, "ConsumerFilterSelector");
+    qmlRegisterType<ConsumerBeginningSelector>("plumber", 1, 0, "ConsumerBeginningSelector");
+    qmlRegisterType<TopicCreator>("plumber", 1, 0, "TopicCreator");
 
-    qmlRegisterType<Producer>("kafkaui", 1, 0, "Producer");
-    qmlRegisterType<ProducerOptions>("kafkaui", 1, 0, "ProducerOptions");
+    qmlRegisterType<Producer>("plumber", 1, 0, "Producer");
+    qmlRegisterType<ProducerOptions>("plumber", 1, 0, "ProducerOptions");
 
-    qmlRegisterType<ConsumerTypesModel>("kafkaui", 1, 0, "ConsumerTypesModel");
-    qmlRegisterType<StartFromTimeBasedModel>("kafkaui", 1, 0, "StartFromTimeBasedModel");
-    qmlRegisterType<FiltersModel>("kafkaui", 1, 0, "FiltersModel");
-    qmlRegisterType<LimitModel>("kafkaui", 1, 0, "LimitModel");
-    qmlRegisterType<MessageWrapper>("kafkaui", 1, 0, "MessageWrapper");
-    qmlRegisterType<HeaderTableModel>("kafkaui", 1, 0, "HeaderTableModel");
+    qmlRegisterType<ConsumerTypesModel>("plumber", 1, 0, "ConsumerTypesModel");
+    qmlRegisterType<StartFromTimeBasedModel>("plumber", 1, 0, "StartFromTimeBasedModel");
+    qmlRegisterType<FiltersModel>("plumber", 1, 0, "FiltersModel");
+    qmlRegisterType<LimitModel>("plumber", 1, 0, "LimitModel");
+    qmlRegisterType<MessageWrapper>("plumber", 1, 0, "MessageWrapper");
+    qmlRegisterType<HeaderTableModel>("plumber", 1, 0, "HeaderTableModel");
 
-    qmlRegisterAnonymousType<BrokerModel>("kafkaui", 1);
-    qmlRegisterAnonymousType<TopicModel>("kafkaui", 1);
-    qmlRegisterAnonymousType<MessageModel>("kafkaui", 1);
+    qmlRegisterAnonymousType<BrokerModel>("plumber", 1);
+    qmlRegisterAnonymousType<TopicModel>("plumber", 1);
+    qmlRegisterAnonymousType<MessageModel>("plumber", 1);
 
     kafka::KafkaClient::setGlobalLogger(KafkaSpdLogger);
-    QCoreApplication::setApplicationName("kafkaui");
+    QCoreApplication::setApplicationName("plumber");
 
     QGuiApplication app(argc, argv);
     init();

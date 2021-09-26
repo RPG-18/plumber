@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(kafkaui LANGUAGES CXX)
+project(plumber LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -55,11 +55,11 @@ find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Boost REQUIRED)
 
-set(TS_FILES src/kafkaui_ru_RU.ts)
+set(TS_FILES src/plumber_ru_RU.ts)
 
-set(MACOSX_BUNDLE_ICON_FILE kafkaui.icns)
-set(MACOSX_BUNDLE_GUI_IDENTIFIER com.github.RPG18.kafkaui)
-set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/kafkaui.icns)
+set(MACOSX_BUNDLE_ICON_FILE plumber.icns)
+set(MACOSX_BUNDLE_GUI_IDENTIFIER com.github.RPG18.plumber)
+set(APP_ICON_MACOSX ${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/plumber.icns)
 set_source_files_properties(${APP_ICON_MACOSX} PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources")
 
@@ -67,21 +67,21 @@ set(PROJECT_SOURCES
         src/main.cpp
         src/qml.qrc
         src/qtquickcontrols2.conf
-        win/rc/kafkaui.rc
+        win/rc/plumber.rc
         ${TS_FILES}
         ${APP_ICON_MACOSX})
 
 add_subdirectory(src)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(kafkaui
+    qt_add_executable(plumber
             WIN32
             MACOSX_BUNDLE
             ${PROJECT_SOURCES}
             )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
-    add_executable(kafkaui
+    add_executable(plumber
             WIN32
             MACOSX_BUNDLE
             ${PROJECT_SOURCES}
@@ -89,13 +89,13 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-set_target_properties(kafkaui PROPERTIES
+set_target_properties(plumber PROPERTIES
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/Info.plist.in")
 
-target_compile_definitions(kafkaui
+target_compile_definitions(plumber
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-target_link_libraries(kafkaui
+target_link_libraries(plumber
         PRIVATE
         Rdkafka
         Qt${QT_VERSION_MAJOR}::Core
