@@ -64,7 +64,7 @@ void Consumer::start()
         if (!m_topics.isEmpty()) {
             topics = m_topics;
         }
-        m_consumer = new core::KafkaConsumer(m_broker, topics, this);
+        m_consumer = new core::KafkaConsumer(m_broker, topics);
         setStartOnTime();
         setFilter();
         setLimit();
