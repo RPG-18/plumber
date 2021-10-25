@@ -42,18 +42,20 @@ include_directories(3rdparty/modern-cpp-kafka/include
         src/configuration
         src/services
         src/core
+        src/formats
         src
         )
 
 set(Boost_USE_RELEASE_LIBS       ON)
 set(Boost_USE_MULTITHREADED      ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools QuickControls2 Svg REQUIRED)
+find_package(QT NAMES Qt6 COMPONENTS Core Quick LinguistTools REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Boost REQUIRED)
+find_package(Protobuf REQUIRED)
 
 set(TS_FILES src/plumber_ru_RU.ts)
 
@@ -98,10 +100,11 @@ target_compile_definitions(plumber
 target_link_libraries(plumber
         PRIVATE
         Rdkafka
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::QuickControls2
-        Qt${QT_VERSION_MAJOR}::Svg
+        Qt6::Core
+        Qt6::Quick
+        Qt6::QuickControls2
+        Qt6::Svg
+        Qt6::Widgets
         spdlog::spdlog
         spdlog::spdlog_header_only
         Boost::boost
@@ -109,4 +112,6 @@ target_link_libraries(plumber
         components
         configuration
         services
-        utils)
+        utils
+        formats
+)

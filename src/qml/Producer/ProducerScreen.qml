@@ -9,9 +9,7 @@ import "../Components" as Components
 
 Window {
     //color: Style.Background
-
     id: window
-
     property var topicModel
     property var broker
 
@@ -22,20 +20,16 @@ Window {
 
     Producer {
         id: producer
-
         keyType: dataPage.keyTypeId
         valueType: dataPage.valueTypeId
         topic: dataPage.selectedTopic
         broker: window.broker
-
         options: ProducerOptions {
             compression: optionsPage.compression
             ack: optionsPage.ack
             idempotence: optionsPage.idempotence
         }
-
     }
-
     SplitView {
         anchors.fill: parent
 
@@ -45,7 +39,6 @@ Window {
             SplitView.maximumWidth: 400
             SplitView.fillHeight: true
         }
-
         Item {
             SplitView.fillHeight: true
             SplitView.fillWidth: true
@@ -62,10 +55,9 @@ Window {
 
                     TabBar {
                         id: bar
-
                         property int buttonWidth: 130
-                        property int buttonheight: 25
 
+                        property int buttonheight: 25
                         anchors.top: parent.top
                         width: parent.width
                         height: 24
@@ -75,15 +67,12 @@ Window {
                             width: bar.buttonWidth
                             height: bar.buttonheight
                         }
-
                         TabButton {
                             text: qsTr("Options")
                             width: bar.buttonWidth
                             height: bar.buttonheight
                         }
-
                     }
-
                     StackLayout {
                         width: parent.width
                         anchors.top: bar.bottom
@@ -92,23 +81,17 @@ Window {
 
                         DataPage {
                             id: dataPage
-
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             topicModel: window.topicModel
                         }
-
                         OptionsPage {
                             id: optionsPage
-
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                         }
-
                     }
-
                 }
-
                 Rectangle {
                     width: 250
                     height: 100
@@ -121,7 +104,6 @@ Window {
                         anchors.fill: parent
                         anchors.margins: 1
                         model: producer.log
-
                         delegate: Rectangle {
                             width: parent.width
                             height: 68
@@ -134,34 +116,24 @@ Window {
                                 Text {
                                     text: timestamp
                                 }
-
                                 Text {
                                     text: "> " + topic + "-" + partition
                                 }
-
                                 Text {
                                     text: "Offset: " + offset
                                 }
-
                                 Item {
                                     Layout.fillHeight: true
                                 }
-
                             }
-
                             MouseArea {
                                 id: hover
-
                                 anchors.fill: parent
                                 hoverEnabled: true
                             }
-
                         }
-
                     }
-
                 }
-
                 Item {
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
@@ -174,24 +146,19 @@ Window {
                         Item {
                             Layout.fillWidth: true
                         }
-
                         Button {
                             text: qsTr("PRODUCE TO TOPIC")
                             onClicked: {
                                 let e = producer.send(dataPage.keyData(), dataPage.valueData());
                                 if (e.isError) {
                                     err.show(e);
-                                    return ;
+                                    return;
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         handle: Rectangle {
@@ -199,14 +166,10 @@ Window {
             implicitHeight: 2
             color: Style.BorderColor
         }
-
     }
-
     Components.ErrorDialog {
         id: err
-
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

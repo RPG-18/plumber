@@ -4,6 +4,14 @@
 Plumber simple GUI desktop application for Apache Kafka based on [librdkafka](https://github.com/edenhill/librdkafka) and
 [Qt](https://www.qt.io/) and written on C++.
 
+## Features
+
+* View all topics;
+* View messages and add new messages;
+* Add and drop topics;
+* Show JSON in a pretty-printed format;
+* Decode protobuf to JSON.
+
 ## What happened to kafkaui?
 
 **plumber is kafkaui**. The kafkaui project was renamed to adhere to the Apache Software Foundation's (ASF) trademark policies.
@@ -16,7 +24,8 @@ Apart from the name, nothing else was changed.
 * Qt >= 6;
 * librdkafka >= 1.7;
 * spdlog;
-* Boost.Circular Buffer
+* Boost.Circular Buffer;
+* protobuf >= 3.14.0.
 
 #### GNU/Linux
 
@@ -35,6 +44,7 @@ Apart from the name, nothing else was changed.
     .\vcpkg.exe install librdkafka[*]:x64-windows --recurse
     .\vcpkg.exe install spdlog:x64-windows
     .\vcpkg.exe install boost-circular-buffer:x64-windows
+    .\vcpkg.exe install protobuf:x64-windows
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
     [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\plumber\build\Debug
