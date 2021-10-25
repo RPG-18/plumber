@@ -14,4 +14,6 @@ target_link_libraries(formats PRIVATE
         protobuf::libprotoc
         protobuf::libprotobuf
         protobuf::libprotobuf-lite
+        spdlog::spdlog
+        spdlog::spdlog_header_only
 )

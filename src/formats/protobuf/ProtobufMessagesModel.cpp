@@ -57,7 +57,6 @@ void ProtobufMessagesModel::loadMessages()
     beginResetModel();
     m_messages.clear();
     for (int i = 0; i < fileDescriptor->message_type_count(); i++) {
-        qDebug() << QString::fromStdString(fileDescriptor->message_type(i)->name());
         m_messages << QString::fromStdString(fileDescriptor->message_type(i)->name());
     }
     endResetModel();
