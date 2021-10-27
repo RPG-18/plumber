@@ -8,6 +8,14 @@ Item {
     property alias keyTypeId: keyCbx.typeId
 
     property alias valueTypeId: valueCbx.typeId
+
+    property alias keyProtoFile: protobufOptKey.protoFile
+
+    property alias keyProtoMessage: protobufOptKey.protoMessage
+
+    property alias valueProtoFile: protobufOptValue.protoFile
+
+    property alias valueProtoMessage: protobufOptValue.protoMessage
     width: 320
     implicitHeight: content.height
     implicitWidth: content.width

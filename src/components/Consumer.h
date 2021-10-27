@@ -4,6 +4,7 @@
 #include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtCore/QThread>
+#include <QtCore/QUrl>
 
 #include "ClusterConfig.h"
 #include "MessageModel.h"
@@ -26,6 +27,12 @@ public:
     Q_PROPERTY(Types keyType READ keyType WRITE setKeyType)
     Q_PROPERTY(Types valueType READ valueType WRITE setValueType)
 
+    Q_PROPERTY(QUrl keyProtoFile READ keyProtoFile WRITE setKeyProtoFile)
+    Q_PROPERTY(QString keyProtoMessage READ keyProtoMessage WRITE setKeyProtoMessage)
+
+    Q_PROPERTY(QUrl valueProtoFile READ valueProtoFile WRITE setValueProtoFile)
+    Q_PROPERTY(QString valueProtoMessage READ valueProtoMessage WRITE setValueProtoMessage)
+
     explicit ConsumerTypeSelector(QObject *parent = nullptr);
 
     Types keyType() const;
@@ -34,6 +41,18 @@ public:
     Types valueType() const;
     void setValueType(Types type);
 
+    const QUrl &keyProtoFile();
+    void setKeyProtoFile(const QUrl &path);
+
+    const QString &keyProtoMessage();
+    void setKeyProtoMessage(const QString &msg);
+
+    const QUrl &valueProtoFile();
+    void setValueProtoFile(const QUrl &path);
+
+    const QString &valueProtoMessage();
+    void setValueProtoMessage(const QString &msg);
+
 signals:
 
     void typesChanged();
@@ -41,6 +60,12 @@ signals:
 private:
     Types m_keyType;
     Types m_valueType;
+
+    QUrl m_keyProtoFile;
+    QString m_keyProtoMessage;
+
+    QUrl m_valueProtoFile;
+    QString m_valueProtoMessage;
 };
 
 class ConsumerLimiterSelector;

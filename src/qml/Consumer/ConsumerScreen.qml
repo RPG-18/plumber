@@ -34,6 +34,10 @@ Window {
         types: ConsumerTypeSelector {
             keyType: format.keyTypeId
             valueType: format.valueTypeId
+            keyProtoFile: format.keyProtoFile
+            keyProtoMessage: format.keyProtoMessage
+            valueProtoFile: format.valueProtoFile
+            valueProtoMessage: format.valueProtoMessage
         }
         limiter: ConsumerLimiterSelector {
             limit: filter.selectedLimit

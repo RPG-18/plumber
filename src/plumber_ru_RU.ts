@@ -95,13 +95,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="185"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="199"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="189"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="203"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="207"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="211"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -191,22 +191,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="19"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="27"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="19"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="27"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="46"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="56"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="64"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>

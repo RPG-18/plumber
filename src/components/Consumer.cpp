@@ -375,6 +375,54 @@ void ConsumerTypeSelector::setValueType(Types type)
     emit typesChanged();
 }
 
+const QUrl &ConsumerTypeSelector::keyProtoFile()
+{
+    return m_keyProtoFile;
+}
+
+void ConsumerTypeSelector::setKeyProtoFile(const QUrl &path)
+{
+    m_keyProtoFile = path;
+    emit typesChanged();
+    qDebug() << m_keyProtoFile;
+}
+
+const QString &ConsumerTypeSelector::keyProtoMessage()
+{
+    return m_keyProtoMessage;
+}
+
+void ConsumerTypeSelector::setKeyProtoMessage(const QString &msg)
+{
+    m_keyProtoMessage = msg;
+    emit typesChanged();
+    qDebug() << m_keyProtoMessage;
+}
+
+const QUrl &ConsumerTypeSelector::valueProtoFile()
+{
+    return m_valueProtoFile;
+}
+
+void ConsumerTypeSelector::setValueProtoFile(const QUrl &path)
+{
+    m_valueProtoFile = path;
+    emit typesChanged();
+    qDebug() << m_valueProtoFile;
+}
+
+const QString &ConsumerTypeSelector::valueProtoMessage()
+{
+    return m_valueProtoMessage;
+}
+
+void ConsumerTypeSelector::setValueProtoMessage(const QString &msg)
+{
+    m_valueProtoMessage = msg;
+    emit typesChanged();
+    qDebug() << m_valueProtoMessage;
+}
+
 ConsumerLimiterSelector::ConsumerLimiterSelector(QObject *parent)
     : QObject(parent)
     , m_limit(Consumer::Limit::NoneLimit)
