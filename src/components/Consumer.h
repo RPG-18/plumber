@@ -7,6 +7,7 @@
 #include <QtCore/QUrl>
 
 #include "ClusterConfig.h"
+#include "ErrorWrap.h"
 #include "MessageModel.h"
 #include "Types.h"
 
@@ -113,7 +114,7 @@ public:
 
     bool isRunning() const;
 
-    Q_INVOKABLE void start();
+    Q_INVOKABLE ErrorWrap start();
     Q_INVOKABLE void stop();
 
     ConsumerTypeSelector *typeSelector();
@@ -152,6 +153,7 @@ private:
     void setLimit();
     void setFilter();
     void updateStat();
+    ErrorWrap setConverter();
 
 private:
     bool m_isRunning;

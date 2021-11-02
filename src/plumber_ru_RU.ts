@@ -96,12 +96,12 @@
     </message>
     <message>
         <location filename="qml/Consumer/ConsumerScreen.qml" line="189"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="203"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="206"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="211"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="214"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>

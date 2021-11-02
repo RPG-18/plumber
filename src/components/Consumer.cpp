@@ -4,8 +4,11 @@
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
 
+#include "AbstractConverter.h"
 #include "Consumer.h"
 #include "KafkaConsumer.h"
+
+#include "formats/protobuf/ProtobufConverter.h"
 
 Consumer::Consumer(QObject *parent)
     : QObject(parent)
@@ -47,7 +50,7 @@ void Consumer::setRunning(bool val)
     emit isRunningChanged();
 }
 
-void Consumer::start()
+ErrorWrap Consumer::start()
 {
     if (m_consumer != nullptr && m_argsChanged) {
         for (auto &conn : m_connections) {
@@ -68,6 +71,12 @@ void Consumer::start()
         setStartOnTime();
         setFilter();
         setLimit();
+        {
+            auto err = setConverter();
+            if (err.isError) {
+                return err;
+            }
+        }
 
         m_connections.push_back(
             connect(&m_consumerThread, &QThread::finished, m_consumer, &QObject::deleteLater));
@@ -81,6 +90,7 @@ void Consumer::start()
     // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
     QMetaObject::invokeMethod(m_consumer, &core::KafkaConsumer::start, Qt::QueuedConnection);
     setRunning(true);
+    return ErrorWrap{};
 }
 
 void Consumer::stop()
@@ -347,6 +357,36 @@ QString Consumer::stat() const
         .arg(sizes.at(i));
 }
 
+ErrorWrap Consumer::setConverter()
+{
+    if (m_typeSelector == nullptr) {
+        return ErrorWrap{};
+    }
+
+    if (m_typeSelector->valueType() == Protobuf) {
+        if (!m_typeSelector->valueProtoFile().isValid()) {
+            return ErrorWrap("converter", "path to proto not set");
+        }
+
+        if (m_typeSelector->valueProtoMessage().isEmpty()) {
+            return ErrorWrap("converter", "proto message not select");
+        }
+
+        QStringList errors;
+        auto converter
+            = formats::protobuf::ProtobufConverter::fabric(m_typeSelector->valueProtoFile(),
+                                                           m_typeSelector->valueProtoMessage(),
+                                                           errors);
+        if (converter == nullptr) {
+            spdlog::error("failed create protobuf converter");
+            return ErrorWrap("consumer", errors.join('\n'));
+        }
+        m_consumer->setValueConverter(std::move(converter));
+    }
+
+    return ErrorWrap{};
+}
+
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     : QObject(parent)
     , m_keyType(Types::String)
@@ -384,7 +424,6 @@ void ConsumerTypeSelector::setKeyProtoFile(const QUrl &path)
 {
     m_keyProtoFile = path;
     emit typesChanged();
-    qDebug() << m_keyProtoFile;
 }
 
 const QString &ConsumerTypeSelector::keyProtoMessage()
@@ -396,7 +435,6 @@ void ConsumerTypeSelector::setKeyProtoMessage(const QString &msg)
 {
     m_keyProtoMessage = msg;
     emit typesChanged();
-    qDebug() << m_keyProtoMessage;
 }
 
 const QUrl &ConsumerTypeSelector::valueProtoFile()
@@ -408,7 +446,6 @@ void ConsumerTypeSelector::setValueProtoFile(const QUrl &path)
 {
     m_valueProtoFile = path;
     emit typesChanged();
-    qDebug() << m_valueProtoFile;
 }
 
 const QString &ConsumerTypeSelector::valueProtoMessage()
@@ -420,7 +457,6 @@ void ConsumerTypeSelector::setValueProtoMessage(const QString &msg)
 {
     m_valueProtoMessage = msg;
     emit typesChanged();
-    qDebug() << m_valueProtoMessage;
 }
 
 ConsumerLimiterSelector::ConsumerLimiterSelector(QObject *parent)

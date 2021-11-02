@@ -189,9 +189,12 @@ Window {
                         text: qsTr("START")
                         state: consumer.isRunning ? "stop" : "start"
                         onClicked: {
-                            if (state === "start")
-                                consumer.start();
-                            else
+                            if (state === "start") {
+                                let err = consumer.start();
+                                if (err.isError) {
+                                    consumerErrDialog.show(err);
+                                }
+                            } else
                                 consumer.stop();
                         }
                         states: [

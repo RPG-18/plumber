@@ -9,6 +9,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QObject>
 
+#include "AbstractConverter.h"
 #include "ClusterConfig.h"
 #include "ConsumerRecordBuffer.h"
 #include "Filter.h"
@@ -23,6 +24,8 @@ class KafkaConsumer : public QObject
 {
     Q_OBJECT
 public:
+    using ConverterPtr = std::unique_ptr<AbstractConverter>;
+
     static constexpr auto PoolInterval = std::chrono::milliseconds(0);
     static constexpr auto PoolTimeout = std::chrono::milliseconds(1000);
     static constexpr int MaxMessages = 500;
@@ -48,6 +51,8 @@ public:
     void setLimiter(std::unique_ptr<core::AbstractLimiter> limiter);
     void setFilter(std::unique_ptr<core::AbstractFilter> filter);
 
+    void setKeyConverter(ConverterPtr &&key);
+    void setValueConverter(ConverterPtr &&value);
     /*!
      * get consume stat
      */
@@ -97,6 +102,8 @@ private:
     ConsumerRecordBuffer m_buff;
     ConsumeStat m_stat;
     std::mutex m_statMu;
+    ConverterPtr m_keyConverter;
+    ConverterPtr m_valueConverter;
 };
 
 } // namespace core
