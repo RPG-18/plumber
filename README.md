@@ -51,10 +51,11 @@ Apart from the name, nothing else was changed.
 
 ### Mac OS X
     
-    $ brew install librdkafka
-    $ brew install spdlog
-    $ brew install qt@6
-    $ brew install boost
-    $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
-    $ cmake --build build --config Release
+    % brew install librdkafka
+    % brew install spdlog
+    % brew install qt@6
+    % brew install boost
+    % brew install protobuf
+    % cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+    % cmake --build build --config Release
 
