@@ -49,8 +49,7 @@ include_directories(3rdparty/modern-cpp-kafka/include
 set(Boost_USE_RELEASE_LIBS       ON)
 set(Boost_USE_MULTITHREADED      ON)
 
-find_package(QT NAMES Qt6 COMPONENTS Core Quick LinguistTools REQUIRED)
-find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg Widgets REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
@@ -75,21 +74,13 @@ set(PROJECT_SOURCES
 
 add_subdirectory(src)
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(plumber
-            WIN32
-            MACOSX_BUNDLE
-            ${PROJECT_SOURCES}
-            )
-    qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    add_executable(plumber
-            WIN32
-            MACOSX_BUNDLE
-            ${PROJECT_SOURCES}
-            )
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
+
+qt_add_executable(plumber
+        WIN32
+        MACOSX_BUNDLE
+        ${PROJECT_SOURCES}
+        )
+qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 set_target_properties(plumber PROPERTIES
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/osx/rc/Info.plist.in")
