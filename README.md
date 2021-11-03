@@ -2,7 +2,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/pac8rdg2cq55fkpj/branch/main?svg=true)](https://ci.appveyor.com/project/RPG-18/plumber/branch/main)
 
 Plumber simple GUI desktop application for Apache Kafka based on [librdkafka](https://github.com/edenhill/librdkafka) and
-[Qt](https://www.qt.io/) and written on C++.
+[Qt](https://www.qt.io/) and written on C++. Docker/browser free just download and run.
+![cover](docs/images/cover.png)
 
 ## Features
 
@@ -10,7 +11,7 @@ Plumber simple GUI desktop application for Apache Kafka based on [librdkafka](ht
 * View messages and add new messages;
 * Add and drop topics;
 * Show JSON in a pretty-printed format;
-* Decode protobuf to JSON.
+* Decode protobuf.
 
 ## What happened to kafkaui?
 
