@@ -1,6 +1,9 @@
+#include <iostream>
+
 #include <google/protobuf/compiler/importer.h>
 #include <google/protobuf/descriptor.h>
 
+#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
 #include "ProtobufErrorCollector.h"
@@ -36,7 +39,7 @@ void ProtobufMessagesModel::loadMessages()
 
     ProtobufErrorCollector errors;
     ProtobufSourceTree sources;
-    sources.MapPath("", info.path().toStdString());
+    sources.Add(info.dir());
 
     SourceTreeDescriptorDatabase database(&sources, nullptr);
     database.RecordErrorsTo(&errors);

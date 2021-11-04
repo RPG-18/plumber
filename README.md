@@ -48,7 +48,8 @@ Apart from the name, nothing else was changed.
     .\vcpkg.exe install protobuf:x64-windows
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
-    [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat --qmldir [path to vcpkg]\installed\x64-windows\Qt6\qml [project]\plumber\build\Debug
+    [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat windeployqt.exe -qmldir=[path to vcpkg]\installed\x64-windows\Qt6\qml [project]\plumber\build\Debug
+    cp -r [path to vcpkg]\installed\x64-windows\Qt6\qml\Qt\labs\platform [project]\plumber\build\Debugqml\Qt\labs\
 
 ### Mac OS X
     
@@ -59,4 +60,3 @@ Apart from the name, nothing else was changed.
     % brew install protobuf
     % cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
     % cmake --build build --config Release
-

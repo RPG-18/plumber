@@ -1,3 +1,4 @@
+#include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 
 #include <google/protobuf/compiler/importer.h>
@@ -47,8 +48,7 @@ std::unique_ptr<core::AbstractConverter> ProtobufConverter::fabric(const QUrl &f
 
     auto collector = std::make_unique<ProtobufErrorCollector>();
     auto sources = std::make_unique<ProtobufSourceTree>();
-
-    sources->MapPath("", info.path().toStdString());
+    sources->Add(info.dir());
 
     auto database
         = std::make_unique<google::protobuf::compiler::SourceTreeDescriptorDatabase>(sources.get(),
