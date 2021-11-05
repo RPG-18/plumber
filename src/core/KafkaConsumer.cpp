@@ -81,6 +81,14 @@ void KafkaConsumer::pool()
                                       header.value.size())});
             }
 
+            if (m_keyConverter) {
+                rec->key = m_keyConverter->toJSON(std::move(rec->key));
+            }
+
+            if (m_valueConverter) {
+                rec->value = m_valueConverter->toJSON(std::move(rec->value));
+            }
+
             bytes += rec->key.size() + rec->value.size();
             if (m_filter != nullptr && !m_filter->IsAcceptable(rec)) {
                 continue;
@@ -189,6 +197,16 @@ KafkaConsumer::ConsumeStat KafkaConsumer::stat()
 {
     Lock l(m_statMu);
     return m_stat;
+}
+
+void KafkaConsumer::setKeyConverter(ConverterPtr &&key)
+{
+    m_keyConverter = std::move(key);
+}
+
+void KafkaConsumer::setValueConverter(ConverterPtr &&value)
+{
+    m_valueConverter = std::move(value);
 }
 
 } // namespace core

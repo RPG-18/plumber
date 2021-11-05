@@ -4,11 +4,11 @@ import "style.js" as Style
 
 Rectangle {
     id: item
-
     property alias text: label.text
+
     property alias content: loader.sourceComponent
 
-    signal clicked()
+    signal clicked
 
     width: 300
     height: 130
@@ -20,7 +20,6 @@ Rectangle {
 
         Text {
             id: label
-
             text: item.label
             font.pixelSize: 24
             color: Style.LabelColorDark
@@ -28,22 +27,16 @@ Rectangle {
 
             MouseArea {
                 id: mouseArea
-
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: item.clicked()
             }
-
         }
-
         Loader {
             id: loader
-
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
-
 }

@@ -65,6 +65,10 @@ QString format(Types type, const QByteArray &data)
         default:
             return QString("Invalid");
         }
+    };
+
+    case Protobuf: {
+        return data;
     }
 
     default:
@@ -118,6 +122,11 @@ QByteArray bytes(Types type, const QString &value)
     } break;
     case Types::NoneType:
         return QByteArray();
+
+    case Types::Protobuf: {
+        // we convert protobuf to json before apply filters
+        return value.toUtf8();
+    }
     }
     return QByteArray();
 }

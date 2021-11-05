@@ -38,6 +38,15 @@ QString MessageWrapper::value() const
         }
 
     } break;
+    case Types::Protobuf: {
+        QJsonParseError err;
+        const auto doc = QJsonDocument::fromJson(m_message.value, &err);
+        if (err.error == QJsonParseError::NoError) {
+            const auto data = doc.toJson(QJsonDocument::Indented);
+            return QString::fromUtf8(data);
+        }
+        return format(m_message.valueType, m_message.value);
+    }
     default:
         return format(m_message.valueType, m_message.value);
     }

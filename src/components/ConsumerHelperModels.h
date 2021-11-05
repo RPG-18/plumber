@@ -81,3 +81,23 @@ private:
     QVector<Consumer::Limit> m_limits;
     QVector<QString> m_labels;
 };
+
+/**!
+ * CustomTypesModel custom types model protobuf, avro, etc
+ */
+class CustomTypesModel : public QAbstractListModel
+{
+    Q_OBJECT
+public:
+    enum Roles { TypeId = Qt::UserRole + 1, TypeName };
+
+    CustomTypesModel(QObject *parent = nullptr);
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+private:
+    QVector<Types> m_typeIds;
+    QVector<QString> m_typeNames;
+};
