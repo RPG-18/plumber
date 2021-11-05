@@ -124,8 +124,8 @@ QByteArray bytes(Types type, const QString &value)
         return QByteArray();
 
     case Types::Protobuf: {
-        spdlog::error("protobuf not supported");
-        return QByteArray();
+        // we convert protobuf to json before apply filters
+        return value.toUtf8();
     }
     }
     return QByteArray();
