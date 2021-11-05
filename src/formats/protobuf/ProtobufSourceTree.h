@@ -19,7 +19,7 @@ public:
      * Аdd add directory
      * @param dir base
      */
-    void Add(const QDir& dir);
+    void Add(const QDir &dir);
 
 private:
     static google::protobuf::io::ZeroCopyInputStream *openFromResources(const std::string &filename);

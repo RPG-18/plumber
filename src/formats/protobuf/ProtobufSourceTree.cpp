@@ -1,6 +1,6 @@
 #include <QtCore/QDebug>
-#include <QtCore/QFile>
 #include <QtCore/QDir>
+#include <QtCore/QFile>
 
 #include <google/protobuf/io/zero_copy_stream.h>
 
@@ -64,12 +64,11 @@ google::protobuf::io::ZeroCopyInputStream *ProtobufSourceTree::openFromResources
     return new ByteArrayInputStream(std::move(data));
 }
 
-void ProtobufSourceTree::Add(const QDir& dir)
+void ProtobufSourceTree::Add(const QDir &dir)
 {
-
-    QString path  = dir.path();
+    QString path = dir.path();
 #ifdef Q_OS_WINDOWS
-    if(path.front() == '/') {
+    if (path.front() == '/') {
         path = path.remove(0, 1);
     }
 #endif
