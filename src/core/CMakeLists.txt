@@ -1,8 +1,18 @@
-add_library(core AdminClient.hpp KafkaConsumer.cpp KafkaConsumer.h ConsumerRecord.h Limiter.cpp Limiter.h Filter.cpp Filter.h ConsumerRecordBuffer.cpp ConsumerRecordBuffer.h KafkaProducer.cpp KafkaProducer.h ProducerRecord.h Types.h)
+add_library(core AdminClient.hpp
+        KafkaConsumer.cpp KafkaConsumer.h
+        ConsumerRecord.h
+        Limiter.cpp Limiter.h
+        Filter.cpp Filter.h
+        ConsumerRecordBuffer.cpp ConsumerRecordBuffer.h
+        KafkaProducer.cpp KafkaProducer.h
+        ProducerRecord.h
+        Types.h
+        AbstractConverter.cpp AbstractConverter.h
+)
 
 target_link_libraries(core
         PRIVATE
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
         Threads::Threads
         Rdkafka
         spdlog::spdlog

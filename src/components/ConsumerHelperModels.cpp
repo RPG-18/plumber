@@ -165,3 +165,37 @@ QHash<int, QByteArray> LimitModel::roleNames() const
     static const QHash<int, QByteArray> roles{{LimitId, "limitId"}, {LimitLabel, "limitLabel"}};
     return roles;
 }
+
+CustomTypesModel::CustomTypesModel(QObject *parent)
+    : QAbstractListModel(parent)
+{
+    m_typeIds << Types::Protobuf;
+    m_typeNames << "Protobuf";
+}
+
+int CustomTypesModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return m_typeIds.size();
+}
+
+QVariant CustomTypesModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid()) {
+        return QVariant();
+    }
+    const auto row = index.row();
+    switch (role) {
+    case TypeId:
+        return m_typeIds[row];
+    case TypeName:
+        return m_typeNames[row];
+    default:
+        return QVariant();
+    }
+}
+QHash<int, QByteArray> CustomTypesModel::roleNames() const
+{
+    static const QHash<int, QByteArray> roles{{TypeId, "typeId"}, {TypeName, "typeName"}};
+    return roles;
+}

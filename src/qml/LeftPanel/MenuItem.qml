@@ -4,9 +4,10 @@ import "../style.js" as Style
 
 Item {
     id: itm
-
     property int index: 0
+
     property string text: ""
+
     property string icon: ""
 
     signal clicked(int index)
@@ -17,11 +18,9 @@ Item {
 
     Rectangle {
         id: bg
-
         anchors.fill: parent
         anchors.margins: 1
     }
-
     RowLayout {
         anchors.fill: parent
         spacing: 6
@@ -36,22 +35,17 @@ Item {
                 sourceSize.width: 25
                 sourceSize.height: 25
             }
-
         }
-
         Text {
             text: itm.text
             color: Style.LabelColor
             font.pixelSize: 24
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
         }
-
         Item {
             Layout.fillWidth: true
         }
-
     }
-
     MouseArea {
         anchors.fill: parent
         onClicked: {
@@ -68,7 +62,6 @@ Item {
                 target: bg
                 color: "#ffffff"
             }
-
         },
         State {
             name: "checked"
@@ -77,7 +70,6 @@ Item {
                 target: bg
                 color: "#f5f5f5"
             }
-
         }
     ]
 }

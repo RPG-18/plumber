@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/google/protobuf">
+        <file alias="any.proto">google/protobuf/any.proto</file>
+        <file alias="api.proto">google/protobuf/api.proto</file>
+        <file alias="descriptor.proto">google/protobuf/descriptor.proto</file>
+        <file alias="duration.proto">google/protobuf/duration.proto</file>
+        <file alias="empty.proto">google/protobuf/empty.proto</file>
+        <file alias="field_mask.proto">google/protobuf/field_mask.proto</file>
+        <file alias="source_context.proto">google/protobuf/source_context.proto</file>
+        <file alias="struct.proto">google/protobuf/struct.proto</file>
+        <file alias="timestamp.proto">google/protobuf/timestamp.proto</file>
+        <file alias="type.proto">google/protobuf/type.proto</file>
+        <file alias="wrappers.proto">google/protobuf/wrappers.proto</file>
+    </qresource>
+</RCC>

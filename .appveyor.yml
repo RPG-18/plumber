@@ -9,6 +9,7 @@ install:
   - vcpkg install librdkafka[*]:x64-windows --recurse
   - vcpkg install spdlog:x64-windows
   - vcpkg install boost-circular-buffer:x64-windows
+  - vcpkg install protobuf:x64-windows
 cache: c:\tools\vcpkg\installed
 before_build:
   - ps: win\build.ps1
