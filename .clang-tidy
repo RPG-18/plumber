@@ -1,6 +1,11 @@
+HeaderFilterRegex: "plumber/src/"
 Checks: "*,\
+         -bugprone-suspicious-include,\
          -llvm-header-guard,\
          -llvm-namespace-comment,\
+         -llvmlibc-implementation-in-namespace,\
+         -llvmlibc-callee-namespace,\
+         -llvmlibc-restrict-system-libc-headers,\
          -fuchsia-*,\
          -google-default-arguments,\
          -google-readability-namespace-comments,\
@@ -11,6 +16,7 @@ Checks: "*,\
          -modernize-deprecated-headers,\
          -modernize-avoid-c-arrays,\
          -modernize-use-trailing-return-type,\
+         -readability-use-anyofallof,\
          -hicpp-special-member-functions,\
          -hicpp-vararg,\
          -hicpp-no-malloc,\
@@ -31,6 +37,7 @@ Checks: "*,\
          -cppcoreguidelines-no-malloc,\
          -cppcoreguidelines-non-private-member-variables-in-classes,\
          -cppcoreguidelines-pro-bounds-constant-array-index,\
+         -cppcoreguidelines-avoid-non-const-global-variables,\
          -misc-non-private-member-variables-in-classes,\
          -readability-magic-numbers,\
          -readability-implicit-bool-conversion,\

@@ -26,7 +26,7 @@ if (BUILD_OPTION_CLANG_TIDY)
 
     if (CLANG_TIDY_EXE)
         message(STATUS "Use clang-tidy: ${CLANG_TIDY_EXE}")
-        set(CMAKE_CXX_CLANG_TIDY clang-tidy -warnings-as-errors=* -header-filter='src/.*')
+        set(CMAKE_CXX_CLANG_TIDY clang-tidy -warnings-as-errors=* -header-filter='plumber/src/')
     else ()
         message(FATAL_ERROR "The clang-tidy executable not found!")
     endif ()
