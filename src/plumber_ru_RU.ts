@@ -157,17 +157,17 @@
 <context>
     <name>DataPage</name>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="59"/>
+        <location filename="qml/Producer/DataPage.qml" line="65"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="72"/>
+        <location filename="qml/Producer/DataPage.qml" line="78"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="113"/>
+        <location filename="qml/Producer/DataPage.qml" line="119"/>
         <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>

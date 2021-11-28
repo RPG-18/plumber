@@ -37,7 +37,7 @@ QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
     using namespace google::protobuf::util;
     using namespace google::protobuf::stringpiece_internal;
 
-    m_message->Clear();
+    //m_message->Clear();
 
     StringPiece piece(json.data(), json.size());
 

@@ -3,6 +3,7 @@
 
 #include "spdlog/spdlog.h"
 
+#include "AbstractConverter.h"
 #include "KafkaProducer.h"
 #include "Producer.h"
 #include "ProtoOption.h"
@@ -36,8 +37,17 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
         createProducer();
     }
 
+    QByteArray valueData;
     auto keyData = bytes(m_keyType, key);
-    auto valueData = bytes(m_valueType, value);
+    if (m_valueType == Protobuf) {
+        auto [converter, err] = m_valueProto->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        valueData = converter->fromJSON(value.toUtf8());
+    } else {
+        valueData = bytes(m_valueType, value);
+    }
 
     core::ProducerRecord rec{m_topic, keyData, valueData};
     if (auto meta = m_producer->send(rec)) {

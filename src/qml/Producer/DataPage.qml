@@ -13,23 +13,29 @@ Item {
     property alias protoValue: protoValueId
 
     function keyData() {
-        if (keyCbx.typeId === 6)
+        switch (keyCbx.typeId) {
+        case 0:
+            return keyArea.text;
+        case 6:
             return "";
-
-        if (keyCbx.typeId !== 0)
+        case 7:
+            return keyArea.text;
+        default:
             return keyTxt.text;
-
-        return keyArea.text;
+        }
     }
 
     function valueData() {
-        if (valueCbx.typeId === 6)
+        switch (valueCbx.typeId) {
+        case 0:
+            return valueArea.text;
+        case 6:
             return "";
-
-        if (valueCbx.typeId !== 0)
+        case 7:
+            return valueArea.text;
+        default:
             return valueTxt.text;
-
-        return valueArea.text;
+        }
     }
 
     height: 100
