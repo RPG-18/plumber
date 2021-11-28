@@ -6,8 +6,8 @@ import "constants.js" as Constants
 
 Item {
     id: overview
-    property var brokerModel: mainCluster.brokerModel()
 
+    property var brokerModel: mainCluster.brokerModel()
     property var topicModel: mainCluster.topicModel()
 
     signal activatedItem(int indx)
@@ -20,6 +20,7 @@ Item {
             Layout.fillWidth: true
             text: qsTr("BROKERS")
             onClicked: overview.activatedItem(Constants.BrokersIndex)
+
             content: Item {
                 RowLayout {
                     anchors.fill: parent
@@ -39,24 +40,33 @@ Item {
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Text {
                                 font.pixelSize: 22
                                 text: qsTr("Brokers")
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
         OverviewItem {
             Layout.fillWidth: true
             text: qsTr("TOPICS")
             onClicked: overview.activatedItem(Constants.TopicsIndex)
+
             content: Item {
                 RowLayout {
                     anchors.fill: parent
@@ -76,19 +86,26 @@ Item {
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Text {
                                 font.pixelSize: 22
                                 text: qsTr("Topics")
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
         /*
         OverviewItem {
@@ -102,9 +119,12 @@ Item {
             onClicked: overview.activatedItem(Constants.ConsumersIndex);
         }
 */
+
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+
     }
+
 }

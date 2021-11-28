@@ -5,7 +5,9 @@ import "style.js" as Style
 
 Rectangle {
     id: item
+
     property var brokerModel: mainCluster.brokerModel()
+
     width: 300
     height: 150
     border.color: Style.BorderColor
@@ -17,6 +19,7 @@ Rectangle {
         OverviewItem {
             Layout.fillWidth: true
             text: qsTr("BROKERS")
+
             content: Item {
                 RowLayout {
                     anchors.fill: parent
@@ -36,21 +39,30 @@ Rectangle {
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Text {
                                 id: name
+
                                 font.pixelSize: 22
                                 text: qsTr("Brokers")
                                 color: Style.LabelColor
                                 Layout.alignment: Qt.AlignCenter
                             }
+
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
         Item {
             Layout.fillWidth: true
             implicitWidth: 250
@@ -63,22 +75,27 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.leftMargin: 6
             }
+
             Rectangle {
                 height: 1
                 width: parent.width
                 anchors.bottom: parent.bottom
                 color: "#f2f2f2"
             }
+
         }
+
         ListView {
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
             model: brokerModel
             boundsMovement: Flickable.StopAtBounds
+
             ScrollBar.vertical: ScrollBar {
                 policy: ScrollBar.AsNeeded
             }
+
             delegate: Item {
                 height: 40
                 width: item.width
@@ -90,13 +107,18 @@ Rectangle {
                     text: node
                     color: "#2a5fb0"
                 }
+
                 Rectangle {
                     height: 1
                     width: parent.width
                     anchors.bottom: parent.bottom
                     color: "#f2f2f2"
                 }
+
             }
+
         }
+
     }
+
 }

@@ -11,7 +11,10 @@ add_library(components
         Types.h Types.cpp
         Message.cpp Message.h
         TopicCreator.cpp TopicCreator.h
-        ErrorWrap.cpp ErrorWrap.h Producer.cpp Producer.h)
+        ErrorWrap.cpp ErrorWrap.h
+        Producer.cpp Producer.h
+        ProtoOption.cpp ProtoOption.h
+        Helpers.cpp Helpers.h)
 
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

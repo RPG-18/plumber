@@ -1,10 +1,12 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 
+#include "spdlog/spdlog.h"
+
 #include "KafkaProducer.h"
 #include "Producer.h"
+#include "ProtoOption.h"
 #include "Types.h"
-#include "spdlog/spdlog.h"
 
 Producer::Producer(QObject *parent)
     : QObject(parent)
@@ -13,6 +15,8 @@ Producer::Producer(QObject *parent)
     , m_keyType(String)
     , m_valueType(String)
     , m_logModel(new ProducerLogModel(this))
+    , m_keyProto(nullptr)
+    , m_valueProto(nullptr)
 {}
 
 ProducerOptions *Producer::options()
@@ -95,6 +99,26 @@ void Producer::setBroker(const ClusterConfig &broker)
 ProducerLogModel *Producer::log() noexcept
 {
     return m_logModel;
+}
+
+ProtoOption *Producer::protoKey()
+{
+    return m_keyProto;
+}
+
+void Producer::setProtoKey(ProtoOption *option)
+{
+    m_keyProto = option;
+}
+
+ProtoOption *Producer::protoValue()
+{
+    return m_valueProto;
+}
+
+void Producer::setProtoValue(ProtoOption *option)
+{
+    m_valueProto = option;
 }
 
 ProducerOptions::ProducerOptions(QObject *parent)

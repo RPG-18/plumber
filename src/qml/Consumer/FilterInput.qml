@@ -7,29 +7,35 @@ import "../Components" as Components
 
 Item {
     id: item
-    property string selectedText: "(none)"
 
+    property string selectedText: "(none)"
     property var selectedFilterId: 0
+
     implicitHeight: label.height
     implicitWidth: label.width + icon.width + 6
 
     Text {
         id: label
+
         anchors.left: parent.left
         text: item.selectedText
         color: Style.LabelColorDark
         font.underline: mouseArea.containsMouse
     }
+
     Text {
         id: icon
+
         anchors.left: label.right
         anchors.verticalCenter: label.verticalCenter
         text: "▼"
         font.pointSize: 6
         color: "#d4d4d4"
     }
+
     MouseArea {
         id: mouseArea
+
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
@@ -38,8 +44,10 @@ Item {
             popup.open();
         }
     }
+
     Popup {
         id: popup
+
         focus: true
         width: 400
 
@@ -51,11 +59,13 @@ Item {
                 color: Style.LabelColor
                 font.bold: true
             }
+
             Rectangle {
                 width: popup.width / 2
                 height: 1
                 color: Style.BorderColor
             }
+
             Repeater {
                 Components.TextButton {
                     text: filterLabel
@@ -68,12 +78,16 @@ Item {
 
                 model: FiltersModel {
                 }
+
             }
+
         }
 
         background: Rectangle {
             border.color: Style.BorderColor
             radius: 4
         }
+
     }
+
 }

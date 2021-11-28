@@ -42,11 +42,12 @@ QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
     StringPiece piece(json.data(), json.size());
 
     JsonParseOptions opt;
+    opt.ignore_unknown_fields = true;
     JsonStringToMessage(piece, m_message.get(), opt);
     const auto out = m_message->SerializeAsString();
     if (m_collector->hasErrors()) {
-        qDebug()<<"Serialize errors";
-        qDebug()<<m_collector->errors();
+        qDebug() << "Serialize errors";
+        qDebug() << m_collector->errors();
     }
     return QByteArray::fromStdString(out);
 }

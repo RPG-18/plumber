@@ -4,17 +4,17 @@
 <context>
     <name>Brokers</name>
     <message>
-        <location filename="qml/Brokers.qml" line="19"/>
+        <location filename="qml/Brokers.qml" line="21"/>
         <source>BROKERS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Brokers.qml" line="42"/>
+        <location filename="qml/Brokers.qml" line="47"/>
         <source>Brokers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Brokers.qml" line="60"/>
+        <location filename="qml/Brokers.qml" line="72"/>
         <source>Listener</source>
         <translation type="unfinished"></translation>
     </message>
@@ -95,13 +95,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="189"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="206"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="221"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="239"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="214"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="248"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -109,47 +109,47 @@
 <context>
     <name>CreateTopicDialog</name>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="15"/>
+        <location filename="qml/CreateTopicDialog.qml" line="17"/>
         <source>Create New Topic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="37"/>
+        <location filename="qml/CreateTopicDialog.qml" line="41"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="43"/>
+        <location filename="qml/CreateTopicDialog.qml" line="49"/>
         <source>My new Topic name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="47"/>
+        <location filename="qml/CreateTopicDialog.qml" line="54"/>
         <source>Partitions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="57"/>
+        <location filename="qml/CreateTopicDialog.qml" line="67"/>
         <source>Replication Factor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="68"/>
+        <location filename="qml/CreateTopicDialog.qml" line="81"/>
         <source>Cleanup Policy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="72"/>
+        <location filename="qml/CreateTopicDialog.qml" line="86"/>
         <source>Retention (time or size)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="83"/>
+        <location filename="qml/CreateTopicDialog.qml" line="101"/>
         <source>Compaction (key-based)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/CreateTopicDialog.qml" line="115"/>
+        <location filename="qml/CreateTopicDialog.qml" line="142"/>
         <source>CREATE TOPIC</source>
         <translation type="unfinished"></translation>
     </message>
@@ -157,17 +157,17 @@
 <context>
     <name>DataPage</name>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="40"/>
+        <location filename="qml/Producer/DataPage.qml" line="59"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="50"/>
+        <location filename="qml/Producer/DataPage.qml" line="72"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="76"/>
+        <location filename="qml/Producer/DataPage.qml" line="113"/>
         <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -175,7 +175,7 @@
 <context>
     <name>ErrorDialog</name>
     <message>
-        <location filename="qml/Components/ErrorDialog.qml" line="12"/>
+        <location filename="qml/Components/ErrorDialog.qml" line="13"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -183,7 +183,7 @@
 <context>
     <name>FilterInput</name>
     <message>
-        <location filename="qml/Consumer/FilterInput.qml" line="50"/>
+        <location filename="qml/Consumer/FilterInput.qml" line="58"/>
         <source>Simple</source>
         <translation type="unfinished"></translation>
     </message>
@@ -191,22 +191,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="27"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="27"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="46"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="60"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="64"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="83"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -214,7 +214,7 @@
 <context>
     <name>LimitInput</name>
     <message>
-        <location filename="qml/Consumer/LimitInput.qml" line="101"/>
+        <location filename="qml/Consumer/LimitInput.qml" line="117"/>
         <source>Global</source>
         <translation type="unfinished"></translation>
     </message>
@@ -240,7 +240,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="112"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="122"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -248,47 +248,47 @@
 <context>
     <name>MessageView</name>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="13"/>
+        <location filename="qml/Consumer/MessageView.qml" line="14"/>
         <source>Record </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="40"/>
+        <location filename="qml/Consumer/MessageView.qml" line="46"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="44"/>
+        <location filename="qml/Consumer/MessageView.qml" line="51"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="48"/>
+        <location filename="qml/Consumer/MessageView.qml" line="56"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="132"/>
+        <location filename="qml/Consumer/MessageView.qml" line="154"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="138"/>
+        <location filename="qml/Consumer/MessageView.qml" line="162"/>
         <source>Partition:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="144"/>
+        <location filename="qml/Consumer/MessageView.qml" line="170"/>
         <source>Offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="150"/>
+        <location filename="qml/Consumer/MessageView.qml" line="178"/>
         <source>Timestamp:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="156"/>
+        <location filename="qml/Consumer/MessageView.qml" line="186"/>
         <source>Timestamp Type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,17 +319,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Overview.qml" line="44"/>
+        <location filename="qml/Overview.qml" line="46"/>
         <source>Brokers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Overview.qml" line="58"/>
+        <location filename="qml/Overview.qml" line="67"/>
         <source>TOPICS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Overview.qml" line="81"/>
+        <location filename="qml/Overview.qml" line="92"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
@@ -350,22 +350,22 @@
 <context>
     <name>ProducerScreen</name>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="19"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="20"/>
         <source>Produce to Topic: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="66"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="75"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="71"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="81"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="150"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="180"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>
@@ -373,27 +373,27 @@
 <context>
     <name>RangeAndFilters</name>
     <message>
-        <location filename="qml/Consumer/RangeAndFilters.qml" line="42"/>
+        <location filename="qml/Consumer/RangeAndFilters.qml" line="35"/>
         <source>▼ RANGE &amp; FILTERS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/RangeAndFilters.qml" line="42"/>
+        <location filename="qml/Consumer/RangeAndFilters.qml" line="35"/>
         <source>▶ RANGE &amp; FILTERS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/RangeAndFilters.qml" line="62"/>
+        <location filename="qml/Consumer/RangeAndFilters.qml" line="58"/>
         <source>Start From</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/RangeAndFilters.qml" line="74"/>
+        <location filename="qml/Consumer/RangeAndFilters.qml" line="73"/>
         <source>Limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/RangeAndFilters.qml" line="85"/>
+        <location filename="qml/Consumer/RangeAndFilters.qml" line="87"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -401,7 +401,7 @@
 <context>
     <name>StartInput</name>
     <message>
-        <location filename="qml/Consumer/StartInput.qml" line="79"/>
+        <location filename="qml/Consumer/StartInput.qml" line="93"/>
         <source>Time Based</source>
         <translation type="unfinished"></translation>
     </message>
@@ -465,12 +465,12 @@
 <context>
     <name>TypeCombobox</name>
     <message>
-        <location filename="qml/Components/TypeCombobox.qml" line="50"/>
+        <location filename="qml/Components/TypeCombobox.qml" line="59"/>
         <source>Simple</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Components/TypeCombobox.qml" line="77"/>
+        <location filename="qml/Components/TypeCombobox.qml" line="91"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
