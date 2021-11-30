@@ -63,6 +63,8 @@ signals:
 private slots:
 
     void onOptionsChanged();
+    void resetKeyConverter();
+    void resetValueConverter();
 
 private:
     void createProducer();
@@ -77,6 +79,9 @@ private:
     ProducerLogModel *m_logModel;
     ProtoOption *m_keyProto;
     ProtoOption *m_valueProto;
+
+    std::unique_ptr<core::AbstractConverter> m_keyConverter;
+    std::unique_ptr<core::AbstractConverter> m_valueConverter;
 };
 
 /**!

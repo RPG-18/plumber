@@ -37,14 +37,30 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
         createProducer();
     }
 
-    QByteArray valueData;
-    auto keyData = bytes(m_keyType, key);
-    if (m_valueType == Protobuf) {
-        auto [converter, err] = m_valueProto->converter();
-        if (converter == nullptr) {
-            return err;
+    QByteArray keyData;
+    if (m_keyType == Protobuf) {
+        if (m_keyConverter == nullptr) {
+            auto [converter, err] = m_keyProto->converter();
+            if (converter == nullptr) {
+                return err;
+            }
+            m_keyConverter.swap(converter);
         }
-        valueData = converter->fromJSON(value.toUtf8());
+        keyData = m_keyConverter->fromJSON(key.toUtf8());
+    } else {
+        keyData = bytes(m_keyType, key);
+    }
+
+    QByteArray valueData;
+    if (m_valueType == Protobuf) {
+        if (m_valueConverter == nullptr) {
+            auto [converter, err] = m_valueProto->converter();
+            if (converter == nullptr) {
+                return err;
+            }
+            m_valueConverter.swap(converter);
+        }
+        valueData = m_valueConverter->fromJSON(value.toUtf8());
     } else {
         valueData = bytes(m_valueType, value);
     }
@@ -118,7 +134,12 @@ ProtoOption *Producer::protoKey()
 
 void Producer::setProtoKey(ProtoOption *option)
 {
+    if (m_keyProto != nullptr) {
+        m_keyProto->disconnect();
+        resetKeyConverter();
+    }
     m_keyProto = option;
+    connect(m_keyProto, &ProtoOption::changed, this, &Producer::resetKeyConverter);
 }
 
 ProtoOption *Producer::protoValue()
@@ -128,7 +149,23 @@ ProtoOption *Producer::protoValue()
 
 void Producer::setProtoValue(ProtoOption *option)
 {
+    if (m_valueProto != nullptr) {
+        m_valueProto->disconnect();
+        resetValueConverter();
+    }
+
     m_valueProto = option;
+    connect(m_valueProto, &ProtoOption::changed, this, &Producer::resetValueConverter);
+}
+
+void Producer::resetKeyConverter()
+{
+    m_keyConverter.release();
+}
+
+void Producer::resetValueConverter()
+{
+    m_valueConverter.release();
 }
 
 ProducerOptions::ProducerOptions(QObject *parent)
