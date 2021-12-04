@@ -12,7 +12,7 @@
 #include "ProtobufSourceTree.h"
 
 namespace {
-QByteArray errParse("\"failed parse message\"");
+const QByteArray errParse("\"failed parse message\"");
 }
 
 namespace formats::protobuf {
@@ -26,7 +26,7 @@ QByteArray ProtobufConverter::toJSON(QByteArray &&binary)
         return errParse;
     }
 
-    static JsonPrintOptions opt;
+    JsonPrintOptions opt;
     std::string json;
     MessageToJsonString(*m_message, &json, opt);
     return QByteArray(json.c_str(), json.size());
@@ -34,7 +34,22 @@ QByteArray ProtobufConverter::toJSON(QByteArray &&binary)
 
 QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
 {
-    return std::move(json);
+    using namespace google::protobuf::util;
+    using namespace google::protobuf::stringpiece_internal;
+
+    //m_message->Clear();
+
+    StringPiece piece(json.data(), json.size());
+
+    JsonParseOptions opt;
+    opt.ignore_unknown_fields = true;
+    JsonStringToMessage(piece, m_message.get(), opt);
+    const auto out = m_message->SerializeAsString();
+    if (m_collector->hasErrors()) {
+        qDebug() << "Serialize errors";
+        qDebug() << m_collector->errors();
+    }
+    return QByteArray::fromStdString(out);
 }
 
 std::unique_ptr<core::AbstractConverter> ProtobufConverter::fabric(const QUrl &file,

@@ -1,10 +1,13 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 
+#include "spdlog/spdlog.h"
+
+#include "AbstractConverter.h"
 #include "KafkaProducer.h"
 #include "Producer.h"
+#include "ProtoOption.h"
 #include "Types.h"
-#include "spdlog/spdlog.h"
 
 Producer::Producer(QObject *parent)
     : QObject(parent)
@@ -13,6 +16,8 @@ Producer::Producer(QObject *parent)
     , m_keyType(String)
     , m_valueType(String)
     , m_logModel(new ProducerLogModel(this))
+    , m_keyProto(nullptr)
+    , m_valueProto(nullptr)
 {}
 
 ProducerOptions *Producer::options()
@@ -32,8 +37,33 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
         createProducer();
     }
 
-    auto keyData = bytes(m_keyType, key);
-    auto valueData = bytes(m_valueType, value);
+    QByteArray keyData;
+    if (m_keyType == Protobuf) {
+        if (m_keyConverter == nullptr) {
+            auto [converter, err] = m_keyProto->converter();
+            if (converter == nullptr) {
+                return err;
+            }
+            m_keyConverter.swap(converter);
+        }
+        keyData = m_keyConverter->fromJSON(key.toUtf8());
+    } else {
+        keyData = bytes(m_keyType, key);
+    }
+
+    QByteArray valueData;
+    if (m_valueType == Protobuf) {
+        if (m_valueConverter == nullptr) {
+            auto [converter, err] = m_valueProto->converter();
+            if (converter == nullptr) {
+                return err;
+            }
+            m_valueConverter.swap(converter);
+        }
+        valueData = m_valueConverter->fromJSON(value.toUtf8());
+    } else {
+        valueData = bytes(m_valueType, value);
+    }
 
     core::ProducerRecord rec{m_topic, keyData, valueData};
     if (auto meta = m_producer->send(rec)) {
@@ -95,6 +125,47 @@ void Producer::setBroker(const ClusterConfig &broker)
 ProducerLogModel *Producer::log() noexcept
 {
     return m_logModel;
+}
+
+ProtoOption *Producer::protoKey()
+{
+    return m_keyProto;
+}
+
+void Producer::setProtoKey(ProtoOption *option)
+{
+    if (m_keyProto != nullptr) {
+        m_keyProto->disconnect();
+        resetKeyConverter();
+    }
+    m_keyProto = option;
+    connect(m_keyProto, &ProtoOption::changed, this, &Producer::resetKeyConverter);
+}
+
+ProtoOption *Producer::protoValue()
+{
+    return m_valueProto;
+}
+
+void Producer::setProtoValue(ProtoOption *option)
+{
+    if (m_valueProto != nullptr) {
+        m_valueProto->disconnect();
+        resetValueConverter();
+    }
+
+    m_valueProto = option;
+    connect(m_valueProto, &ProtoOption::changed, this, &Producer::resetValueConverter);
+}
+
+void Producer::resetKeyConverter()
+{
+    m_keyConverter.release();
+}
+
+void Producer::resetValueConverter()
+{
+    m_valueConverter.release();
 }
 
 ProducerOptions::ProducerOptions(QObject *parent)

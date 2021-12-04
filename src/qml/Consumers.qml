@@ -5,6 +5,7 @@ import "style.js" as Style
 
 Rectangle {
     id: item
+
     width: 300
     height: 150
     border.color: Style.BorderColor

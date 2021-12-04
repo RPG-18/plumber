@@ -11,47 +11,42 @@ Item {
     property url protoFile: fileDialog.file
     property alias protoMessage: messageCbx.currentText
 
-    width: 250
     implicitHeight: content.height
+    width: 500
 
-    ColumnLayout {
+    RowLayout {
         id: content
 
         width: parent.width
         spacing: 4
 
-        RowLayout {
-            spacing: 4
+        Text {
+            text: "Proto:"
+            color: Style.LabelColor
+        }
+
+        Text {
+            id: path
+
             Layout.fillWidth: true
+            elide: Text.ElideLeft
+            horizontalAlignment: Text.AlignRight
+            text: fileDialog.file
+            color: Style.LabelColor
+        }
 
-            Text {
-                text: "Proto:"
-                color: Style.LabelColor
-            }
-
-            Text {
-                id: path
-
-                Layout.fillWidth: true
-                elide: Text.ElideLeft
-                horizontalAlignment: Text.AlignRight
-                text: fileDialog.file
-                color: Style.LabelColor
-            }
-
-            Button {
-                text: "..."
-                width: 38
-                implicitWidth: 38
-                onClicked: fileDialog.open()
-            }
-
+        Button {
+            text: "..."
+            width: 38
+            implicitWidth: 38
+            onClicked: fileDialog.open()
         }
 
         ComboBox {
             id: messageCbx
 
-            Layout.fillWidth: true
+            width: 170
+            Layout.preferredWidth: 170
             model: protoMessages
             textRole: "message"
         }

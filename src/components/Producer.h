@@ -6,6 +6,7 @@
 #include "ClusterConfig.h"
 #include "ErrorWrap.h"
 #include "ProducerRecord.h"
+#include "ProtoOption.h"
 #include "Types.h"
 
 namespace core {
@@ -27,6 +28,8 @@ class Producer : public QObject
     Q_PROPERTY(QString topic MEMBER m_topic)
     Q_PROPERTY(ClusterConfig broker READ broker WRITE setBroker NOTIFY brokerChanged)
     Q_PROPERTY(ProducerLogModel *log READ log NOTIFY logChanged)
+    Q_PROPERTY(ProtoOption *protoKey READ protoKey WRITE setProtoKey)
+    Q_PROPERTY(ProtoOption *protoValue READ protoValue WRITE setProtoValue)
 
 public:
     enum Compression { NoneCompression, GZip, Snappy, LZ4, ZStd };
@@ -46,6 +49,12 @@ public:
     ProducerLogModel *log() noexcept;
     Q_INVOKABLE ErrorWrap send(const QString &key, const QString &value);
 
+    ProtoOption *protoKey();
+    void setProtoKey(ProtoOption *option);
+
+    ProtoOption *protoValue();
+    void setProtoValue(ProtoOption *option);
+
 signals:
 
     void brokerChanged();
@@ -54,6 +63,8 @@ signals:
 private slots:
 
     void onOptionsChanged();
+    void resetKeyConverter();
+    void resetValueConverter();
 
 private:
     void createProducer();
@@ -66,6 +77,11 @@ private:
     QString m_topic;
     ClusterConfig m_broker;
     ProducerLogModel *m_logModel;
+    ProtoOption *m_keyProto;
+    ProtoOption *m_valueProto;
+
+    std::unique_ptr<core::AbstractConverter> m_keyConverter;
+    std::unique_ptr<core::AbstractConverter> m_valueConverter;
 };
 
 /**!

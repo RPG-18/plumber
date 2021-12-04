@@ -1,6 +1,9 @@
 Checks: "*,\
          -llvm-header-guard,\
          -llvm-namespace-comment,\
+         -llvmlibc-callee-namespace,\
+         -llvmlibc-restrict-system-libc-headers,\
+         -llvmlibc-implementation-in-namespace,\
          -fuchsia-*,\
          -google-default-arguments,\
          -google-readability-namespace-comments,\
@@ -31,6 +34,7 @@ Checks: "*,\
          -cppcoreguidelines-no-malloc,\
          -cppcoreguidelines-non-private-member-variables-in-classes,\
          -cppcoreguidelines-pro-bounds-constant-array-index,\
+         -cppcoreguidelines-avoid-non-const-global-variables,\
          -misc-non-private-member-variables-in-classes,\
          -readability-magic-numbers,\
          -readability-implicit-bool-conversion,\
@@ -38,5 +42,7 @@ Checks: "*,\
          -readability-isolate-declaration,\
          -bugprone-macro-parentheses,\
          -bugprone-unused-return-value,\
+         -bugprone-suspicious-include,\
          -cert-err58-cpp,\
-         -cert-err60-cpp"
+         -cert-err60-cpp,\
+         -readability-use-anyofallof"

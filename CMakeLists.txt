@@ -14,27 +14,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 
+include(cmake/tools.cmake)
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
     add_compile_options("-Wall" "-Werror" "-Wextra" "-Wshadow" "-Wno-unused-result")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif ()
 
-option(BUILD_OPTION_CLANG_TIDY "Build with clang-tidy enabled" OFF)
-if (BUILD_OPTION_CLANG_TIDY)
-    find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
-
-    if (CLANG_TIDY_EXE)
-        message(STATUS "Use clang-tidy: ${CLANG_TIDY_EXE}")
-        set(CMAKE_CXX_CLANG_TIDY clang-tidy -warnings-as-errors=* -header-filter='src/.*')
-    else ()
-        message(FATAL_ERROR "The clang-tidy executable not found!")
-    endif ()
-
-else ()
-    message(STATUS "With NO clang-tidy build option")
-endif ()
-
+clang_tidy(-warnings-as-errors=* -header-filter='${CMAKE_SOURCE_DIR}/*')
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include_directories(3rdparty/modern-cpp-kafka/include

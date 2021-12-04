@@ -16,6 +16,7 @@
 #include "ConfigModel.h"
 #include "Consumer.h"
 #include "ConsumerHelperModels.h"
+#include "Helpers.h"
 #include "KafkaConnectivityTester.h"
 #include "Producer.h"
 #include "Registry.h"
@@ -56,35 +57,11 @@ int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(protobuf);
 
-    qmlRegisterType<KafkaConnectivityTester>("plumber", 1, 0, "ConnectivityTester");
-    qmlRegisterType<ConfigModel>("plumber", 1, 0, "ConfigModel");
-    qmlRegisterType<Cluster>("plumber", 1, 0, "Cluster");
-    qmlRegisterType<TopicFilterModel>("plumber", 1, 0, "TopicFilterModel");
-    qmlRegisterType<Consumer>("plumber", 1, 0, "Consumer");
-    qmlRegisterType<ConsumerTypeSelector>("plumber", 1, 0, "ConsumerTypeSelector");
-    qmlRegisterType<ConsumerLimiterSelector>("plumber", 1, 0, "ConsumerLimiterSelector");
-    qmlRegisterType<ConsumerFilterSelector>("plumber", 1, 0, "ConsumerFilterSelector");
-    qmlRegisterType<ConsumerBeginningSelector>("plumber", 1, 0, "ConsumerBeginningSelector");
-    qmlRegisterType<TopicCreator>("plumber", 1, 0, "TopicCreator");
+    registerTypes();
     qmlRegisterType<formats::protobuf::ProtobufMessagesModel>("plumber",
                                                               1,
                                                               0,
                                                               "ProtobufMessagesModel");
-
-    qmlRegisterType<Producer>("plumber", 1, 0, "Producer");
-    qmlRegisterType<ProducerOptions>("plumber", 1, 0, "ProducerOptions");
-
-    qmlRegisterType<ConsumerTypesModel>("plumber", 1, 0, "ConsumerTypesModel");
-    qmlRegisterType<CustomTypesModel>("plumber", 1, 0, "CustomTypesModel");
-    qmlRegisterType<StartFromTimeBasedModel>("plumber", 1, 0, "StartFromTimeBasedModel");
-    qmlRegisterType<FiltersModel>("plumber", 1, 0, "FiltersModel");
-    qmlRegisterType<LimitModel>("plumber", 1, 0, "LimitModel");
-    qmlRegisterType<MessageWrapper>("plumber", 1, 0, "MessageWrapper");
-    qmlRegisterType<HeaderTableModel>("plumber", 1, 0, "HeaderTableModel");
-
-    qmlRegisterAnonymousType<BrokerModel>("plumber", 1);
-    qmlRegisterAnonymousType<TopicModel>("plumber", 1);
-    qmlRegisterAnonymousType<MessageModel>("plumber", 1);
 
     kafka::KafkaClient::setGlobalLogger(KafkaSpdLogger);
     QCoreApplication::setApplicationName("plumber");

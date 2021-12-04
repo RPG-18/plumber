@@ -363,23 +363,20 @@ ErrorWrap Consumer::setConverter()
         return ErrorWrap{};
     }
 
-    if (m_typeSelector->valueType() == Protobuf) {
-        if (!m_typeSelector->valueProtoFile().isValid()) {
-            return ErrorWrap("converter", "path to proto not set");
-        }
-
-        if (m_typeSelector->valueProtoMessage().isEmpty()) {
-            return ErrorWrap("converter", "proto message not select");
-        }
-
-        QStringList errors;
-        auto converter
-            = formats::protobuf::ProtobufConverter::fabric(m_typeSelector->valueProtoFile(),
-                                                           m_typeSelector->valueProtoMessage(),
-                                                           errors);
+    m_consumer->setKeyConverter(nullptr);
+    m_consumer->setValueConverter(nullptr);
+    if (m_typeSelector->keyType() == Protobuf) {
+        auto [converter, err] = m_typeSelector->protoKey()->converter();
         if (converter == nullptr) {
-            spdlog::error("failed create protobuf converter");
-            return ErrorWrap("consumer", errors.join('\n'));
+            return err;
+        }
+        m_consumer->setKeyConverter(std::move(converter));
+    }
+
+    if (m_typeSelector->valueType() == Protobuf) {
+        auto [converter, err] = m_typeSelector->protoValue()->converter();
+        if (converter == nullptr) {
+            return err;
         }
         m_consumer->setValueConverter(std::move(converter));
     }
@@ -391,6 +388,8 @@ ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     : QObject(parent)
     , m_keyType(Types::String)
     , m_valueType(Types::String)
+    , m_keyProto(nullptr)
+    , m_valueProto(nullptr)
 {}
 
 Types ConsumerTypeSelector::keyType() const
@@ -415,48 +414,28 @@ void ConsumerTypeSelector::setValueType(Types type)
     emit typesChanged();
 }
 
-const QUrl &ConsumerTypeSelector::keyProtoFile()
+ProtoOption *ConsumerTypeSelector::protoKey()
 {
-    return m_keyProtoFile;
+    return m_keyProto;
 }
 
-void ConsumerTypeSelector::setKeyProtoFile(const QUrl &path)
+void ConsumerTypeSelector::setProtoKey(ProtoOption *option)
 {
-    m_keyProtoFile = path;
+    m_keyProto = option;
     emit typesChanged();
+    connect(m_keyProto, &ProtoOption::changed, this, &ConsumerTypeSelector::typesChanged);
 }
 
-const QString &ConsumerTypeSelector::keyProtoMessage()
+ProtoOption *ConsumerTypeSelector::protoValue()
 {
-    return m_keyProtoMessage;
+    return m_valueProto;
 }
 
-void ConsumerTypeSelector::setKeyProtoMessage(const QString &msg)
+void ConsumerTypeSelector::setProtoValue(ProtoOption *option)
 {
-    m_keyProtoMessage = msg;
+    m_valueProto = option;
     emit typesChanged();
-}
-
-const QUrl &ConsumerTypeSelector::valueProtoFile()
-{
-    return m_valueProtoFile;
-}
-
-void ConsumerTypeSelector::setValueProtoFile(const QUrl &path)
-{
-    m_valueProtoFile = path;
-    emit typesChanged();
-}
-
-const QString &ConsumerTypeSelector::valueProtoMessage()
-{
-    return m_valueProtoMessage;
-}
-
-void ConsumerTypeSelector::setValueProtoMessage(const QString &msg)
-{
-    m_valueProtoMessage = msg;
-    emit typesChanged();
+    connect(m_valueProto, &ProtoOption::changed, this, &ConsumerTypeSelector::typesChanged);
 }
 
 ConsumerLimiterSelector::ConsumerLimiterSelector(QObject *parent)

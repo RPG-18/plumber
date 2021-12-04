@@ -59,5 +59,6 @@
         <file>qml/Producer/DataPage.qml</file>
         <file>qml/Producer/OptionsPage.qml</file>
         <file>qml/Consumer/ProtobufOptions.qml</file>
+        <file>qml/Producer/ProtobufOptions.qml</file>
     </qresource>
 </RCC>
