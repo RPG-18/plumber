@@ -247,7 +247,7 @@ Rectangle {
                             }
                         }
 
-                        Text {
+                        Components.Label {
                             text: topic
                             color: "#2a5fb0"
                         }

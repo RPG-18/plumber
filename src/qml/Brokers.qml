@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import "style.js" as Style
+import "Components" as Components
 
 Rectangle {
     id: item
@@ -100,7 +101,7 @@ Rectangle {
                 height: 40
                 width: item.width
 
-                Text {
+                Components.Label {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 6

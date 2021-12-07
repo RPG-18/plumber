@@ -1,9 +1,10 @@
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import plumber 1.0
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import plumber
 import "../constants.js" as Constants
+import "../Components" as Components
 
 Window {
     id: window
@@ -118,12 +119,11 @@ Window {
                         implicitWidth: Constants.MessageViewWidth / 2
                         implicitHeight: 40
 
-                        Text {
+                        Components.Label {
                             text: display
                             anchors.fill: parent
                             anchors.margins: 8
                             font.pixelSize: fontPixelSize
-                            elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                         }
@@ -154,7 +154,7 @@ Window {
                             text: qsTr("Topic:")
                         }
 
-                        Text {
+                        Components.Label {
                             text: msg.topic
                         }
 
@@ -162,7 +162,7 @@ Window {
                             text: qsTr("Partition:")
                         }
 
-                        Text {
+                        Components.Label {
                             text: msg.partition
                         }
 
@@ -170,7 +170,7 @@ Window {
                             text: qsTr("Offset:")
                         }
 
-                        Text {
+                        Components.Label {
                             text: msg.offset
                         }
 
@@ -178,7 +178,7 @@ Window {
                             text: qsTr("Timestamp:")
                         }
 
-                        Text {
+                        Components.Label {
                             text: msg.timestamp
                         }
 
@@ -186,7 +186,7 @@ Window {
                             text: qsTr("Timestamp Type:")
                         }
 
-                        Text {
+                        Components.Label {
                             text: msg.timestampType
                         }
 
