@@ -4,17 +4,17 @@
 <context>
     <name>Brokers</name>
     <message>
-        <location filename="qml/Brokers.qml" line="21"/>
+        <location filename="qml/Brokers.qml" line="22"/>
         <source>BROKERS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Brokers.qml" line="47"/>
+        <location filename="qml/Brokers.qml" line="48"/>
         <source>Brokers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Brokers.qml" line="72"/>
+        <location filename="qml/Brokers.qml" line="73"/>
         <source>Listener</source>
         <translation type="unfinished"></translation>
     </message>
@@ -248,22 +248,22 @@
 <context>
     <name>MessageView</name>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="14"/>
+        <location filename="qml/Consumer/MessageView.qml" line="15"/>
         <source>Record </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="46"/>
+        <location filename="qml/Consumer/MessageView.qml" line="47"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="51"/>
+        <location filename="qml/Consumer/MessageView.qml" line="52"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="56"/>
+        <location filename="qml/Consumer/MessageView.qml" line="57"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
