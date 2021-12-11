@@ -17,13 +17,15 @@ KafkaConnectivityTester::KafkaConnectivityTester(QObject *parent)
 
 void KafkaConnectivityTester::test(const QString &url, const QString &props) noexcept
 {
+    using namespace kafka::clients::admin;
+
     if (url.isEmpty()) {
         return;
     }
 
     std::thread t([this, url, props]() {
-        AdminClientConfig cfg;
-        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, url.toStdString());
+        Config cfg;
+        cfg.put(Config::BOOTSTRAP_SERVERS, url.toStdString());
         const QChar sep('=');
 
         QString toParse = props;
@@ -43,7 +45,7 @@ void KafkaConnectivityTester::test(const QString &url, const QString &props) noe
         }
         bool noErr = false;
         try {
-            AdminClient client(cfg);
+            kafka::clients::AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
             noErr = !res.error;
         } catch (const kafka::KafkaException &e) {
@@ -62,6 +64,8 @@ void KafkaConnectivityTester::tested(bool result)
 
 void KafkaConnectivityTester::testBroker(const QVariant &variant) noexcept
 {
+    using namespace kafka::clients::admin;
+
     if (!variant.canConvert<ClusterConfig>()) {
         spdlog::error("can't convert QVariant to BrokerConfig");
         return;
@@ -69,10 +73,10 @@ void KafkaConnectivityTester::testBroker(const QVariant &variant) noexcept
     const auto broker = variant.value<ClusterConfig>();
     std::thread t([this, broker]() {
         try {
-            AdminClientConfig cfg(broker.properties->map());
-            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, broker.bootstrap.toStdString());
+            Config cfg(broker.properties->map());
+            cfg.put(Config::BOOTSTRAP_SERVERS, broker.bootstrap.toStdString());
 
-            AdminClient client(cfg);
+            kafka::clients::AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
             const bool noErr = !res.error;
             QMetaObject::invokeMethod(this, "tested", Qt::QueuedConnection, Q_ARG(bool, noErr));

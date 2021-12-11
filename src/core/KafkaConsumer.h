@@ -92,7 +92,7 @@ private:
 private:
     int m_timerId;
     ClusterConfig m_cfg;
-    std::unique_ptr<kafka::KafkaManualCommitConsumer> m_consumer;
+    std::unique_ptr<kafka::clients::KafkaConsumer> m_consumer;
     QStringList m_topics;
     QMap<std::string, QString> m_topicMapper;
     QDateTime m_seekOnTime;

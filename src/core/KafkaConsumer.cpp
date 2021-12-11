@@ -111,11 +111,12 @@ void KafkaConsumer::pool()
 
 void KafkaConsumer::createConsumer()
 {
+    using namespace kafka::clients::consumer;
     try {
-        kafka::ConsumerConfig props(m_cfg.properties->map());
-        props.put(kafka::ConsumerConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        Config props(m_cfg.properties->map());
+        props.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
-        auto consumer = std::make_unique<kafka::KafkaManualCommitConsumer>(props);
+        auto consumer = std::make_unique<kafka::clients::KafkaConsumer>(props);
         m_consumer = std::move(consumer);
         kafka::Topics topics;
         for (const auto &topic : m_topics) {
