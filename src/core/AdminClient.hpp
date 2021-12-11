@@ -4,11 +4,11 @@
 
 
 namespace core {
-class AdminClient : public kafka::AdminClient
+class AdminClient : public kafka::clients::AdminClient
 {
 public:
     explicit AdminClient(const kafka::Properties &properties)
-        : kafka::AdminClient(properties)
+        : kafka::clients::AdminClient(properties)
     {}
 
     Optional<kafka::BrokerMetadata> fetchNodesMetadata(std::chrono::milliseconds timeout);

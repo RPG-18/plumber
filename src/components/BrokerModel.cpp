@@ -50,10 +50,12 @@ void BrokerModel::setConfig(const ClusterConfig &broker)
 
 void BrokerModel::loadMetaData()
 {
+    using namespace kafka::clients::admin;
+
     std::thread t([this, config = m_config]() {
         try {
-            AdminClientConfig cfg(config.properties->map());
-            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+            Config cfg(config.properties->map());
+            cfg.put(Config::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
 
             core::AdminClient client(cfg);
             const auto timeout = std::chrono::milliseconds(10000);

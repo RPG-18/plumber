@@ -53,10 +53,12 @@ int TopicModel::topics() const noexcept
 
 void TopicModel::loadTopics()
 {
+    using namespace kafka::clients::admin;
+
     std::thread t([this, config = m_config]() {
         try {
-            AdminClientConfig cfg(config.properties->map());
-            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+            Config cfg(config.properties->map());
+            cfg.put(Config::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
 
             core::AdminClient client(cfg);
 
@@ -117,13 +119,15 @@ int TopicModel::selected() const
 
 ErrorWrap TopicModel::removeSelectedTopics()
 {
+    using namespace kafka::clients::admin;
+
     const QString when("topic remove");
 
     try {
-        kafka::AdminClientConfig cfg(m_config.properties->map());
-        cfg.put(kafka::AdminClientConfig::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
+        Config cfg(m_config.properties->map());
+        cfg.put(Config::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
 
-        kafka::AdminClient client(cfg);
+        kafka::clients::AdminClient client(cfg);
         Topics topics;
         for (const auto &topic : m_selectedTopics) {
             topics.insert(topic.toStdString());

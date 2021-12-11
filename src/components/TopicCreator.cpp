@@ -13,13 +13,14 @@ TopicCreator::TopicCreator(QObject *parent)
 
 ErrorWrap TopicCreator::create()
 {
+    using namespace kafka::clients::admin;
     const QString when("topic create");
 
     try {
-        kafka::AdminClientConfig cfg(m_config.properties->map());
-        cfg.put(kafka::AdminClientConfig::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
+        Config cfg(m_config.properties->map());
+        cfg.put(Config::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
 
-        kafka::AdminClient client(cfg);
+        kafka::clients::AdminClient client(cfg);
         kafka::Properties topicConfig;
 
         QStringList policy;
