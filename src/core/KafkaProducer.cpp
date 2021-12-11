@@ -11,15 +11,16 @@ KafkaProducer::KafkaProducer(ClusterConfig cfg, QObject *parent)
 
 void KafkaProducer::createProducer()
 {
+    using namespace kafka::clients::producer;
     if (m_producer != nullptr) {
         return;
     }
 
     try {
-        kafka::ProducerConfig props(m_cfg.properties->map());
-        props.put(kafka::ProducerConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        Config props(m_cfg.properties->map());
+        props.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
-        auto producer = std::make_unique<kafka::KafkaSyncProducer>(props);
+        auto producer = std::make_unique<kafka::clients::KafkaProducer>(props);
         m_producer = std::move(producer);
     } catch (const kafka::KafkaException &e) {
         spdlog::error("Unexpected exception caught: {}", e.what());
@@ -38,8 +39,8 @@ std::optional<ProducerMetadata> KafkaProducer::send(const ProducerRecord &record
         if (!record.value.isEmpty()) {
             value = kafka::Value(record.value.data(), record.value.size());
         }
-        auto msg = kafka::ProducerRecord(record.topic.toStdString(), key, value);
-        const auto meta = m_producer->send(msg);
+        auto msg = kafka::clients::producer::ProducerRecord(record.topic.toStdString(), key, value);
+        const auto meta = m_producer->syncSend(msg);
         ProducerMetadata md{meta.partition(),
                             0,
                             QString::fromStdString(meta.topic()),

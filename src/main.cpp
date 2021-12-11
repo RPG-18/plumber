@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
                                                               0,
                                                               "ProtobufMessagesModel");
 
-    kafka::KafkaClient::setGlobalLogger(KafkaSpdLogger);
+    kafka::clients::KafkaClient::setGlobalLogger(KafkaSpdLogger);
     QCoreApplication::setApplicationName("plumber");
 
     QApplication app(argc, argv);

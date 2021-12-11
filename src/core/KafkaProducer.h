@@ -33,7 +33,7 @@ private:
 
 private:
     ClusterConfig m_cfg;
-    std::unique_ptr<kafka::KafkaSyncProducer> m_producer;
+    std::unique_ptr<kafka::clients::KafkaProducer> m_producer;
     QString m_lastError;
 };
 } // namespace core
