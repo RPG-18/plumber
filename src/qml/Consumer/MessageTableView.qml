@@ -35,6 +35,8 @@ Rectangle {
             model: main.model
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
+            boundsMovement: Flickable.StopAtBounds
 
             ScrollBar.vertical: ScrollBar {
                 id: listVerticalBar
@@ -202,6 +204,7 @@ Rectangle {
                 columnWidthProvider: main.columnWidthProvider
                 visible: true
                 clip: true
+                boundsMovement: Flickable.StopAtBounds
                 model: main.model
 
                 delegate: Item {

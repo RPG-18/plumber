@@ -240,7 +240,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="122"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="125"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -365,7 +365,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="180"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="182"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>

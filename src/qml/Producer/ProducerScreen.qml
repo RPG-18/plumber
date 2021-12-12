@@ -122,6 +122,8 @@ Window {
                         anchors.fill: parent
                         anchors.margins: 1
                         model: producer.log
+                        clip: true
+                        boundsMovement: Flickable.StopAtBounds
 
                         delegate: Rectangle {
                             width: parent.width
