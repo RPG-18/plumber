@@ -22,67 +22,67 @@
 <context>
     <name>ClusterConfigurationDialog</name>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="39"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="40"/>
         <source>Cluster Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="64"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="62"/>
         <source>Kafka Cluster</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="88"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="86"/>
         <source>Cluster Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="96"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="94"/>
         <source>Enter Cluster Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="103"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="101"/>
         <source>Bootstrap Servers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="111"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="109"/>
         <source>eg: localhost:9092</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="118"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="116"/>
         <source>Additional Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="152"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="150"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="166"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="164"/>
         <source>Test Kafka Connectivity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
         <source>Connection to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="226"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
         <source> OK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="233"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="231"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="233"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="231"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -240,7 +240,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="125"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="124"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -248,7 +248,7 @@
 <context>
     <name>MessageView</name>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="15"/>
+        <location filename="qml/Consumer/MessageView.qml" line="16"/>
         <source>Record </source>
         <translation type="unfinished"></translation>
     </message>
@@ -258,37 +258,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="52"/>
+        <location filename="qml/Consumer/MessageView.qml" line="51"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="57"/>
+        <location filename="qml/Consumer/MessageView.qml" line="63"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="154"/>
+        <location filename="qml/Consumer/MessageView.qml" line="167"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="162"/>
+        <location filename="qml/Consumer/MessageView.qml" line="175"/>
         <source>Partition:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="170"/>
+        <location filename="qml/Consumer/MessageView.qml" line="183"/>
         <source>Offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="178"/>
+        <location filename="qml/Consumer/MessageView.qml" line="191"/>
         <source>Timestamp:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="186"/>
+        <location filename="qml/Consumer/MessageView.qml" line="199"/>
         <source>Timestamp Type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -355,17 +355,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="75"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="71"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="81"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="75"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="182"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="180"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>

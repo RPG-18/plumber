@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import plumber 1.0
 import "style.js" as Style
+import "Components" as Components
 
 Window {
     id: dialog
@@ -52,13 +53,10 @@ ssl.enabled.protocols=...
             ColumnLayout {
                 anchors.fill: parent
 
-                TabBar {
+                Components.TabBar {
                     id: bar
 
-                    height: 25
-                    Layout.fillWidth: true
-
-                    TabButton {
+                    Components.TabButton {
                         id: clusterBtn
 
                         text: qsTr("Kafka Cluster")
