@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import plumber
 import "../constants.js" as Constants
 import "../Components" as Components
+import "../style.js" as Style
 
 Window {
     id: window
@@ -37,24 +38,37 @@ Window {
         ColumnLayout {
             anchors.fill: parent
 
-            TabBar {
+            Components.TabBar {
                 id: bar
 
                 Layout.fillWidth: true
 
-                TabButton {
-                    width: implicitWidth + 16
+                Components.TabButton {
                     text: qsTr("Data")
                 }
 
-                TabButton {
-                    width: implicitWidth + 16
+                Components.TabButton {
                     text: qsTr("Headers")
+
+                    Rectangle {
+                        height: parent.height
+                        x: -1
+                        width: 1
+                        color: Style.BorderColor
+                    }
+
                 }
 
-                TabButton {
-                    width: implicitWidth + 16
+                Components.TabButton {
                     text: qsTr("Metadata")
+
+                    Rectangle {
+                        height: parent.height
+                        x: -1
+                        width: 1
+                        color: Style.BorderColor
+                    }
+
                 }
 
             }

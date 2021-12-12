@@ -61,26 +61,26 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
 
-                    TabBar {
+                    Components.TabBar {
                         id: bar
-
-                        property int buttonWidth: 130
-                        property int buttonheight: 25
 
                         anchors.top: parent.top
                         width: parent.width
-                        height: 24
 
-                        TabButton {
+                        Components.TabButton {
                             text: qsTr("Data")
-                            width: bar.buttonWidth
-                            height: bar.buttonheight
                         }
 
-                        TabButton {
+                        Components.TabButton {
                             text: qsTr("Options")
-                            width: bar.buttonWidth
-                            height: bar.buttonheight
+
+                            Rectangle {
+                                height: parent.height
+                                x: -1
+                                width: 1
+                                color: Style.BorderColor
+                            }
+
                         }
 
                     }

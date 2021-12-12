@@ -61,5 +61,7 @@
         <file>qml/Consumer/ProtobufOptions.qml</file>
         <file>qml/Producer/ProtobufOptions.qml</file>
         <file>qml/Components/Label.qml</file>
+        <file>qml/Components/TabBar.qml</file>
+        <file>qml/Components/TabButton.qml</file>
     </qresource>
 </RCC>
