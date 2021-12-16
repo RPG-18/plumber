@@ -1,8 +1,8 @@
-import QtQuick 6.0
-import QtQuick.Controls 6.0
-import QtQuick.Window 6.0
-import QtQuick.Layouts 6.0
-import plumber 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import QtQuick.Layouts
+import plumber
 import "../style.js" as Style
 import "../constants.js" as Constants
 import "../Components" as Components
@@ -18,6 +18,13 @@ Window {
     width: Constants.ProducerScreenWidth
     height: Constants.ProducerScreenHeight
     title: qsTr("Produce to Topic: ") + dataPage.selectedTopic
+
+    HidePrivateTopicModel {
+        id: filteredModel
+
+        hide: true
+        sourceModel: window.topicModel
+    }
 
     Producer {
         id: producer
@@ -96,7 +103,7 @@ Window {
 
                             Layout.fillHeight: true
                             Layout.fillWidth: true
-                            topicModel: window.topicModel
+                            topicModel: filteredModel
                         }
 
                         OptionsPage {

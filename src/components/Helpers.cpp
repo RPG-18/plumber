@@ -32,6 +32,8 @@ void registerTypes()
     qmlRegisterType<CustomTypesModel>("plumber", 1, 0, "CustomTypesModel");
     qmlRegisterType<StartFromTimeBasedModel>("plumber", 1, 0, "StartFromTimeBasedModel");
     qmlRegisterType<FiltersModel>("plumber", 1, 0, "FiltersModel");
+    qmlRegisterType<HidePrivateTopicModel>("plumber", 1, 0, "HidePrivateTopicModel");
+
     qmlRegisterType<LimitModel>("plumber", 1, 0, "LimitModel");
     qmlRegisterType<MessageWrapper>("plumber", 1, 0, "MessageWrapper");
     qmlRegisterType<HeaderTableModel>("plumber", 1, 0, "HeaderTableModel");
