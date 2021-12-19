@@ -50,7 +50,7 @@ Rectangle {
                 width: main.width
                 implicitWidth: 100
                 implicitHeight: rowHeight
-                color: hover.containsMouse ? "#f5f5f5" : "white"
+                color: hover.containsMouse ? Style.LightGray : "white"
 
                 ColumnLayout {
                     anchors.fill: parent

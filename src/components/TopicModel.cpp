@@ -186,3 +186,31 @@ void TopicFilterModel::checked(int row, bool state)
     const auto source = mapToSource(idx);
     model()->checked(source, state);
 }
+
+HidePrivateTopicModel::HidePrivateTopicModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+    , m_hide(false)
+{}
+
+bool HidePrivateTopicModel::hide() const noexcept
+{
+    return m_hide;
+}
+
+void HidePrivateTopicModel::setHide(bool hide)
+{
+    beginResetModel();
+    m_hide = hide;
+    endResetModel();
+    emit hideChanged();
+}
+
+bool HidePrivateTopicModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    if (!m_hide) {
+        return true;
+    }
+    QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+    QString topicName = index.data(TopicModel::Topic).toString();
+    return !topicName.startsWith("__");
+}

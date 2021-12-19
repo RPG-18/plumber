@@ -75,7 +75,7 @@ Item {
 
             PropertyChanges {
                 target: bg
-                color: "#f5f5f5"
+                color: Style.LightGray
             }
 
         }

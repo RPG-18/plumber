@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QHash>
 #include <QtCore/QSet>
 #include <QtCore/QSortFilterProxyModel>
 #include <QtCore/QVector>
@@ -77,4 +78,29 @@ public:
 
 private:
     QString m_filter;
+};
+
+/**!
+ * hide/show private topic proxy model
+ */
+class HidePrivateTopicModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+    Q_PROPERTY(bool hide READ hide WRITE setHide NOTIFY hideChanged)
+
+public:
+    HidePrivateTopicModel(QObject *parent = nullptr);
+
+    bool hide() const noexcept;
+    void setHide(bool hide);
+
+signals:
+
+    void hideChanged();
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+
+private:
+    bool m_hide;
 };
