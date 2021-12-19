@@ -62,27 +62,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="164"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="191"/>
         <source>Test Kafka Connectivity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="251"/>
         <source>Connection to </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="224"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="251"/>
         <source> OK!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="231"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="258"/>
         <source>It looks like [</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/ClusterConfigurationDialog.qml" line="231"/>
+        <location filename="qml/ClusterConfigurationDialog.qml" line="258"/>
         <source>] is not even accessible, check if the broker is up and its port opened.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -268,27 +268,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="167"/>
+        <location filename="qml/Consumer/MessageView.qml" line="168"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="175"/>
+        <location filename="qml/Consumer/MessageView.qml" line="176"/>
         <source>Partition:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="183"/>
+        <location filename="qml/Consumer/MessageView.qml" line="184"/>
         <source>Offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="191"/>
+        <location filename="qml/Consumer/MessageView.qml" line="192"/>
         <source>Timestamp:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="199"/>
+        <location filename="qml/Consumer/MessageView.qml" line="200"/>
         <source>Timestamp Type:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -355,17 +355,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="71"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="78"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="75"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="82"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="180"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="189"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>
@@ -417,47 +417,52 @@
 <context>
     <name>Topics</name>
     <message>
-        <location filename="qml/Topics.qml" line="31"/>
+        <location filename="qml/Topics.qml" line="38"/>
         <source>TOPICS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="57"/>
+        <location filename="qml/Topics.qml" line="64"/>
         <source>Topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="109"/>
+        <location filename="qml/Topics.qml" line="116"/>
         <source>ACTIONS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="119"/>
+        <location filename="qml/Topics.qml" line="126"/>
         <source>Consume selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="136"/>
+        <location filename="qml/Topics.qml" line="143"/>
         <source>Delete selected Topics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="145"/>
+        <location filename="qml/Topics.qml" line="152"/>
         <source>Delete %1 topics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="146"/>
+        <location filename="qml/Topics.qml" line="153"/>
         <source>Confirm deleting %1 topics?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="164"/>
+        <location filename="qml/Topics.qml" line="178"/>
+        <source>Hide private topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Topics.qml" line="195"/>
         <source>Filter topic name...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Topics.qml" line="184"/>
+        <location filename="qml/Topics.qml" line="215"/>
         <source>Topic Name</source>
         <translation type="unfinished"></translation>
     </message>

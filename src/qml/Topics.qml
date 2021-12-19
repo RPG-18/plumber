@@ -22,6 +22,13 @@ Rectangle {
         filter: filterField.text
     }
 
+    HidePrivateTopicModel {
+        id: privateFilterModel
+
+        hide: true
+        sourceModel: topicFilterModel
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -156,6 +163,30 @@ Rectangle {
                     Layout.fillWidth: true
                 }
 
+                Button {
+                    icon.source: "qrc:/eye.svg"
+                    implicitWidth: 28
+                    implicitHeight: 28
+                    onClicked: visibilityMeny.open()
+
+                    Menu {
+                        id: visibilityMeny
+
+                        y: parent.height
+
+                        MenuItem {
+                            text: qsTr("Hide private topics")
+                            checkable: true
+                            checked: privateFilterModel.hide
+                            onTriggered: {
+                                privateFilterModel.hide = !privateFilterModel.hide;
+                            }
+                        }
+
+                    }
+
+                }
+
                 TextField {
                     id: filterField
 
@@ -201,7 +232,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-            model: topicFilterModel
+            model: privateFilterModel
             boundsMovement: Flickable.StopAtBounds
 
             ScrollBar.vertical: ScrollBar {

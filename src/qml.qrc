@@ -20,6 +20,24 @@
         <file>qml/Components/TypeCombobox.qml</file>
         <file>qml/Components/ErrorDialog.qml</file>
         <file>qml/Components/MessageBox.qml</file>
+        <file>qml/Consumer/FormatSelector.qml</file>
+        <file>qml/Consumer/RangeAndFilters.qml</file>
+        <file>qml/Consumer/StartInput.qml</file>
+        <file>qml/Consumer/FilterInput.qml</file>
+        <file>qml/Consumer/MessageTableView.qml</file>
+        <file>qml/Consumer/LimitInput.qml</file>
+        <file>qml/Consumer/MessageView.qml</file>
+        <file>qml/Consumer/ConsumerScreen.qml</file>
+        <file>qml/CreateTopicDialog.qml</file>
+        <file>qml/Producer/ProducerScreen.qml</file>
+        <file>qml/Components/TextArea.qml</file>
+        <file>qml/Producer/DataPage.qml</file>
+        <file>qml/Producer/OptionsPage.qml</file>
+        <file>qml/Consumer/ProtobufOptions.qml</file>
+        <file>qml/Producer/ProtobufOptions.qml</file>
+        <file>qml/Components/Label.qml</file>
+        <file>qml/Components/TabBar.qml</file>
+        <file>qml/Components/TabButton.qml</file>
         <file alias="kafka_icon.svg">../images/kafka_icon.svg</file>
         <file alias="kafka_icon_reverse.svg">../images/kafka_icon_reverse.svg</file>
         <file alias="home.svg">../images/home.svg</file>
@@ -32,14 +50,7 @@
         <file alias="right.svg">../images/right.svg</file>
         <file alias="list.svg">../images/list.svg</file>
         <file alias="arrows-expand.svg">../images/arrows-expand.svg</file>
-        <file>qml/Consumer/FormatSelector.qml</file>
-        <file>qml/Consumer/RangeAndFilters.qml</file>
-        <file>qml/Consumer/StartInput.qml</file>
-        <file>qml/Consumer/FilterInput.qml</file>
-        <file>qml/Consumer/MessageTableView.qml</file>
-        <file>qml/Consumer/LimitInput.qml</file>
-        <file>qml/Consumer/MessageView.qml</file>
-        <file>qml/Consumer/ConsumerScreen.qml</file>
+        <file alias="eye.svg">../images/eye.svg</file>
         <file>qtquickcontrols2.conf</file>
         <file>../fonts/Roboto-BlackItalic.ttf</file>
         <file>../fonts/Roboto-Black.ttf</file>
@@ -53,15 +64,5 @@
         <file>../fonts/Roboto-Regular.ttf</file>
         <file>../fonts/Roboto-ThinItalic.ttf</file>
         <file>../fonts/Roboto-Thin.ttf</file>
-        <file>qml/CreateTopicDialog.qml</file>
-        <file>qml/Producer/ProducerScreen.qml</file>
-        <file>qml/Components/TextArea.qml</file>
-        <file>qml/Producer/DataPage.qml</file>
-        <file>qml/Producer/OptionsPage.qml</file>
-        <file>qml/Consumer/ProtobufOptions.qml</file>
-        <file>qml/Producer/ProtobufOptions.qml</file>
-        <file>qml/Components/Label.qml</file>
-        <file>qml/Components/TabBar.qml</file>
-        <file>qml/Components/TabButton.qml</file>
     </qresource>
 </RCC>

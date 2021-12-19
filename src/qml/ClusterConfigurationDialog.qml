@@ -156,6 +156,33 @@ ssl.enabled.protocols=...
 
                                 editable: false
                                 model: ["None", "Blue", "Red", "Green", "Yellow", "Pink", "Teal"]
+
+                                delegate: ItemDelegate {
+                                    width: colorBox.width
+                                    highlighted: colorBox.highlightedIndex === index
+
+                                    contentItem: Row {
+                                        spacing: 2
+
+                                        Rectangle {
+                                            width: 16
+                                            height: 16
+                                            color: Style.BrokerColor[index]
+                                            border.width: 1
+                                            border.color: "white"
+                                        }
+
+                                        Text {
+                                            text: modelData
+                                            font: colorBox.font
+                                            elide: Text.ElideRight
+                                            verticalAlignment: Text.AlignVCenter
+                                        }
+
+                                    }
+
+                                }
+
                             }
 
                             Button {

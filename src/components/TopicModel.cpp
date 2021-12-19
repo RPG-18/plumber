@@ -202,6 +202,7 @@ void HidePrivateTopicModel::setHide(bool hide)
     beginResetModel();
     m_hide = hide;
     endResetModel();
+    emit hideChanged();
 }
 
 bool HidePrivateTopicModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const

@@ -1,6 +1,7 @@
 .pragma library
 
 var Background = "#f7f8fc"
+var LightGray = "#f5f5f5"
 var LabelColor = "#484848"
 var LabelColorDark = "#4a81fd"
 

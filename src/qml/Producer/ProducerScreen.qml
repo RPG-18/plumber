@@ -123,7 +123,7 @@ Window {
                     Layout.fillHeight: true
                     border.color: Style.BorderColor
                     border.width: 1
-                    color: producer.log.isEmpty ? "#f5f5f5" : "white"
+                    color: producer.log.isEmpty ? Style.LightGray : "white"
 
                     ListView {
                         anchors.fill: parent
@@ -135,7 +135,7 @@ Window {
                         delegate: Rectangle {
                             width: parent.width
                             height: 68
-                            color: hover.containsMouse ? "#f5f5f5" : "white"
+                            color: hover.containsMouse ? Style.LightGray : "white"
 
                             ColumnLayout {
                                 anchors.fill: parent

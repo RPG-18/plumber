@@ -86,13 +86,17 @@ private:
 class HidePrivateTopicModel : public QSortFilterProxyModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool hide READ hide WRITE setHide)
+    Q_PROPERTY(bool hide READ hide WRITE setHide NOTIFY hideChanged)
 
 public:
     HidePrivateTopicModel(QObject *parent = nullptr);
 
     bool hide() const noexcept;
     void setHide(bool hide);
+
+signals:
+
+    void hideChanged();
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
