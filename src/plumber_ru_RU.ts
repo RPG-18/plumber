@@ -240,7 +240,7 @@
 <context>
     <name>MessageTableView</name>
     <message>
-        <location filename="qml/Consumer/MessageTableView.qml" line="124"/>
+        <location filename="qml/Consumer/MessageTableView.qml" line="166"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>

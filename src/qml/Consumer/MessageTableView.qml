@@ -22,10 +22,52 @@ Rectangle {
 
     function hideColumn(column, hide) {
         columnVisible[column] = hide;
+        headerModel.setProperty(column, "isVisible", hide);
         view.forceLayout();
+        row.forceLayout();
     }
 
     clip: true
+
+    ListModel {
+        id: headerModel
+
+        ListElement {
+            name: "Topic"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Par"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Offset"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Timestamp"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Key"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Value"
+            isVisible: true
+        }
+
+        ListElement {
+            name: "Headers"
+            isVisible: true
+        }
+
+    }
 
     StackLayout {
         anchors.fill: parent
@@ -138,56 +180,63 @@ Rectangle {
             Layout.fillHeight: true
             spacing: 0
 
-            HorizontalHeaderView {
-                id: horizontalHeader
-
-                reuseItems: false
-                syncView: view
-                height: 30
+            RowLayout {
                 Layout.fillWidth: true
 
                 MouseArea {
-                    id: mouseArea
+                    id: headerHover
 
-                    anchors.fill: parent
-                    propagateComposedEvents: true
+                    width: parent.width
+                    height: parent.height
                     hoverEnabled: true
                 }
 
-                delegate: Rectangle {
-                    id: root
+                Row {
+                    id: row
 
-                    implicitWidth: 50
-                    implicitHeight: 30
+                    Repeater {
+                        model: headerModel
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: display
-                        color: Style.LabelColor
-                        font.bold: true
-                    }
+                        Rectangle {
+                            id: root
 
-                    Rectangle {
-                        id: splitter
+                            visible: model.isVisible
+                            width: columnWidths[index]
+                            height: 30
 
-                        color: Style.BorderColor
-                        height: parent.height
-                        width: 1
-                        visible: mouseArea.containsMouse
-                        x: columnWidths[index] - 1
-                        onXChanged: {
-                            if (drag.active) {
-                                main.columnWidths[index] = splitter.x + 1;
-                                view.forceLayout();
+                            Text {
+                                anchors.centerIn: parent
+                                text: model.name
+                                color: Style.LabelColor
+                                font.bold: true
                             }
-                        }
 
-                        DragHandler {
-                            id: drag
+                            Rectangle {
+                                id: splitter
 
-                            yAxis.enabled: false
-                            xAxis.enabled: true
-                            cursorShape: Qt.SizeHorCursor
+                                color: Style.BorderColor
+                                height: parent.height
+                                width: 1
+                                visible: headerHover.containsMouse
+                                x: columnWidths[index] - 1
+                                onXChanged: {
+                                    if (drag.active) {
+                                        main.columnWidths[index] = splitter.x;
+                                        root.width = splitter.x + 1;
+                                        view.forceLayout();
+                                    }
+                                }
+
+                                DragHandler {
+                                    id: drag
+
+                                    yAxis.enabled: false
+                                    xAxis.enabled: true
+                                    cursorShape: Qt.SizeHorCursor
+                                }
+
+                            }
+
                         }
 
                     }
