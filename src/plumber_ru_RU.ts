@@ -253,42 +253,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="47"/>
+        <location filename="qml/Consumer/MessageView.qml" line="54"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="51"/>
+        <location filename="qml/Consumer/MessageView.qml" line="58"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="63"/>
+        <location filename="qml/Consumer/MessageView.qml" line="70"/>
         <source>Metadata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="168"/>
+        <location filename="qml/Consumer/MessageView.qml" line="249"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="176"/>
+        <location filename="qml/Consumer/MessageView.qml" line="257"/>
         <source>Partition:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="184"/>
+        <location filename="qml/Consumer/MessageView.qml" line="265"/>
         <source>Offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="192"/>
+        <location filename="qml/Consumer/MessageView.qml" line="273"/>
         <source>Timestamp:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="200"/>
+        <location filename="qml/Consumer/MessageView.qml" line="281"/>
         <source>Timestamp Type:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -11,6 +11,11 @@ Window {
     id: window
 
     property var message
+    property var columnWidths: [320, 500]
+
+    function columnWidthProvider(column) {
+        return columnWidths[column];
+    }
 
     visible: true
     title: qsTr("Record ") + msg.topic + "-" + msg.partition + "-" + msg.offset
@@ -121,32 +126,107 @@ Window {
 
                 }
 
-                TableView {
-                    width: 100
-                    height: 100
+                ColumnLayout {
+                    spacing: 0
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: headers
-                    clip: true
 
-                    delegate: Rectangle {
-                        implicitWidth: Constants.MessageViewWidth / 2
-                        implicitHeight: 40
+                    RowLayout {
+                        Layout.fillWidth: true
 
-                        Components.Label {
-                            text: display
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            font.pixelSize: fontPixelSize
-                            verticalAlignment: Text.AlignVCenter
-                            wrapMode: Text.WordWrap
+                        MouseArea {
+                            id: headerHover
+
+                            width: parent.width
+                            height: parent.height
+                            hoverEnabled: true
                         }
 
-                        Rectangle {
-                            height: 1
-                            width: parent.width
-                            anchors.bottom: parent.bottom
-                            color: "#f2f2f2"
+                        Row {
+                            id: row
+
+                            Repeater {
+                                model: ["Key", "Value"]
+
+                                Rectangle {
+                                    id: root
+
+                                    width: columnWidths[index]
+                                    height: 30
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: modelData
+                                        color: Style.LabelColor
+                                        font.bold: true
+                                    }
+
+                                    Rectangle {
+                                        id: splitter
+
+                                        color: Style.BorderColor
+                                        height: parent.height
+                                        width: 1
+                                        visible: headerHover.containsMouse
+                                        x: columnWidths[index] - 1
+                                        onXChanged: {
+                                            if (drag.active) {
+                                                columnWidths[index] = splitter.x;
+                                                root.width = splitter.x + 1;
+                                                headerView.forceLayout();
+                                            }
+                                        }
+
+                                        DragHandler {
+                                            id: drag
+
+                                            yAxis.enabled: false
+                                            xAxis.enabled: true
+                                            cursorShape: Qt.SizeHorCursor
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    TableView {
+                        id: headerView
+
+                        width: 100
+                        height: 100
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        model: headers
+                        clip: true
+                        boundsMovement: Flickable.StopAtBounds
+                        columnWidthProvider: window.columnWidthProvider
+
+                        delegate: Rectangle {
+                            implicitWidth: Constants.MessageViewWidth / 2
+                            implicitHeight: 40
+
+                            Components.Label {
+                                text: display
+                                anchors.fill: parent
+                                anchors.margins: 8
+                                font.pixelSize: fontPixelSize
+                                verticalAlignment: Text.AlignVCenter
+                                wrapMode: Text.WordWrap
+                            }
+
+                            Rectangle {
+                                height: 1
+                                width: parent.width
+                                anchors.bottom: parent.bottom
+                                color: "#f2f2f2"
+                            }
+
                         }
 
                     }
