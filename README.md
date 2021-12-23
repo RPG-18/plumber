@@ -60,3 +60,7 @@ Apart from the name, nothing else was changed.
     % brew install protobuf
     % cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
     % cmake --build build --config Release
+
+## Thanks 
+
+![JetBrains «Black square» logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_square.svg)
