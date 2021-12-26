@@ -1,6 +1,7 @@
-import QtQuick 6.0
-import QtQuick.Controls 6.0
-import QtQuick.Layouts 6.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import "../Components" as Components
 
 Item {
     property alias compression: compressionGroup.selectedIdx
@@ -55,32 +56,32 @@ Item {
 
             Layout.fillWidth: true
 
-            Button {
+            Components.Button {
                 checkable: true
                 checked: true
                 text: "none"
                 Layout.maximumWidth: 50
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "gzip"
                 Layout.maximumWidth: 50
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "snappy"
                 Layout.maximumWidth: 75
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "lz4"
                 Layout.maximumWidth: 50
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "zstd"
                 Layout.maximumWidth: 50
@@ -109,21 +110,21 @@ Item {
 
             Layout.fillWidth: true
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "none"
                 enabled: !idempotenceCb.checked
                 Layout.maximumWidth: 50
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 text: "leader"
                 enabled: !idempotenceCb.checked
                 Layout.maximumWidth: 75
             }
 
-            Button {
+            Components.Button {
                 checkable: true
                 checked: true
                 text: "all"

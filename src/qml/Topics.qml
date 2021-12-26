@@ -82,7 +82,7 @@ Rectangle {
                     ColumnLayout {
                         Layout.fillHeight: true
 
-                        Button {
+                        Components.Button {
                             text: "CREATE"
                             onClicked: {
                                 Pages.createTopicCreateScreen(mainCluster.broker);

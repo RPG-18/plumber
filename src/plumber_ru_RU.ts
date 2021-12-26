@@ -95,13 +95,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="222"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="240"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="219"/>
+        <source>CLEAR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="227"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="245"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="249"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="254"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -296,17 +301,17 @@
 <context>
     <name>OptionsPage</name>
     <message>
-        <location filename="qml/Producer/OptionsPage.qml" line="50"/>
+        <location filename="qml/Producer/OptionsPage.qml" line="51"/>
         <source>Compression Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/OptionsPage.qml" line="96"/>
+        <location filename="qml/Producer/OptionsPage.qml" line="97"/>
         <source>Idempotence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/OptionsPage.qml" line="104"/>
+        <location filename="qml/Producer/OptionsPage.qml" line="105"/>
         <source>Ack</source>
         <translation type="unfinished"></translation>
     </message>

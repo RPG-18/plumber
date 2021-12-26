@@ -38,6 +38,13 @@ int MessageModel::columnCount(const QModelIndex &index) const
 
 QVariant MessageModel::data(const QModelIndex &index, int role) const
 {
+    if (!index.isValid()) {
+        return QVariant();
+    }
+    if (index.row() >= m_records.size()) {
+        return QVariant();
+    }
+
     if (role < Qt::DisplayRole) {
         return QVariant();
     }
@@ -154,7 +161,7 @@ void MessageModel::setValueType(Types type)
 
 Message MessageModel::getMessage(int index) const
 {
-    if (index > m_records.size()) {
+    if (index >= m_records.size()) {
         return Message();
     }
     Message rec;
@@ -162,4 +169,11 @@ Message MessageModel::getMessage(int index) const
     rec.keyType = m_keyType;
     rec.valueType = m_valueType;
     return rec;
+}
+
+void MessageModel::clear()
+{
+    beginRemoveRows(QModelIndex{}, 0, m_records.size());
+    m_records.clear();
+    endRemoveRows();
 }

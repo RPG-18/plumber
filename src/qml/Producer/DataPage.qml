@@ -1,7 +1,7 @@
-import QtQuick 6.0
-import QtQuick.Controls 6.0
-import QtQuick.Layouts 6.0
-import plumber 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import plumber
 import "../Components" as Components
 
 Item {

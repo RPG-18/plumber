@@ -185,7 +185,7 @@ Window {
                             Layout.fillWidth: true
                         }
 
-                        Button {
+                        Components.Button {
                             text: qsTr("PRODUCE TO TOPIC")
                             onClicked: {
                                 let e = producer.send(dataPage.keyData(), dataPage.valueData());

@@ -33,6 +33,7 @@ public:
     void append(core::ConsumerRecords &&records);
 
     Q_INVOKABLE Message getMessage(int index) const;
+    Q_INVOKABLE void clear();
 
 private:
     QVector<QString> m_headers;
