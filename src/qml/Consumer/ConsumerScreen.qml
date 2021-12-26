@@ -216,9 +216,14 @@ Window {
                     }
 
                     Components.Button {
-                        id: start
-                        implicitHeight: 28
+                        text: qsTr("CLEAR")
+                        onClicked: consumer.messages.clear()
+                    }
 
+                    Components.Button {
+                        id: start
+
+                        implicitHeight: 28
                         text: qsTr("START")
                         state: consumer.isRunning ? "stop" : "start"
                         onClicked: {

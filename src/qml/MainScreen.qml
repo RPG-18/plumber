@@ -1,10 +1,11 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import "Components" as Components
 import "style.js" as Style
 import "./LeftPanel" as LeftPanel
 import "pages.js" as Pages
-import plumber 1.0
+import plumber
 
 Rectangle {
     id: mainScreen
@@ -30,7 +31,7 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
-            Button {
+            Components.Button {
                 text: "PRODUCER"
                 onClicked: {
                     Pages.createProducerScreen(mainCluster.topicModel(), mainScreen.broker);

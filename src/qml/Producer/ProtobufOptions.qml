@@ -1,8 +1,8 @@
-import QtQuick 6.0
-import QtQuick.Layouts 6.0
-import QtQuick.Controls 6.0
-import Qt.labs.platform 1.1
-import plumber 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Qt.labs.platform
+import plumber
 import "../style.js" as Style
 
 Item {

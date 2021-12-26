@@ -106,7 +106,7 @@ Rectangle {
                         Layout.fillWidth: true
 
                         Text {
-                            text: model.timestamp
+                            text: timestamp
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
                             color: Style.MessageGrayColor
@@ -121,7 +121,7 @@ Rectangle {
                         }
 
                         Text {
-                            text: model.key
+                            text: key
                             font.pixelSize: fontPixelSize
                             font.family: Style.FontFamily
                             color: Style.MessageGrayColor
@@ -132,7 +132,7 @@ Rectangle {
                     Text {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        text: model.value
+                        text: value
                         elide: Text.ElideRight
                         color: Style.MessageBlueColor
                         font.pixelSize: fontPixelSize

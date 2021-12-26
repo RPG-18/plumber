@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import plumber
-
 import "style.js" as Style
 import "pages.js" as Pages
 import "./Components" as Components
