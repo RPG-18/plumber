@@ -38,6 +38,7 @@
         <file>qml/Components/Label.qml</file>
         <file>qml/Components/TabBar.qml</file>
         <file>qml/Components/TabButton.qml</file>
+        <file>qml/Components/Button.qml</file>
         <file alias="kafka_icon.svg">../images/kafka_icon.svg</file>
         <file alias="kafka_icon_reverse.svg">../images/kafka_icon_reverse.svg</file>
         <file alias="home.svg">../images/home.svg</file>
@@ -51,6 +52,9 @@
         <file alias="list.svg">../images/list.svg</file>
         <file alias="arrows-expand.svg">../images/arrows-expand.svg</file>
         <file alias="eye.svg">../images/eye.svg</file>
+        <file alias="plus.svg">../images/plus.svg</file>
+        <file alias="plug.svg">../images/plug.svg</file>
+        <file alias="diskette.svg">../images/diskette.svg</file>
         <file>qtquickcontrols2.conf</file>
         <file>../fonts/Roboto-BlackItalic.ttf</file>
         <file>../fonts/Roboto-Black.ttf</file>
@@ -64,5 +68,6 @@
         <file>../fonts/Roboto-Regular.ttf</file>
         <file>../fonts/Roboto-ThinItalic.ttf</file>
         <file>../fonts/Roboto-Thin.ttf</file>
+        <file>qml/Components/BlueButton.qml</file>
     </qresource>
 </RCC>

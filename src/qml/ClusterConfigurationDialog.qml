@@ -185,10 +185,11 @@ ssl.enabled.protocols=...
 
                             }
 
-                            Button {
+                            Components.Button {
                                 Layout.column: 1
                                 Layout.row: 4
                                 text: qsTr("Test Kafka Connectivity")
+                                icon.source: "qrc:/plug.svg"
                                 onClicked: {
                                     if (bootstrapServers.text.length !== 0) {
                                         page.state = "testing";
@@ -309,17 +310,18 @@ ssl.enabled.protocols=...
                 Layout.fillWidth: true
             }
 
-            Button {
+            Components.Button {
                 Layout.bottomMargin: 10
-                text: "Cancel"
+                text: "CANCEL"
                 onClicked: dialog.clearAndClose()
             }
 
-            Button {
+            Components.BlueButton {
                 Layout.rightMargin: 10
                 Layout.bottomMargin: 10
                 enabled: clusterName.text.length !== 0 && bootstrapServers.text.length !== 0
-                text: "Save"
+                icon.source: "qrc:/diskette.svg"
+                text: "SAVE"
                 onClicked: {
                     dialog.createBroker(clusterName.text, bootstrapServers.text, Style.BrokerColor[colorBox.currentIndex], addProperties.text);
                     dialog.clearAndClose();

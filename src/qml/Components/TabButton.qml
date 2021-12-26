@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls 6.0 as Controls
+import QtQuick.Controls as Controls
 import "../style.js" as Style
 
 Controls.TabButton {

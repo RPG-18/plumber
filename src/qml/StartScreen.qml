@@ -1,9 +1,11 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import plumber
+
 import "style.js" as Style
 import "pages.js" as Pages
-import plumber 1.0
+import "./Components" as Components
 
 Item {
     RowLayout {
@@ -82,7 +84,8 @@ Item {
             Layout.preferredHeight: 100
             Layout.fillHeight: true
 
-            Button {
+            Components.Button {
+                icon.source: "qrc:/plus.svg"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("New Kafka Cluster")
