@@ -34,6 +34,16 @@ QVariant TopicModel::data(const QModelIndex &index, int role) const
     }
 }
 
+bool TopicModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (role != Qt::CheckStateRole) {
+        return false;
+    }
+    checked(index, value.toBool());
+    emit dataChanged(index, index, {Qt::CheckStateRole});
+    return true;
+}
+
 QHash<int, QByteArray> TopicModel::roleNames() const
 {
     static QHash<int, QByteArray> roles{{Topic, "topic"}, {Selected, "selected"}};
@@ -85,14 +95,17 @@ void TopicModel::loadTopics()
 void TopicModel::refresh()
 {
     beginResetModel();
+    m_topics.clear();
+    m_selected.clear();
+    m_selectedTopics.clear();
     loadTopics();
     endResetModel();
+    emit selectedChanged();
 }
 
 void TopicModel::received(QVector<QString> topics)
 {
     beginResetModel();
-    m_selectedTopics.clear();
     m_topics.swap(topics);
     m_selected.resize(m_topics.size(), false);
     endResetModel();
@@ -103,13 +116,15 @@ void TopicModel::checked(const QModelIndex &index, bool state)
 {
     const auto row = index.row();
     m_selected[row] = state;
-    changePersistentIndex(index, index);
     if (state) {
         m_selectedTopics.insert(m_topics[row]);
     } else {
         m_selectedTopics.remove(m_topics[row]);
     }
+
+    changePersistentIndex(index, index);
     emit selectedChanged();
+    emit dataChanged(index, index, {TopicModel::Selected});
 }
 
 int TopicModel::selected() const
@@ -213,4 +228,15 @@ bool HidePrivateTopicModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
     QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
     QString topicName = index.data(TopicModel::Topic).toString();
     return !topicName.startsWith("__");
+}
+
+void HidePrivateTopicModel::checked(int row, bool state)
+{
+    const auto itemIndex = index(row, 0, QModelIndex());
+    auto sourceIndex = mapToSource(itemIndex);
+    if (!sourceIndex.isValid()) {
+        spdlog::error("HidePrivateTopicModel::checked invalid source index");
+        return;
+    }
+    sourceModel()->setData(sourceIndex, state, Qt::CheckStateRole);
 }

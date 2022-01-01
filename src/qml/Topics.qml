@@ -112,7 +112,7 @@ Rectangle {
                 anchors.rightMargin: 6
                 anchors.verticalCenter: parent.verticalCenter
 
-                Button {
+                Components.Button {
                     text: qsTr("ACTIONS") + " (" + topicModel.selected + ")"
                     visible: topicModel.selected > 0
                     onClicked: topicMenu.open()
@@ -261,9 +261,10 @@ Rectangle {
                             CheckBox {
                                 id: box
 
+                                checked: selected
                                 visible: selected || area.containsMouse
                                 onCheckedChanged: {
-                                    topicFilterModel.checked(index, box.checked);
+                                    privateFilterModel.checked(index, box.checked);
                                 }
                             }
 
