@@ -414,7 +414,7 @@
 <context>
     <name>StartScreen</name>
     <message>
-        <location filename="qml/StartScreen.qml" line="91"/>
+        <location filename="qml/StartScreen.qml" line="90"/>
         <source>New Kafka Cluster</source>
         <translation type="unfinished"></translation>
     </message>

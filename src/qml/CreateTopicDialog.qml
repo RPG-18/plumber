@@ -135,7 +135,7 @@ Window {
                     Layout.fillWidth: true
                 }
 
-                Button {
+                Components.Button {
                     id: createButton
 
                     enabled: name.length > 0
