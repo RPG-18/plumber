@@ -9,6 +9,7 @@
 #include "KafkaConnectivityTester.h"
 #include "Producer.h"
 #include "ProtoOption.h"
+#include "Settings.h"
 #include "TopicCreator.h"
 
 void registerTypes()
@@ -23,6 +24,7 @@ void registerTypes()
     qmlRegisterType<ConsumerFilterSelector>("plumber", 1, 0, "ConsumerFilterSelector");
     qmlRegisterType<ConsumerBeginningSelector>("plumber", 1, 0, "ConsumerBeginningSelector");
     qmlRegisterType<TopicCreator>("plumber", 1, 0, "TopicCreator");
+    qmlRegisterType<Settings>("plumber", 1, 0, "Settings");
 
     qmlRegisterType<Producer>("plumber", 1, 0, "Producer");
     qmlRegisterType<ProducerOptions>("plumber", 1, 0, "ProducerOptions");

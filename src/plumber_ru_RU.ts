@@ -342,12 +342,12 @@
 <context>
     <name>Panel</name>
     <message>
-        <location filename="qml/LeftPanel/Panel.qml" line="125"/>
+        <location filename="qml/LeftPanel/Panel.qml" line="126"/>
         <source>&lt;&lt; Collapse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/LeftPanel/Panel.qml" line="147"/>
+        <location filename="qml/LeftPanel/Panel.qml" line="148"/>
         <source>« Collapse</source>
         <translation type="unfinished"></translation>
     </message>

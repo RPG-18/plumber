@@ -6,6 +6,7 @@ Rectangle {
     id: menu
 
     property var broker
+    property var settings
 
     signal activatedItem(int indx)
 
@@ -17,7 +18,7 @@ Rectangle {
     height: 200
     radius: 10
     border.color: Style.BorderColor
-    state: "default"
+    state: settings.leftPanelState
 
     Rectangle {
         id: header
@@ -130,9 +131,9 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 if (menu.state === "default")
-                    menu.state = "small";
+                    settings.leftPanelState = "small";
                 else
-                    menu.state = "default";
+                    settings.leftPanelState = "default";
             }
         }
 

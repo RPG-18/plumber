@@ -23,7 +23,6 @@ bool ConfigurationService::save()
     const auto path = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
     const QDir dir(path);
     return m_cfg.saveToFile(dir.filePath(ConfigName));
-    ;
 }
 
 void ConfigurationService::createDirs()
