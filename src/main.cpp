@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
 
     kafka::clients::KafkaClient::setGlobalLogger(KafkaSpdLogger);
     QCoreApplication::setApplicationName("plumber");
+    QCoreApplication::setOrganizationName("plumber");
 
     QApplication app(argc, argv);
     init();

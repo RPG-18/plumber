@@ -20,6 +20,10 @@ Rectangle {
         broker: mainScreen.broker
     }
 
+    Settings {
+        id: mainSettings
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 4
@@ -49,6 +53,7 @@ Rectangle {
                 id: menu
 
                 broker: mainScreen.broker
+                settings: mainSettings
                 Layout.fillHeight: true
                 onActivatedItem: (indx) => {
                     stackLayout.currentIndex = indx;

@@ -14,7 +14,8 @@ add_library(components
         ErrorWrap.cpp ErrorWrap.h
         Producer.cpp Producer.h
         ProtoOption.cpp ProtoOption.h
-        Helpers.cpp Helpers.h)
+        Helpers.cpp Helpers.h
+        Settings.cpp Settings.h)
 
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
