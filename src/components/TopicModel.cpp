@@ -1,5 +1,6 @@
 #include "TopicModel.h"
 #include "AdminClient.hpp"
+#include "KafkaAdmin.h"
 #include "spdlog/spdlog.h"
 
 #include <QtCore/QDebug>
@@ -66,28 +67,16 @@ void TopicModel::loadTopics()
     using namespace kafka::clients::admin;
 
     std::thread t([this, config = m_config]() {
-        try {
-            Config cfg(config.properties->map());
-            cfg.put(Config::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+        core::KafkaAdmin admin(config);
+        core::KafkaAdmin::Topics topics;
+        core::KafkaAdmin::Error err;
+        std::tie(topics, err) = admin.listTopics();
 
-            core::AdminClient client(cfg);
-
-            const auto response = client.listTopics();
-            if (!response.error) {
-                QVector<QString> topics;
-                topics.reserve(response.topics.size());
-                for (const auto &topic : response.topics) {
-                    topics.emplaceBack(QString::fromStdString(topic));
-                }
-                QMetaObject::invokeMethod(this,
-                                          "received",
-                                          Qt::QueuedConnection,
-                                          Q_ARG(QVector<QString>, topics));
-            } else {
-                spdlog::error("list topics {}", response.error.message());
-            }
-        } catch (const kafka::KafkaException &e) {
-            spdlog::error("Unexpected exception caught: {}", e.what());
+        if (!topics.isEmpty()) {
+            QMetaObject::invokeMethod(this,
+                                      "received",
+                                      Qt::QueuedConnection,
+                                      Q_ARG(QVector<QString>, topics));
         }
     });
     t.detach();
@@ -136,29 +125,13 @@ ErrorWrap TopicModel::removeSelectedTopics()
 {
     using namespace kafka::clients::admin;
 
-    const QString when("topic remove");
-
-    try {
-        Config cfg(m_config.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
-
-        kafka::clients::AdminClient client(cfg);
-        Topics topics;
-        for (const auto &topic : m_selectedTopics) {
-            topics.insert(topic.toStdString());
-        }
-
-        auto result = client.deleteTopics(topics);
-        if (result.error) {
-            spdlog::error("topic remove error {}", result.error.message());
-            return ErrorWrap{when, QString::fromStdString(result.error.message())};
-        }
-        refresh();
-    } catch (const kafka::KafkaException &e) {
-        spdlog::error("topic create exception {}", e.what());
-        return ErrorWrap{when, QString::fromStdString(e.what())};
+    core::KafkaAdmin admin(m_config);
+    core::KafkaAdmin::Topics topics(m_selectedTopics.cbegin(), m_selectedTopics.cend());
+    if (auto err = admin.deleteTopics(topics)) {
+        return ErrorWrap{err->where, err->what};
     }
 
+    refresh();
     return ErrorWrap{};
 }
 
