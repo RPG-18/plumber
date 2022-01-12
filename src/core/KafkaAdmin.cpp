@@ -82,4 +82,26 @@ std::optional<KafkaAdmin::Error> KafkaAdmin::deleteTopics(const Topics &topics,
     return {};
 }
 
+std::tuple<std::optional<KafkaAdmin::BrokerMetadata>, KafkaAdmin::Error>
+KafkaAdmin::fetchNodesMetadata(std::chrono::milliseconds timeout)
+{
+    using namespace kafka::clients::admin;
+
+    const QString when("topic remove");
+
+    try {
+        Config cfg(m_cfg.properties->map());
+        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+
+        core::AdminClient client(cfg);
+
+        auto md = client.fetchNodesMetadata(timeout);
+        return std::make_tuple(md, Error{});
+
+    } catch (const kafka::KafkaException &e) {
+        spdlog::error("fetch nodes metadata exception {}", e.what());
+        return std::make_tuple(std::nullopt, Error{when, QString::fromStdString(e.what())});
+    }
+}
+
 } // namespace core

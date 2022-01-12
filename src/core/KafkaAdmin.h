@@ -4,6 +4,8 @@
 #include <QtCore/QString>
 #include <QtCore/QVector>
 
+#include <kafka/BrokerMetadata.h>
+
 #include "ClusterConfig.h"
 
 namespace core {
@@ -17,6 +19,8 @@ class KafkaAdmin : public QObject
 public:
     static constexpr int DEFAULT_COMMAND_TIMEOUT_MS = 30000;
     using Topics = QVector<QString>;
+
+    using BrokerMetadata = kafka::BrokerMetadata;
 
     struct Error
     {
@@ -46,6 +50,14 @@ public:
      */
     std::optional<Error> deleteTopics(
         const Topics &topics,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+
+    /**!
+     * fetch brokers
+     * @param timeout
+     * @return brokers and error
+     */
+    std::tuple<std::optional<BrokerMetadata>, Error> fetchNodesMetadata(
         std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
 
 private:

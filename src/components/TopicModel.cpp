@@ -1,5 +1,4 @@
 #include "TopicModel.h"
-#include "AdminClient.hpp"
 #include "KafkaAdmin.h"
 #include "spdlog/spdlog.h"
 
@@ -64,13 +63,9 @@ int TopicModel::topics() const noexcept
 
 void TopicModel::loadTopics()
 {
-    using namespace kafka::clients::admin;
-
     std::thread t([this, config = m_config]() {
         core::KafkaAdmin admin(config);
-        core::KafkaAdmin::Topics topics;
-        core::KafkaAdmin::Error err;
-        std::tie(topics, err) = admin.listTopics();
+        auto [topics, err] = admin.listTopics();
 
         if (!topics.isEmpty()) {
             QMetaObject::invokeMethod(this,
@@ -123,8 +118,6 @@ int TopicModel::selected() const
 
 ErrorWrap TopicModel::removeSelectedTopics()
 {
-    using namespace kafka::clients::admin;
-
     core::KafkaAdmin admin(m_config);
     core::KafkaAdmin::Topics topics(m_selectedTopics.cbegin(), m_selectedTopics.cend());
     if (auto err = admin.deleteTopics(topics)) {

@@ -1,7 +1,7 @@
 #include <thread>
 
-#include "AdminClient.hpp"
 #include "BrokerModel.h"
+#include "KafkaAdmin.h"
 #include "spdlog/spdlog.h"
 
 using namespace kafka;
@@ -50,24 +50,18 @@ void BrokerModel::setConfig(const ClusterConfig &broker)
 
 void BrokerModel::loadMetaData()
 {
-    using namespace kafka::clients::admin;
+    using namespace core;
 
     std::thread t([this, config = m_config]() {
-        try {
-            Config cfg(config.properties->map());
-            cfg.put(Config::BOOTSTRAP_SERVERS, config.bootstrap.toStdString());
+        KafkaAdmin admin(config);
 
-            core::AdminClient client(cfg);
-            const auto timeout = std::chrono::milliseconds(10000);
-            if (auto md = client.fetchNodesMetadata(timeout)) {
-                auto ptr = std::make_shared<BrokerMetadata>("");
-                *ptr = *md;
+        auto [md, err] = admin.fetchNodesMetadata();
+        if (md) {
+            auto ptr = std::make_shared<BrokerMetadata>("");
+            *ptr = *md;
 
-                std::atomic_store(&this->m_md, ptr);
-                QMetaObject::invokeMethod(this, "received", Qt::QueuedConnection);
-            }
-        } catch (const kafka::KafkaException &e) {
-            spdlog::error("Unexpected exception caught: {}", e.what());
+            std::atomic_store(&this->m_md, ptr);
+            QMetaObject::invokeMethod(this, "received", Qt::QueuedConnection);
         }
     });
     t.detach();
