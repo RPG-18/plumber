@@ -60,6 +60,22 @@ public:
     std::tuple<std::optional<BrokerMetadata>, Error> fetchNodesMetadata(
         std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
 
+    /**!
+     * create topics
+     * @param topics topic list
+     * @param numPartitions partitions count
+     * @param replicationFactor replication factor
+     * @param topicConfig configuration
+     * @param timeout timeout
+     * @return error
+     */
+    std::optional<Error> createTopics(
+        const Topics& topics,
+        int numPartitions,
+        int replicationFactor,
+        const kafka::Properties &topicConfig,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+
 private:
     ClusterConfig m_cfg;
 };

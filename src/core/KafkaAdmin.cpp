@@ -104,4 +104,34 @@ KafkaAdmin::fetchNodesMetadata(std::chrono::milliseconds timeout)
     }
 }
 
+std::optional<KafkaAdmin::Error> KafkaAdmin::createTopics(const Topics& topics,
+                                                          int numPartitions,
+                                                          int replicationFactor,
+                                                          const kafka::Properties &topicConfig,
+                                                          std::chrono::milliseconds timeout)
+{
+    using namespace kafka::clients::admin;
+
+    const QString when("create topic");
+    try {
+        Config cfg(m_cfg.properties->map());
+        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+
+        kafka::Topics t;
+        for (const auto &topic : topics) {
+            t.insert(topic.toStdString());
+        }
+
+        core::AdminClient client(cfg);
+        auto res = client.createTopics(t, numPartitions, replicationFactor, topicConfig, timeout);
+        if (res.error) {
+            return Error{when, QString::fromStdString(res.error.message())};
+        }
+    } catch (const kafka::KafkaException &e) {
+        spdlog::error("topic create exception {}", e.what());
+        return Error{when, QString::fromStdString(e.what())};
+    }
+    return {};
+}
+
 } // namespace core
