@@ -1,7 +1,7 @@
 #include "TopicCreator.h"
+#include "AdminClient.hpp"
+#include "KafkaAdmin.h"
 #include "spdlog/spdlog.h"
-
-#include <kafka/AdminClient.h>
 
 TopicCreator::TopicCreator(QObject *parent)
     : QObject(parent)
@@ -13,38 +13,25 @@ TopicCreator::TopicCreator(QObject *parent)
 
 ErrorWrap TopicCreator::create()
 {
-    using namespace kafka::clients::admin;
     const QString when("topic create");
 
-    try {
-        Config cfg(m_config.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_config.bootstrap.toStdString());
-
-        kafka::clients::AdminClient client(cfg);
-        kafka::Properties topicConfig;
-
-        QStringList policy;
-        if (m_retention) {
-            policy.push_back("delete");
-        }
-        if (m_compaction) {
-            policy.push_back("compact");
-        }
-        topicConfig.put("cleanup.policy", policy.join(',').toStdString());
-
-        auto result = client.createTopics({m_name.toStdString()},
-                                          m_partitions,
-                                          m_replicationFactor,
-                                          topicConfig);
-        if (result.error) {
-            spdlog::error("topic create error {}", result.error.message());
-            return ErrorWrap{when, QString::fromStdString(result.error.message())};
-        }
-    } catch (const kafka::KafkaException &e) {
-        spdlog::error("topic create exception {}", e.what());
-        return ErrorWrap{when, QString::fromStdString(e.what())};
+    QStringList policy;
+    if (m_retention) {
+        policy.push_back("delete");
+    }
+    if (m_compaction) {
+        policy.push_back("compact");
     }
 
+    kafka::Properties topicConfig;
+
+    topicConfig.put("cleanup.policy", policy.join(',').toStdString());
+
+    core::KafkaAdmin admin(m_config);
+    auto err = admin.createTopics({m_name}, m_partitions, m_replicationFactor, topicConfig);
+    if (err) {
+        return ErrorWrap{err->where, err->what};
+    }
     return ErrorWrap{};
 }
 

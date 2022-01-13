@@ -8,7 +8,7 @@ add_library(core AdminClient.hpp
         ProducerRecord.h
         Types.h
         AbstractConverter.cpp AbstractConverter.h
-)
+        KafkaAdmin.cpp KafkaAdmin.h)
 
 target_link_libraries(core
         PRIVATE
