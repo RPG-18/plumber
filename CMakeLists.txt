@@ -4,12 +4,12 @@ project(plumber LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
@@ -18,9 +18,8 @@ include(cmake/tools.cmake)
 if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
     add_compile_options("-Wall" "-Wextra" "-Wshadow" "-Wno-unused-result")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS )
 endif ()
-
 clang_tidy(-header-filter='${CMAKE_SOURCE_DIR}/src/*')
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -41,9 +40,9 @@ find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg Widgets 
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(Boost REQUIRED)
+find_package(Boost 1.75.0 REQUIRED COMPONENTS filesystem iostreams regex system)
 find_package(Protobuf REQUIRED)
-find_package(Snappy REQUIRED)
+find_package(Snappy CONFIG REQUIRED)
 
 set(TS_FILES src/plumber_ru_RU.ts)
 

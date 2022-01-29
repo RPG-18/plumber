@@ -22,6 +22,13 @@ set(AVRO_SOURCE_FILES
 
 set_property(SOURCE ${AVRO_SOURCE_FILES} PROPERTY SKIP_AUTOGEN ON)
 add_library(avrocpp STATIC ${AVRO_SOURCE_FILES})
+target_link_libraries(avrocpp PRIVATE
+        Boost::boost
+        Boost::filesystem
+        Boost::iostreams
+        Boost::system
+        Snappy::snappy
+)
 target_include_directories(avrocpp PRIVATE ${SNAPPY_INCLUDE_DIR})
 set_property (TARGET avrocpp
         APPEND PROPERTY COMPILE_DEFINITIONS AVRO_SOURCE)
