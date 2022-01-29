@@ -27,26 +27,26 @@ MessageModel::MessageModel(QObject *parent)
 int MessageModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return m_records.size();
+    return int(m_records.size());
 }
 
 int MessageModel::columnCount(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return m_headers.size();
+    return int(m_headers.size());
 }
 
 QVariant MessageModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= m_records.size()) {
-        return QVariant();
+        return {};
     }
 
     if (role < Qt::DisplayRole) {
-        return QVariant();
+        return {};
     }
 
     if (role == Qt::DisplayRole) {
@@ -94,10 +94,10 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
             stream.flush();
             return str;
         }
-        return QString();
+        return {};
 
     default:
-        return QString();
+        return {};
     }
 }
 
@@ -117,7 +117,7 @@ QHash<int, QByteArray> MessageModel::roleNames() const
 QVariant MessageModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole) {
-        return QVariant();
+        return {};
     }
     if (orientation != Qt::Horizontal) {
         return section;
@@ -161,10 +161,10 @@ void MessageModel::setValueType(Types type)
 
 Message MessageModel::getMessage(int index) const
 {
-    if (index >= m_records.size()) {
-        return Message();
-    }
     Message rec;
+    if (index >= m_records.size()) {
+        return rec;
+    }
     *static_cast<core::ConsumerRecord *>(&rec) = *m_records[index];
     rec.keyType = m_keyType;
     rec.valueType = m_valueType;
@@ -173,7 +173,7 @@ Message MessageModel::getMessage(int index) const
 
 void MessageModel::clear()
 {
-    beginRemoveRows(QModelIndex{}, 0, m_records.size());
+    beginRemoveRows(QModelIndex{}, 0, int(m_records.size()));
     m_records.clear();
     endRemoveRows();
 }

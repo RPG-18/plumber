@@ -22,14 +22,14 @@ QByteArray ProtobufConverter::toJSON(QByteArray &&binary)
     using namespace google::protobuf::util;
 
     m_message->Clear();
-    if (!m_message->ParseFromArray(binary.data(), binary.size())) {
+    if (!m_message->ParseFromArray(binary.data(), int(binary.size()))) {
         return errParse;
     }
 
     JsonPrintOptions opt;
     std::string json;
     MessageToJsonString(*m_message, &json, opt);
-    return QByteArray(json.c_str(), json.size());
+    return {json.c_str(), qsizetype(json.size())};
 }
 
 QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
@@ -37,8 +37,7 @@ QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
     using namespace google::protobuf::util;
     using namespace google::protobuf::stringpiece_internal;
 
-    //m_message->Clear();
-
+    m_message->Clear();
     StringPiece piece(json.data(), json.size());
 
     JsonParseOptions opt;

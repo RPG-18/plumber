@@ -39,6 +39,8 @@ Window {
             valueType: format.valueTypeId
             protoKey: format.keyProto
             protoValue: format.valueProto
+            avroKey: format.keyAvro
+            avroValue: format.valueAvro
         }
 
         limiter: ConsumerLimiterSelector {

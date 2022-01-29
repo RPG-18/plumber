@@ -67,7 +67,7 @@ private:
 #if COMPILER_SUPPORTS_CPP_17
     static constexpr int DEFAULT_COMMAND_TIMEOUT_MS = 30000;
 #else
-    enum { DEFAULT_COMMAND_TIMEOUT_MS = 30000 };
+    enum { DefaultCommandTimeoutMS = 30000 };
 #endif
 };
 

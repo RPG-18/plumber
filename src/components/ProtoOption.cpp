@@ -2,7 +2,6 @@
 
 #include "AbstractConverter.h"
 #include "Consumer.h"
-#include "KafkaConsumer.h"
 #include "ProtoOption.h"
 
 #include "formats/protobuf/ProtobufConverter.h"

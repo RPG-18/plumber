@@ -95,18 +95,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="219"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="221"/>
         <source>CLEAR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="227"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="245"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="229"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="247"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="254"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="256"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -196,22 +196,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="52"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="52"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="60"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="74"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="83"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="105"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>

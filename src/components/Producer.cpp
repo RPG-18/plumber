@@ -218,13 +218,13 @@ ProducerLogModel::ProducerLogModel(QObject *parent)
 int ProducerLogModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return m_meta.size();
+    return int(m_meta.size());
 }
 
 QVariant ProducerLogModel::data(const QModelIndex &index, int role) const
 {
     if (role < Qt::DisplayRole) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= m_meta.size()) {
         return {};

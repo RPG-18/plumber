@@ -12,7 +12,7 @@ class ByteArrayInputStream final : public google::protobuf::io::ArrayInputStream
 {
 public:
     explicit ByteArrayInputStream(QByteArray &&data)
-        : ArrayInputStream(data.data(), data.size())
+        : ArrayInputStream(data.data(), int(data.size()))
         , m_data(std::move(data))
     {}
 
@@ -27,7 +27,7 @@ namespace formats::protobuf {
 google::protobuf::io::ZeroCopyInputStream *ProtobufSourceTree::Open(const std::string &filename)
 {
     static QSet<std::string> inResources = {"google/protobuf/any.proto",
-                                            "google/protobuf/api.proto",
+                                            "google/protobuf/avro.proto",
                                             "google/protobuf/descriptor.proto",
                                             "google/protobuf/duration.proto",
                                             "google/protobuf/empty.proto",

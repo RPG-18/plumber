@@ -34,7 +34,7 @@ std::tuple<KafkaAdmin::Topics, KafkaAdmin::Error> KafkaAdmin::listTopics(
         const auto response = client.listTopics(timeout);
         if (!response.error) {
             Topics topics;
-            topics.reserve(response.topics.size());
+            topics.reserve(qsizetype(response.topics.size()));
             for (const auto &topic : response.topics) {
                 topics.emplaceBack(QString::fromStdString(topic));
             }
@@ -104,7 +104,7 @@ KafkaAdmin::fetchNodesMetadata(std::chrono::milliseconds timeout)
     }
 }
 
-std::optional<KafkaAdmin::Error> KafkaAdmin::createTopics(const Topics& topics,
+std::optional<KafkaAdmin::Error> KafkaAdmin::createTopics(const Topics &topics,
                                                           int numPartitions,
                                                           int replicationFactor,
                                                           const kafka::Properties &topicConfig,

@@ -17,7 +17,7 @@ class KafkaAdmin : public QObject
 {
     Q_OBJECT
 public:
-    static constexpr int DEFAULT_COMMAND_TIMEOUT_MS = 30000;
+    static constexpr int DefaultCommandTimeoutMS = 30000;
     using Topics = QVector<QString>;
 
     using BrokerMetadata = kafka::BrokerMetadata;
@@ -40,7 +40,7 @@ public:
      * @return topics and error
      */
     std::tuple<Topics, Error> listTopics(
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
 
     /**!
      * delete topic
@@ -50,7 +50,7 @@ public:
      */
     std::optional<Error> deleteTopics(
         const Topics &topics,
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
 
     /**!
      * fetch brokers
@@ -58,7 +58,7 @@ public:
      * @return brokers and error
      */
     std::tuple<std::optional<BrokerMetadata>, Error> fetchNodesMetadata(
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
 
     /**!
      * create topics
@@ -70,11 +70,11 @@ public:
      * @return error
      */
     std::optional<Error> createTopics(
-        const Topics& topics,
+        const Topics &topics,
         int numPartitions,
         int replicationFactor,
         const kafka::Properties &topicConfig,
-        std::chrono::milliseconds timeout = std::chrono::milliseconds(DEFAULT_COMMAND_TIMEOUT_MS));
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
 
 private:
     ClusterConfig m_cfg;

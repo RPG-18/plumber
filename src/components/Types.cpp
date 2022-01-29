@@ -43,7 +43,7 @@ QString format(Types type, const QByteArray &data)
             return QString::number(val, 10);
         }
         default:
-            return QString("Invalid");
+            return {"Invalid"};
         }
     }
 
@@ -63,16 +63,17 @@ QString format(Types type, const QByteArray &data)
             return QString::number(val);
         }
         default:
-            return QString("Invalid");
+            return {"Invalid"};
         }
     };
 
-    case Protobuf: {
+    case Protobuf:
+    case Avro: {
         return data;
-    }
+    };
 
     default:
-        return QString("Unknown");
+        return {"Unknown"};
     }
 }
 
@@ -121,12 +122,13 @@ QByteArray bytes(Types type, const QString &value)
         spdlog::error("failed convert string {} to long", value.toStdString());
     } break;
     case Types::NoneType:
-        return QByteArray();
+        return {};
 
-    case Types::Protobuf: {
+    case Types::Protobuf:
+    case Types::Avro: {
         // we convert protobuf to json before apply filters
         return value.toUtf8();
     }
     }
-    return QByteArray();
+    return {};
 }
