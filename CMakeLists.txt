@@ -40,7 +40,7 @@ find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg Widgets 
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
-find_package(Boost 1.75.0 REQUIRED COMPONENTS filesystem iostreams regex system)
+find_package(Boost 1.70.0 REQUIRED COMPONENTS filesystem iostreams regex system)
 find_package(Protobuf REQUIRED)
 find_package(Snappy CONFIG REQUIRED)
 

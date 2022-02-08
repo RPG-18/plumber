@@ -43,7 +43,7 @@ public:
      * @param json message
      * @return binary data
      */
-    QByteArray fromJSON(QByteArray &&json) override;
+    std::tuple<QByteArray, core::Error> fromJSON(QByteArray &&json) override;
 
     /**!
      * fabric

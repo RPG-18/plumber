@@ -4,23 +4,12 @@
 
 namespace core {
 
-KafkaAdmin::Error::Error()
-    : isError(false)
-{}
-
-KafkaAdmin::Error::Error(QString wh, QString wt)
-    : isError(true)
-    , where(std::move(wh))
-    , what(std::move(wt))
-{}
-
 KafkaAdmin::KafkaAdmin(ClusterConfig cfg, QObject *parent)
     : QObject(parent)
     , m_cfg(std::move(cfg))
 {}
 
-std::tuple<KafkaAdmin::Topics, KafkaAdmin::Error> KafkaAdmin::listTopics(
-    std::chrono::milliseconds timeout)
+std::tuple<KafkaAdmin::Topics, Error> KafkaAdmin::listTopics(std::chrono::milliseconds timeout)
 {
     using namespace kafka::clients::admin;
 
@@ -52,8 +41,8 @@ std::tuple<KafkaAdmin::Topics, KafkaAdmin::Error> KafkaAdmin::listTopics(
     }
 }
 
-std::optional<KafkaAdmin::Error> KafkaAdmin::deleteTopics(const Topics &topics,
-                                                          std::chrono::milliseconds timeout)
+std::optional<Error> KafkaAdmin::deleteTopics(const Topics &topics,
+                                              std::chrono::milliseconds timeout)
 {
     using namespace kafka::clients::admin;
 
@@ -82,8 +71,8 @@ std::optional<KafkaAdmin::Error> KafkaAdmin::deleteTopics(const Topics &topics,
     return {};
 }
 
-std::tuple<std::optional<KafkaAdmin::BrokerMetadata>, KafkaAdmin::Error>
-KafkaAdmin::fetchNodesMetadata(std::chrono::milliseconds timeout)
+std::tuple<std::optional<KafkaAdmin::BrokerMetadata>, Error> KafkaAdmin::fetchNodesMetadata(
+    std::chrono::milliseconds timeout)
 {
     using namespace kafka::clients::admin;
 
@@ -104,11 +93,11 @@ KafkaAdmin::fetchNodesMetadata(std::chrono::milliseconds timeout)
     }
 }
 
-std::optional<KafkaAdmin::Error> KafkaAdmin::createTopics(const Topics &topics,
-                                                          int numPartitions,
-                                                          int replicationFactor,
-                                                          const kafka::Properties &topicConfig,
-                                                          std::chrono::milliseconds timeout)
+std::optional<Error> KafkaAdmin::createTopics(const Topics &topics,
+                                              int numPartitions,
+                                              int replicationFactor,
+                                              const kafka::Properties &topicConfig,
+                                              std::chrono::milliseconds timeout)
 {
     using namespace kafka::clients::admin;
 

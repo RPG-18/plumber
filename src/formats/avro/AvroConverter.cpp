@@ -20,11 +20,11 @@ namespace avro {
 QByteArray AvroConverter::toJSON(QByteArray &&binary)
 {
     try {
-        qDebug() << QString::fromStdString(m_schema->toJson());
-        qDebug() << binary;
         auto in = ::avro::memoryInputStream(reinterpret_cast<const uint8_t *>(binary.data()),
                                             binary.size());
         m_binaryDecoder->init(*in);
+        m_tempInputStream.swap(in);
+
         ::avro::GenericDatum datum(*m_schema);
         ::avro::decode(*m_binaryDecoder, datum);
 
@@ -51,11 +51,12 @@ QByteArray AvroConverter::toJSON(QByteArray &&binary)
     return {};
 }
 
-QByteArray AvroConverter::fromJSON(QByteArray &&json)
+std::tuple<QByteArray, core::Error> AvroConverter::fromJSON(QByteArray &&json)
 {
     try {
         auto in = ::avro::memoryInputStream(reinterpret_cast<uint8_t *>(json.data()), json.size());
         m_jsonDecoder->init(*in);
+        m_tempInputStream.swap(in);
 
         ::avro::GenericDatum datum(*m_schema);
         ::avro::decode(*m_jsonDecoder, datum);
@@ -73,18 +74,17 @@ QByteArray AvroConverter::fromJSON(QByteArray &&json)
         while (copyStream->next(&p, &n)) {
             outData.append(reinterpret_cast<const char *>(p), int(n));
         }
-        return outData;
+        return std::make_tuple(outData, core::Error());
     } catch (const ::avro::Exception &exc) {
         spdlog::error("json2avro exception {}", exc.what());
-        return errParse;
+        return std::make_tuple(QByteArray{}, core::Error("json2avro", errParse));
     }
-    return {};
+    return std::make_tuple(QByteArray{}, core::Error("json2avro", "unexpected"));
 }
 
 std::unique_ptr<core::AbstractConverter> AvroConverter::fabric(const QUrl &filePath,
                                                                QStringList &errors)
 {
-    qDebug() << filePath;
     QFile schemaFile(filePath.path());
     if (!schemaFile.open(QIODevice::ReadOnly)) {
         errors << QString("open schema error: %1").arg(schemaFile.errorString());

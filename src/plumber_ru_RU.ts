@@ -162,17 +162,17 @@
 <context>
     <name>DataPage</name>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="65"/>
+        <location filename="qml/Producer/DataPage.qml" line="83"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="78"/>
+        <location filename="qml/Producer/DataPage.qml" line="96"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="119"/>
+        <location filename="qml/Producer/DataPage.qml" line="145"/>
         <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,17 +360,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="78"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="80"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="82"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="84"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="189"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="191"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>

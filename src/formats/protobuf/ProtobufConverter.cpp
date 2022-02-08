@@ -32,7 +32,7 @@ QByteArray ProtobufConverter::toJSON(QByteArray &&binary)
     return {json.c_str(), qsizetype(json.size())};
 }
 
-QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
+std::tuple<QByteArray, core::Error> ProtobufConverter::fromJSON(QByteArray &&json)
 {
     using namespace google::protobuf::util;
     using namespace google::protobuf::stringpiece_internal;
@@ -45,10 +45,10 @@ QByteArray ProtobufConverter::fromJSON(QByteArray &&json)
     JsonStringToMessage(piece, m_message.get(), opt);
     const auto out = m_message->SerializeAsString();
     if (m_collector->hasErrors()) {
-        qDebug() << "Serialize errors";
-        qDebug() << m_collector->errors();
+        return std::make_tuple(QByteArray{},
+                               core::Error("json2proto", m_collector->errors().join("\n")));
     }
-    return QByteArray::fromStdString(out);
+    return std::make_tuple(QByteArray::fromStdString(out), core::Error());
 }
 
 std::unique_ptr<core::AbstractConverter> ProtobufConverter::fabric(const QUrl &file,

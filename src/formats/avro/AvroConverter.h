@@ -9,6 +9,7 @@ namespace avro {
 class Encoder;
 class Decoder;
 class ValidSchema;
+class InputStream;
 } // namespace avro
 
 namespace formats {
@@ -34,7 +35,7 @@ public:
      * @param json message
      * @return binary data
      */
-    QByteArray fromJSON(QByteArray &&json) override;
+    std::tuple<QByteArray, core::Error> fromJSON(QByteArray &&json) override;
 
     /**!
      * fabric
@@ -51,6 +52,7 @@ private:
     std::shared_ptr<::avro::Decoder> m_binaryDecoder;
     std::shared_ptr<::avro::Encoder> m_jsonEncoder;
     std::shared_ptr<::avro::Decoder> m_jsonDecoder;
+    std::unique_ptr<::avro::InputStream> m_tempInputStream;
 };
 } // namespace avro
 } // namespace formats

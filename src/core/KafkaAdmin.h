@@ -7,6 +7,7 @@
 #include <kafka/BrokerMetadata.h>
 
 #include "ClusterConfig.h"
+#include "Error.h"
 
 namespace core {
 
@@ -21,16 +22,6 @@ public:
     using Topics = QVector<QString>;
 
     using BrokerMetadata = kafka::BrokerMetadata;
-
-    struct Error
-    {
-        explicit Error();
-        explicit Error(QString wh, QString wt);
-
-        bool isError;
-        QString where;
-        QString what;
-    };
 
     KafkaAdmin(ClusterConfig cfg, QObject *parent = nullptr);
 
