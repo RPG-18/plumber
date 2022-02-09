@@ -3,6 +3,7 @@
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QObject>
 
+#include "AvroOption.h"
 #include "ClusterConfig.h"
 #include "ErrorWrap.h"
 #include "ProducerRecord.h"
@@ -30,6 +31,8 @@ class Producer : public QObject
     Q_PROPERTY(ProducerLogModel *log READ log NOTIFY logChanged)
     Q_PROPERTY(ProtoOption *protoKey READ protoKey WRITE setProtoKey)
     Q_PROPERTY(ProtoOption *protoValue READ protoValue WRITE setProtoValue)
+    Q_PROPERTY(AvroOption *avroKey READ avroKey WRITE setAvroKey)
+    Q_PROPERTY(AvroOption *avroValue READ avroValue WRITE setAvroValue)
 
 public:
     enum Compression { NoneCompression, GZip, Snappy, LZ4, ZStd };
@@ -55,6 +58,12 @@ public:
     ProtoOption *protoValue();
     void setProtoValue(ProtoOption *option);
 
+    AvroOption *avroKey();
+    void setAvroKey(AvroOption *option);
+
+    AvroOption *avroValue();
+    void setAvroValue(AvroOption *option);
+
 signals:
 
     void brokerChanged();
@@ -65,6 +74,9 @@ private slots:
     void onOptionsChanged();
     void resetKeyConverter();
     void resetValueConverter();
+
+    std::optional<ErrorWrap> initKeyConverter();
+    std::optional<ErrorWrap> initValueConverter();
 
 private:
     void createProducer();
@@ -79,6 +91,8 @@ private:
     ProducerLogModel *m_logModel;
     ProtoOption *m_keyProto;
     ProtoOption *m_valueProto;
+    AvroOption *m_keyAvro;
+    AvroOption *m_valueAvro;
 
     std::unique_ptr<core::AbstractConverter> m_keyConverter;
     std::unique_ptr<core::AbstractConverter> m_valueConverter;

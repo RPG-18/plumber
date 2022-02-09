@@ -11,6 +11,8 @@ Item {
     property alias valueTypeId: valueCbx.typeId
     property alias protoKey: protoKeyId
     property alias protoValue: protoValueId
+    property alias avroKey: avroKeyId
+    property alias avroValue: avroValueId
 
     function keyData() {
         switch (keyCbx.typeId) {
@@ -19,6 +21,8 @@ Item {
         case 6:
             return "";
         case 7:
+            return keyArea.text;
+        case 8:
             return keyArea.text;
         default:
             return keyTxt.text;
@@ -32,6 +36,8 @@ Item {
         case 6:
             return "";
         case 7:
+            return valueArea.text;
+        case 8:
             return valueArea.text;
         default:
             return valueTxt.text;
@@ -53,6 +59,18 @@ Item {
 
         file: valueProto.protoFile
         message: valueProto.protoMessage
+    }
+
+    AvroOption {
+        id: avroKeyId
+
+        file: keyAvro.schemaFile
+    }
+
+    AvroOption {
+        id: avroValueId
+
+        file: valuaAvro.schemaFile
     }
 
     GridLayout {
@@ -99,13 +117,21 @@ Item {
             visible: keyCbx.typeId === 7
         }
 
+        AvroOptions {
+            id: keyAvro
+
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            visible: keyCbx.typeId === 8
+        }
+
         Components.TextArea {
             id: keyArea
 
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.preferredHeight: 200
-            visible: keyCbx.typeId === 0 || keyCbx.typeId === 7
+            visible: keyCbx.typeId === 0 || keyCbx.typeId === 7 || keyCbx.typeId === 8
         }
 
         Rectangle {
@@ -140,13 +166,21 @@ Item {
             visible: valueCbx.typeId === 7
         }
 
+        AvroOptions {
+            id: valuaAvro
+
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            visible: valueCbx.typeId === 8
+        }
+
         Components.TextArea {
             id: valueArea
 
             Layout.columnSpan: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
-            visible: valueCbx.typeId === 0 || valueCbx.typeId === 7
+            visible: valueCbx.typeId === 0 || valueCbx.typeId === 7 || valueCbx.typeId === 8
         }
 
         Item {

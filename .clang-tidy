@@ -45,4 +45,10 @@ Checks: "*,\
          -bugprone-suspicious-include,\
          -cert-err58-cpp,\
          -cert-err60-cpp,\
-         -readability-use-anyofallof"
+         -readability-use-anyofallof,\
+         -altera-struct-pack-align,\
+         -altera-unroll-loops,\
+         -hicpp-explicit-conversions,\
+         -altera-id-dependent-backward-branch,\
+         -bugprone-narrowing-conversions,\
+         -bugprone-easily-swappable-parameters"

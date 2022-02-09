@@ -68,17 +68,18 @@ void KafkaConsumer::pool()
             rec->topic = m_topicMapper[record.topic()];
             rec->partition = record.partition();
             rec->offset = record.offset();
-            rec->key.append(static_cast<const char *>(record.key().data()), record.key().size());
+            rec->key.append(static_cast<const char *>(record.key().data()),
+                            qsizetype(record.key().size()));
             rec->value.append(static_cast<const char *>(record.value().data()),
-                              record.value().size());
+                              qsizetype(record.value().size()));
             rec->timestamp = record.timestamp();
             const auto headers = record.headers();
-            rec->headers.reserve(headers.size());
+            rec->headers.reserve(qsizetype(headers.size()));
             for (const auto &header : headers) {
                 rec->headers.push_back(
                     Header{QString::fromStdString(header.key),
                            QByteArray(static_cast<const char *>(header.value.data()),
-                                      header.value.size())});
+                                      qsizetype(header.value.size()))});
             }
 
             if (m_keyConverter) {

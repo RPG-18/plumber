@@ -69,5 +69,7 @@
         <file>../fonts/Roboto-ThinItalic.ttf</file>
         <file>../fonts/Roboto-Thin.ttf</file>
         <file>qml/Components/BlueButton.qml</file>
+        <file>qml/Consumer/AvroOptions.qml</file>
+        <file>qml/Producer/AvroOptions.qml</file>
     </qresource>
 </RCC>

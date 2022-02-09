@@ -24,13 +24,13 @@ QHash<int, QByteArray> ConsumerTypesModel::roleNames() const
 int ConsumerTypesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_typeIds.size();
+    return int(m_typeIds.size());
 }
 
 QVariant ConsumerTypesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -39,7 +39,7 @@ QVariant ConsumerTypesModel::data(const QModelIndex &index, int role) const
     case TypeName:
         return m_typeNames[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 
@@ -61,13 +61,13 @@ StartFromTimeBasedModel::StartFromTimeBasedModel(QObject *parent)
 int StartFromTimeBasedModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_times.size();
+    return int(m_times.size());
 }
 
 QVariant StartFromTimeBasedModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -76,7 +76,7 @@ QVariant StartFromTimeBasedModel::data(const QModelIndex &index, int role) const
     case StartTimeLabel:
         return m_labels[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 QHash<int, QByteArray> StartFromTimeBasedModel::roleNames() const
@@ -101,13 +101,13 @@ FiltersModel::FiltersModel(QObject *parent)
 int FiltersModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_filters.size();
+    return int(m_filters.size());
 }
 
 QVariant FiltersModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -116,7 +116,7 @@ QVariant FiltersModel::data(const QModelIndex &index, int role) const
     case FilterLabel:
         return m_labels[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 
@@ -141,13 +141,13 @@ LimitModel::LimitModel(QObject *parent)
 int LimitModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_limits.size();
+    return int(m_limits.size());
 }
 
 QVariant LimitModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -156,7 +156,7 @@ QVariant LimitModel::data(const QModelIndex &index, int role) const
     case LimitLabel:
         return m_labels[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 
@@ -169,20 +169,21 @@ QHash<int, QByteArray> LimitModel::roleNames() const
 CustomTypesModel::CustomTypesModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_typeIds << Types::Protobuf;
-    m_typeNames << "Protobuf";
+    m_typeIds << Types::Protobuf << Types::Avro;
+    m_typeNames << "Protobuf"
+                << "Avro";
 }
 
 int CustomTypesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_typeIds.size();
+    return int(m_typeIds.size());
 }
 
 QVariant CustomTypesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -191,7 +192,7 @@ QVariant CustomTypesModel::data(const QModelIndex &index, int role) const
     case TypeName:
         return m_typeNames[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 QHash<int, QByteArray> CustomTypesModel::roleNames() const

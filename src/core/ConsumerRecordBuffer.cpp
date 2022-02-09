@@ -7,7 +7,7 @@ namespace core {
 
 using LockGuard = std::lock_guard<std::mutex>;
 
-ConsumerRecordBuffer::ConsumerRecordBuffer(size_t size)
+ConsumerRecordBuffer::ConsumerRecordBuffer(int64_t size)
     : m_size(size)
     , m_write(0)
     , m_buffer(size)

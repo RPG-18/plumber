@@ -10,6 +10,8 @@ Item {
     property alias valueTypeId: valueCbx.typeId
     property alias keyProto: protoKeyId
     property alias valueProto: protoValueId
+    property alias keyAvro: avroKeyId
+    property alias valueAvro: avroValueId
 
     width: 320
     implicitHeight: content.height
@@ -27,6 +29,18 @@ Item {
 
         file: protobufOptValue.protoFile
         message: protobufOptValue.protoMessage
+    }
+
+    AvroOption {
+        id: avroKeyId
+
+        file: avroOptKey.schemaFile
+    }
+
+    AvroOption {
+        id: avroValueId
+
+        file: avroOptValue.schemaFile
     }
 
     ColumnLayout {
@@ -75,6 +89,14 @@ Item {
                 Layout.preferredWidth: 320
             }
 
+            AvroOptions {
+                id: avroOptKey
+
+                visible: keyCbx.typeId == 8
+                Layout.columnSpan: 2
+                Layout.preferredWidth: 320
+            }
+
             GridLayout {
                 columns: 2
 
@@ -94,6 +116,14 @@ Item {
                 id: protobufOptValue
 
                 visible: valueCbx.typeId == 7
+                Layout.columnSpan: 2
+                Layout.preferredWidth: 320
+            }
+
+            AvroOptions {
+                id: avroOptValue
+
+                visible: valueCbx.typeId == 8
                 Layout.columnSpan: 2
                 Layout.preferredWidth: 320
             }

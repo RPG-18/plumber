@@ -15,13 +15,13 @@ TopicModel::TopicModel(QObject *parent)
 int TopicModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_topics.size();
+    return int(m_topics.size());
 }
 
 QVariant TopicModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     switch (role) {
@@ -30,7 +30,7 @@ QVariant TopicModel::data(const QModelIndex &index, int role) const
     case Selected:
         return m_selected[row];
     default:
-        return QVariant();
+        return {};
     }
 }
 
@@ -58,7 +58,7 @@ void TopicModel::setConfig(const ClusterConfig &broker)
 
 int TopicModel::topics() const noexcept
 {
-    return m_topics.size();
+    return int(m_topics.size());
 }
 
 void TopicModel::loadTopics()
@@ -113,7 +113,7 @@ void TopicModel::checked(const QModelIndex &index, bool state)
 
 int TopicModel::selected() const
 {
-    return m_selectedTopics.size();
+    return int(m_selectedTopics.size());
 }
 
 ErrorWrap TopicModel::removeSelectedTopics()

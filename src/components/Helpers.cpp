@@ -2,6 +2,7 @@
 
 #include "Helpers.h"
 
+#include "AvroOption.h"
 #include "Cluster.h"
 #include "ConfigModel.h"
 #include "Consumer.h"
@@ -29,6 +30,7 @@ void registerTypes()
     qmlRegisterType<Producer>("plumber", 1, 0, "Producer");
     qmlRegisterType<ProducerOptions>("plumber", 1, 0, "ProducerOptions");
     qmlRegisterType<ProtoOption>("plumber", 1, 0, "ProtoOption");
+    qmlRegisterType<AvroOption>("plumber", 1, 0, "AvroOption");
 
     qmlRegisterType<ConsumerTypesModel>("plumber", 1, 0, "ConsumerTypesModel");
     qmlRegisterType<CustomTypesModel>("plumber", 1, 0, "CustomTypesModel");

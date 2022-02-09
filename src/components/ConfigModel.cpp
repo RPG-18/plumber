@@ -20,13 +20,13 @@ ConfigModel::ConfigModel(QObject *parent)
 
 int ConfigModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    return m_brokers.size();
+    return int(m_brokers.size());
 }
 
 QVariant ConfigModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_brokers.size()) {
-        return QVariant();
+        return {};
     }
 
     switch (role) {
@@ -37,7 +37,7 @@ QVariant ConfigModel::data(const QModelIndex &index, int role) const
     case Bootstrap:
         return m_brokers[index.row()].bootstrap;
     default:
-        return QVariant();
+        return {};
     }
 }
 
@@ -88,7 +88,7 @@ void ConfigModel::createBroker(const QString &name,
 
     m_service->append(broker);
 
-    beginInsertRows(QModelIndex(), m_brokers.size(), m_brokers.size());
+    beginInsertRows(QModelIndex(), int(m_brokers.size()), int(m_brokers.size()));
     m_brokers.push_back(broker);
     endInsertRows();
 }

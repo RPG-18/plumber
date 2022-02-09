@@ -31,6 +31,11 @@ class ProtobufConverter final : public core::AbstractConverter
 public:
     virtual ~ProtobufConverter() = default;
 
+    /**!
+     * to json
+     * @param binary message
+     * @return json data
+     */
     QByteArray toJSON(QByteArray &&binary) override;
 
     /**!
@@ -38,10 +43,10 @@ public:
      * @param json message
      * @return binary data
      */
-    QByteArray fromJSON(QByteArray &&json) override;
+    std::tuple<QByteArray, core::Error> fromJSON(QByteArray &&json) override;
 
     /**!
-     *
+     * fabric
      * @param file path to proto file
      * @param message proto message
      * @param out errors return errors

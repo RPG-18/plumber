@@ -38,7 +38,8 @@ QString MessageWrapper::value() const
         }
 
     } break;
-    case Types::Protobuf: {
+    case Types::Protobuf:
+    case Types::Avro: {
         QJsonParseError err;
         const auto doc = QJsonDocument::fromJson(m_message.value, &err);
         if (err.error == QJsonParseError::NoError) {
@@ -81,16 +82,16 @@ QString MessageWrapper::timestampType() const
 {
     switch (m_message.timestamp.type) {
     case kafka::Timestamp::Type::NotAvailable:
-        return QString("NotAvailable");
+        return {"NotAvailable"};
 
     case kafka::Timestamp::Type::CreateTime:
-        return QString("CreateTime");
+        return {"CreateTime"};
 
     case kafka::Timestamp::Type::LogAppendTime:
-        return QString("LogAppendTime");
+        return {"LogAppendTime"};
 
     default:
-        return QString();
+        return {};
     }
 }
 
@@ -111,7 +112,7 @@ HeaderTableModel::HeaderTableModel(QObject *parent)
 
 int HeaderTableModel::rowCount(const QModelIndex & /*parent*/) const
 {
-    return m_message.headers.size();
+    return int(m_message.headers.size());
 }
 
 int HeaderTableModel::columnCount(const QModelIndex & /*parent*/) const
@@ -122,7 +123,7 @@ int HeaderTableModel::columnCount(const QModelIndex & /*parent*/) const
 QVariant HeaderTableModel::data(const QModelIndex &index, int role) const
 {
     if (role != Qt::DisplayRole) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     const auto col = index.column();
@@ -132,7 +133,7 @@ QVariant HeaderTableModel::data(const QModelIndex &index, int role) const
     case 1:
         return m_message.headers[row].value;
     default:
-        return QVariant();
+        return {};
     }
 }
 

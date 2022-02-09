@@ -13,8 +13,17 @@ install:
   - vcpkg upgrade --no-dry-run
   - vcpkg install librdkafka[*]:x64-windows --recurse
   - vcpkg install spdlog:x64-windows
+  - vcpkg install boost-core:x64-windows
+  - vcpkg install boost-format:x64-windows
   - vcpkg install boost-circular-buffer:x64-windows
+  - vcpkg install boost-any:x64-windows
+  - vcpkg install boost-filesystem:x64-windows
+  - vcpkg install boost-iostreams:x64-windows
+  - vcpkg install boost-algorithm:x64-windows
+  - vcpkg install boost-math:x64-windows
+  - vcpkg install boost-crc:x64-windows
   - vcpkg install protobuf:x64-windows
+  - vcpkg install snappy:x64-windows
 cache: c:\tools\vcpkg\installed
 before_build:
   - ps: win\build.ps1

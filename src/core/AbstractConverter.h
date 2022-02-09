@@ -2,6 +2,8 @@
 
 #include <QtCore/QByteArray>
 
+#include "Error.h"
+
 namespace core {
 
 /**!
@@ -24,6 +26,6 @@ public:
      * @param json message
      * @return binary data
      */
-    virtual QByteArray fromJSON(QByteArray &&json);
+    virtual std::tuple<QByteArray, Error> fromJSON(QByteArray &&json);
 };
 } // namespace core

@@ -11,7 +11,8 @@ Plumber simple GUI desktop application for Apache Kafka based on [librdkafka](ht
 * View messages and add new messages;
 * Add and drop topics;
 * Show JSON in a pretty-printed format;
-* Decode protobuf.
+* Encode/decode protobuf;
+* Experimental encode/decode avro.
 
 ## What happened to kafkaui?
 
@@ -25,7 +26,8 @@ Apart from the name, nothing else was changed.
 * Qt >= 6;
 * librdkafka >= 1.7;
 * spdlog;
-* Boost.Circular Buffer;
+* Boost;
+* Snappy;
 * protobuf >= 3.14.0.
 
 #### GNU/Linux
@@ -44,8 +46,10 @@ Apart from the name, nothing else was changed.
     .\vcpkg.exe install qt:x64-windows
     .\vcpkg.exe install librdkafka[*]:x64-windows --recurse
     .\vcpkg.exe install spdlog:x64-windows
-    .\vcpkg.exe install boost-circular-buffer:x64-windows
+    .\vcpkg.exe install boost:x64-windows
+    .\vcpkg.exe install spdlog:x64-windows
     .\vcpkg.exe install protobuf:x64-windows
+    .\vcpkg.exe install snappy:x64-windows
     cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
     cmake --build build
     [path to vcpkg]\installed\x64-windows\tools\Qt6\bin\windeployqt.debug.bat windeployqt.exe -qmldir=[path to vcpkg]\installed\x64-windows\Qt6\qml [project]\plumber\build\Debug
@@ -58,6 +62,7 @@ Apart from the name, nothing else was changed.
     % brew install qt@6
     % brew install boost
     % brew install protobuf
+    % brew install snappy
     % cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
     % cmake --build build --config Release
 

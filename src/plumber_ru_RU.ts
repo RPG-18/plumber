@@ -95,18 +95,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="219"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="221"/>
         <source>CLEAR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="227"/>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="245"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="229"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="247"/>
         <source>START</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/ConsumerScreen.qml" line="254"/>
+        <location filename="qml/Consumer/ConsumerScreen.qml" line="256"/>
         <source>STOP</source>
         <translation type="unfinished"></translation>
     </message>
@@ -162,17 +162,17 @@
 <context>
     <name>DataPage</name>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="65"/>
+        <location filename="qml/Producer/DataPage.qml" line="83"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="78"/>
+        <location filename="qml/Producer/DataPage.qml" line="96"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/DataPage.qml" line="119"/>
+        <location filename="qml/Producer/DataPage.qml" line="145"/>
         <source>Value:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -196,22 +196,22 @@
 <context>
     <name>FormatSelector</name>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="52"/>
         <source>▼ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="38"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="52"/>
         <source>▶ FORMAT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="60"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="74"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/FormatSelector.qml" line="83"/>
+        <location filename="qml/Consumer/FormatSelector.qml" line="105"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,17 +360,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="78"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="80"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="82"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="84"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Producer/ProducerScreen.qml" line="189"/>
+        <location filename="qml/Producer/ProducerScreen.qml" line="191"/>
         <source>PRODUCE TO TOPIC</source>
         <translation type="unfinished"></translation>
     </message>

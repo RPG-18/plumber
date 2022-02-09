@@ -9,6 +9,19 @@
 #include "ProtoOption.h"
 #include "Types.h"
 
+namespace {
+bool isCustomType(Types type)
+{
+    switch (type) {
+    case Protobuf:
+    case Avro:
+        return true;
+    default:
+        return false;
+    }
+}
+
+} // namespace
 Producer::Producer(QObject *parent)
     : QObject(parent)
     , m_producer(nullptr)
@@ -18,6 +31,8 @@ Producer::Producer(QObject *parent)
     , m_logModel(new ProducerLogModel(this))
     , m_keyProto(nullptr)
     , m_valueProto(nullptr)
+    , m_keyAvro(nullptr)
+    , m_valueAvro(nullptr)
 {}
 
 ProducerOptions *Producer::options()
@@ -38,29 +53,33 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
     }
 
     QByteArray keyData;
-    if (m_keyType == Protobuf) {
+    if (isCustomType(m_keyType)) {
         if (m_keyConverter == nullptr) {
-            auto [converter, err] = m_keyProto->converter();
-            if (converter == nullptr) {
-                return err;
+            if (auto err = initKeyConverter()) {
+                return *err;
             }
-            m_keyConverter.swap(converter);
         }
-        keyData = m_keyConverter->fromJSON(key.toUtf8());
+        auto [data, error] = m_keyConverter->fromJSON(key.toUtf8());
+        if (error.isError) {
+            return ErrorWrap(error.where, error.what);
+        }
+        keyData.swap(data);
     } else {
         keyData = bytes(m_keyType, key);
     }
 
     QByteArray valueData;
-    if (m_valueType == Protobuf) {
+    if (isCustomType(m_valueType)) {
         if (m_valueConverter == nullptr) {
-            auto [converter, err] = m_valueProto->converter();
-            if (converter == nullptr) {
-                return err;
+            if (auto err = initValueConverter()) {
+                return *err;
             }
-            m_valueConverter.swap(converter);
         }
-        valueData = m_valueConverter->fromJSON(value.toUtf8());
+        auto [data, error] = m_valueConverter->fromJSON(value.toUtf8());
+        if (error.isError) {
+            return ErrorWrap(error.where, error.what);
+        }
+        valueData.swap(data);
     } else {
         valueData = bytes(m_valueType, value);
     }
@@ -71,6 +90,52 @@ ErrorWrap Producer::send(const QString &key, const QString &value)
         return ErrorWrap{};
     }
     return ErrorWrap("producer", m_producer->lastError());
+}
+
+std::optional<ErrorWrap> Producer::initKeyConverter()
+{
+    switch (m_keyType) {
+    case Protobuf: {
+        auto [converter, err] = m_keyProto->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_keyConverter.swap(converter);
+    } break;
+    case Avro: {
+        auto [converter, err] = m_keyAvro->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_keyConverter.swap(converter);
+    } break;
+    default:
+        return ErrorWrap("producer", "unknown converter");
+    }
+    return std::nullopt;
+}
+
+std::optional<ErrorWrap> Producer::initValueConverter()
+{
+    switch (m_valueType) {
+    case Protobuf: {
+        auto [converter, err] = m_valueProto->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_valueConverter.swap(converter);
+    } break;
+    case Avro: {
+        auto [converter, err] = m_valueAvro->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_valueConverter.swap(converter);
+    } break;
+    default:
+        return ErrorWrap("producer", "unknown converter");
+    }
+    return std::nullopt;
 }
 
 void Producer::onOptionsChanged()
@@ -158,6 +223,36 @@ void Producer::setProtoValue(ProtoOption *option)
     connect(m_valueProto, &ProtoOption::changed, this, &Producer::resetValueConverter);
 }
 
+AvroOption *Producer::avroKey()
+{
+    return m_keyAvro;
+}
+
+void Producer::setAvroKey(AvroOption *option)
+{
+    if (m_keyAvro != nullptr) {
+        m_keyAvro->disconnect();
+        resetKeyConverter();
+    }
+    m_keyAvro = option;
+    connect(m_keyAvro, &AvroOption::changed, this, &Producer::resetKeyConverter);
+}
+
+AvroOption *Producer::avroValue()
+{
+    return m_valueAvro;
+}
+
+void Producer::setAvroValue(AvroOption *option)
+{
+    if (m_valueAvro != nullptr) {
+        m_valueAvro->disconnect();
+        resetKeyConverter();
+    }
+    m_valueAvro = option;
+    connect(m_valueAvro, &AvroOption::changed, this, &Producer::resetKeyConverter);
+}
+
 void Producer::resetKeyConverter()
 {
     m_keyConverter.release();
@@ -218,13 +313,13 @@ ProducerLogModel::ProducerLogModel(QObject *parent)
 int ProducerLogModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return m_meta.size();
+    return int(m_meta.size());
 }
 
 QVariant ProducerLogModel::data(const QModelIndex &index, int role) const
 {
     if (role < Qt::DisplayRole) {
-        return QVariant();
+        return {};
     }
     if (index.row() >= m_meta.size()) {
         return {};

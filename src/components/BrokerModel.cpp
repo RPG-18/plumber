@@ -13,20 +13,20 @@ BrokerModel::BrokerModel(QObject *parent)
 int BrokerModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_nodes.size();
+    return int(m_nodes.size());
 }
 
 QVariant BrokerModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
     const auto row = index.row();
     if (role == Node) {
         return m_nodes[row];
     }
 
-    return QVariant();
+    return {};
 }
 
 QHash<int, QByteArray> BrokerModel::roleNames() const
@@ -39,7 +39,7 @@ QHash<int, QByteArray> BrokerModel::roleNames() const
 
 int BrokerModel::brokers() const noexcept
 {
-    return m_nodes.size();
+    return int(m_nodes.size());
 }
 
 void BrokerModel::setConfig(const ClusterConfig &broker)

@@ -35,6 +35,8 @@ Window {
         broker: window.broker
         protoKey: dataPage.protoKey
         protoValue: dataPage.protoValue
+        avroKey: dataPage.avroKey
+        avroValue: dataPage.avroValue
 
         options: ProducerOptions {
             compression: optionsPage.compression

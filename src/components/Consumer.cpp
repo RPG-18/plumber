@@ -7,6 +7,7 @@
 #include "AbstractConverter.h"
 #include "Consumer.h"
 #include "KafkaConsumer.h"
+#include "KafkaStatistic.h"
 
 #include "formats/protobuf/ProtobufConverter.h"
 
@@ -52,6 +53,9 @@ void Consumer::setRunning(bool val)
 
 ErrorWrap Consumer::start()
 {
+    auto *statThread = new QThread(this);
+    statThread->start();
+
     if (m_consumer != nullptr && m_argsChanged) {
         for (auto &conn : m_connections) {
             QObject::disconnect(conn);
@@ -345,7 +349,7 @@ QString Consumer::stat() const
 {
     static const QStringList sizes = {"B", "KiB", "MiB", "GiB", "TiB", "PiB"};
 
-    double bytes = m_stat.bytes;
+    auto bytes = double(m_stat.bytes);
     int i = 0;
     while (bytes > 1024) {
         ++i;
@@ -365,6 +369,7 @@ ErrorWrap Consumer::setConverter()
 
     m_consumer->setKeyConverter(nullptr);
     m_consumer->setValueConverter(nullptr);
+    //todo refactoring
     if (m_typeSelector->keyType() == Protobuf) {
         auto [converter, err] = m_typeSelector->protoKey()->converter();
         if (converter == nullptr) {
@@ -381,6 +386,22 @@ ErrorWrap Consumer::setConverter()
         m_consumer->setValueConverter(std::move(converter));
     }
 
+    if (m_typeSelector->keyType() == Avro) {
+        auto [converter, err] = m_typeSelector->avroKey()->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_consumer->setKeyConverter(std::move(converter));
+    }
+
+    if (m_typeSelector->valueType() == Avro) {
+        auto [converter, err] = m_typeSelector->avroValue()->converter();
+        if (converter == nullptr) {
+            return err;
+        }
+        m_consumer->setValueConverter(std::move(converter));
+    }
+
     return ErrorWrap{};
 }
 
@@ -390,6 +411,8 @@ ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     , m_valueType(Types::String)
     , m_keyProto(nullptr)
     , m_valueProto(nullptr)
+    , m_keyAvro(nullptr)
+    , m_valueAvro(nullptr)
 {}
 
 Types ConsumerTypeSelector::keyType() const
@@ -436,6 +459,29 @@ void ConsumerTypeSelector::setProtoValue(ProtoOption *option)
     m_valueProto = option;
     emit typesChanged();
     connect(m_valueProto, &ProtoOption::changed, this, &ConsumerTypeSelector::typesChanged);
+}
+
+AvroOption *ConsumerTypeSelector::avroKey()
+{
+    return m_keyAvro;
+}
+void ConsumerTypeSelector::setAvroKey(AvroOption *option)
+{
+    m_keyAvro = option;
+    emit typesChanged();
+    connect(m_keyAvro, &AvroOption::changed, this, &ConsumerTypeSelector::typesChanged);
+}
+
+AvroOption *ConsumerTypeSelector::avroValue()
+{
+    return m_valueAvro;
+}
+
+void ConsumerTypeSelector::setAvroValue(AvroOption *option)
+{
+    m_valueAvro = option;
+    emit typesChanged();
+    connect(m_valueAvro, &AvroOption::changed, this, &ConsumerTypeSelector::typesChanged);
 }
 
 ConsumerLimiterSelector::ConsumerLimiterSelector(QObject *parent)

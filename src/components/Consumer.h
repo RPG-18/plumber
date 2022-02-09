@@ -6,6 +6,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QUrl>
 
+#include "AvroOption.h"
 #include "ClusterConfig.h"
 #include "ErrorWrap.h"
 #include "MessageModel.h"
@@ -32,6 +33,9 @@ public:
     Q_PROPERTY(ProtoOption *protoKey READ protoKey WRITE setProtoKey)
     Q_PROPERTY(ProtoOption *protoValue READ protoValue WRITE setProtoValue)
 
+    Q_PROPERTY(AvroOption *avroKey READ avroKey WRITE setAvroKey)
+    Q_PROPERTY(AvroOption *avroValue READ avroValue WRITE setAvroValue)
+
     explicit ConsumerTypeSelector(QObject *parent = nullptr);
 
     Types keyType() const;
@@ -46,6 +50,12 @@ public:
     ProtoOption *protoValue();
     void setProtoValue(ProtoOption *option);
 
+    AvroOption *avroKey();
+    void setAvroKey(AvroOption *option);
+
+    AvroOption *avroValue();
+    void setAvroValue(AvroOption *option);
+
 signals:
 
     void typesChanged();
@@ -56,6 +66,8 @@ private:
 
     ProtoOption *m_keyProto;
     ProtoOption *m_valueProto;
+    AvroOption *m_keyAvro;
+    AvroOption *m_valueAvro;
 };
 
 class ConsumerLimiterSelector;

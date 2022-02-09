@@ -71,13 +71,13 @@ void ProtobufMessagesModel::loadMessages()
 int ProtobufMessagesModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_messages.size();
+    return int(m_messages.size());
 }
 
 QVariant ProtobufMessagesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
 
     const auto row = index.row();
