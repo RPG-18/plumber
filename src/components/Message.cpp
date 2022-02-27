@@ -95,6 +95,11 @@ QString MessageWrapper::timestampType() const
     }
 }
 
+Types MessageWrapper::valueType() const
+{
+    return m_message.valueType;
+}
+
 void MessageWrapper::notifyChanges()
 {
     emit keyChanged();
@@ -104,6 +109,7 @@ void MessageWrapper::notifyChanges()
     emit partitionChanged();
     emit timestampChanged();
     emit timestampTypeChanged();
+    emit valueTypeChanged();
 }
 
 HeaderTableModel::HeaderTableModel(QObject *parent)

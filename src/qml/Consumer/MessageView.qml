@@ -76,6 +76,19 @@ Window {
 
                 }
 
+                Components.TabButton {
+                    visible: msg.valueType == 2
+                    text: qsTr("Hex")
+
+                    Rectangle {
+                        height: parent.height
+                        x: -1
+                        width: 1
+                        color: Style.BorderColor
+                    }
+
+                }
+
             }
 
             StackLayout {
@@ -287,6 +300,29 @@ Window {
                         Item {
                             Layout.fillHeight: true
                             Layout.columnSpan: 2
+                        }
+
+                    }
+
+                }
+
+                ScrollView {
+                    clip: true
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+
+                    Flickable {
+                        anchors.fill: parent
+                        contentWidth: hexView.width
+                        contentHeight: hexView.height
+
+                        HexView {
+                            id: hexView
+
+                            dataSource: MessageValueDataSource {
+                                message: window.message
+                            }
+
                         }
 
                     }

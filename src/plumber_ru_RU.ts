@@ -263,6 +263,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="qml/Consumer/MessageView.qml" line="81"/>
+        <source>Hex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="qml/Consumer/MessageView.qml" line="56"/>
         <source>Headers</source>
         <translation type="unfinished"></translation>
@@ -273,27 +278,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="248"/>
+        <location filename="qml/Consumer/MessageView.qml" line="261"/>
         <source>Topic:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="256"/>
+        <location filename="qml/Consumer/MessageView.qml" line="269"/>
         <source>Partition:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="264"/>
+        <location filename="qml/Consumer/MessageView.qml" line="277"/>
         <source>Offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="272"/>
+        <location filename="qml/Consumer/MessageView.qml" line="285"/>
         <source>Timestamp:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/Consumer/MessageView.qml" line="280"/>
+        <location filename="qml/Consumer/MessageView.qml" line="293"/>
         <source>Timestamp Type:</source>
         <translation type="unfinished"></translation>
     </message>

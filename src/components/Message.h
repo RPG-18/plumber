@@ -2,6 +2,9 @@
 
 #include <KafkaConsumer.h>
 
+#include <QtCore/QAbstractTableModel>
+#include <QtCore/QObject>
+
 #include "Types.h"
 
 /*!
@@ -30,6 +33,7 @@ public:
     Q_PROPERTY(int partition READ partition NOTIFY partitionChanged)
     Q_PROPERTY(QString timestamp READ timestamp NOTIFY timestampChanged)
     Q_PROPERTY(QString timestampType READ timestampType NOTIFY timestampTypeChanged)
+    Q_PROPERTY(Types valueType READ valueType NOTIFY valueTypeChanged)
 
     explicit MessageWrapper(QObject *parent = nullptr);
 
@@ -43,6 +47,7 @@ public:
     int partition() const;
     QString timestamp() const;
     QString timestampType() const;
+    Types valueType() const;
 
 signals:
 
@@ -53,6 +58,7 @@ signals:
     void partitionChanged();
     void timestampChanged();
     void timestampTypeChanged();
+    void valueTypeChanged();
 
 private:
     void notifyChanges();
