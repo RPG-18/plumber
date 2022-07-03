@@ -70,6 +70,7 @@ private:
     AvroOption *m_valueAvro;
 };
 
+class ExportImportFabric;
 class ConsumerLimiterSelector;
 class ConsumerFilterSelector;
 class ConsumerBeginningSelector;
@@ -117,6 +118,7 @@ public:
 
     Q_INVOKABLE ErrorWrap start();
     Q_INVOKABLE void stop();
+    Q_INVOKABLE ErrorWrap exportVisibleRows(ExportImportFabric *fabric);
 
     ConsumerTypeSelector *typeSelector();
     void setTypeSelector(ConsumerTypeSelector *selector);

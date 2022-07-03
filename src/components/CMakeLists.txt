@@ -15,7 +15,11 @@ add_library(components
         Producer.cpp Producer.h
         ProtoOption.cpp ProtoOption.h
         Helpers.cpp Helpers.h
-        Settings.cpp Settings.h AvroOption.cpp AvroOption.h HexView.cpp HexView.h)
+        Settings.cpp Settings.h
+        AvroOption.cpp AvroOption.h
+        HexView.cpp HexView.h
+        ExportImportFabric.cpp ExportImportFabric.h
+        RecordsExporter.cpp RecordsExporter.h)
 
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

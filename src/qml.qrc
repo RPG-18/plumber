@@ -39,6 +39,7 @@
         <file>qml/Components/TabBar.qml</file>
         <file>qml/Components/TabButton.qml</file>
         <file>qml/Components/Button.qml</file>
+        <file>qml/Components/ExportImportDialog.qml</file>
         <file alias="kafka_icon.svg">../images/kafka_icon.svg</file>
         <file alias="kafka_icon_reverse.svg">../images/kafka_icon_reverse.svg</file>
         <file alias="home.svg">../images/home.svg</file>

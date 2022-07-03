@@ -20,11 +20,15 @@ if ((CMAKE_CXX_COMPILER_ID STREQUAL "Clang") OR (CMAKE_CXX_COMPILER_ID STREQUAL 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_definitions(-D_CRT_SECURE_NO_WARNINGS )
 endif ()
+
+add_definitions(-DRAPIDJSON_SSE42)
+
 clang_tidy(-header-filter='${CMAKE_SOURCE_DIR}/src/*')
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include_directories(3rdparty/modern-cpp-kafka/include
         3rdparty/avro-cpp
+        3rdparty/rapidjson-1.1.0/include
         src/components
         src/configuration
         src/services

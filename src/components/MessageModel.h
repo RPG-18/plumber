@@ -2,6 +2,7 @@
 
 #include <QtCore/QAbstractTableModel>
 
+#include "ConsumerRecordsExporter.h"
 #include "Message.h"
 
 /*!
@@ -34,6 +35,8 @@ public:
 
     Q_INVOKABLE Message getMessage(int index) const;
     Q_INVOKABLE void clear();
+
+    void exportMessages(std::unique_ptr<core::AbstractConsumerRecordsExporter> exporter);
 
 private:
     QVector<QString> m_headers;

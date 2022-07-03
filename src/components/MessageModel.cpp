@@ -7,7 +7,6 @@
 
 namespace {
 const QString NULL_VALUE("(null)");
-
 }
 
 MessageModel::MessageModel(QObject *parent)
@@ -94,7 +93,7 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const
             stream.flush();
             return str;
         }
-        return {};
+        return QString{};
 
     default:
         return {};
@@ -176,4 +175,11 @@ void MessageModel::clear()
     beginRemoveRows(QModelIndex{}, 0, int(m_records.size()));
     m_records.clear();
     endRemoveRows();
+}
+
+void MessageModel::exportMessages(std::unique_ptr<core::AbstractConsumerRecordsExporter> exporter)
+{
+    for (auto record : m_records) {
+        exporter->writeRecord(record);
+    }
 }

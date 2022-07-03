@@ -47,7 +47,8 @@ QString format(Types type, const QByteArray &data)
         }
     }
 
-    case Float: {
+    case Float:
+    case Double: {
         QDataStream stream(data);
         stream.setByteOrder(QDataStream::BigEndian);
 

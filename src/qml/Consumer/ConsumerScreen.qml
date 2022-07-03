@@ -23,6 +23,11 @@ Window {
         consumer.topics = topicModel.selectedTopics();
     }
 
+    Components.ExportImportDialog {
+        id: exportDialog
+        anchors.centerIn: parent
+    }
+
     Consumer {
         id: consumer
 
@@ -59,6 +64,7 @@ Window {
         }
 
     }
+
 
     RowLayout {
         anchors.fill: parent
@@ -215,6 +221,31 @@ Window {
 
                     Text {
                         text: consumer.stat
+                    }
+
+                    Components.Button {
+                        text: qsTr("EXPORT ▼")
+                        onClicked: exportMenu.open()
+
+                        Menu {
+                            id: exportMenu
+
+                            MenuItem {
+                                text: qsTr("Visible rows only")
+                                onTriggered: {
+                                    exportDialog.exportHandler = consumer.exportVisibleRows;
+                                    exportDialog.open()
+                                }
+                            }
+
+                            MenuItem {
+                                text: qsTr("By restarting a consumer")
+                                onTriggered: {
+                                    //exportDialog.exportHandler = window.onExportByRestarting;
+                                    exportDialog.open()
+                                }
+                            }
+                        }
                     }
 
                     Components.Button {

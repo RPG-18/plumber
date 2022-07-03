@@ -6,6 +6,7 @@
 
 #include "AbstractConverter.h"
 #include "Consumer.h"
+#include "ExportImportFabric.h"
 #include "KafkaConsumer.h"
 #include "KafkaStatistic.h"
 
@@ -402,6 +403,23 @@ ErrorWrap Consumer::setConverter()
         m_consumer->setValueConverter(std::move(converter));
     }
 
+    return ErrorWrap{};
+}
+
+ErrorWrap Consumer::exportVisibleRows(ExportImportFabric *fabric)
+{
+    auto exporter = fabric->makeExporter(m_typeSelector->keyType(), m_typeSelector->valueType());
+
+    //TODO refactoring. Move to error service and global ErrorDialog
+    if (exporter == nullptr) {
+        return ErrorWrap("export visible rows", "create exporter error");
+    }
+
+    //    if (!exporter->error().isEmpty()) {
+    //        return ErrorWrap("export visible rows, open file", exporter->error());
+    //    }
+
+    m_messageModel->exportMessages(std::move(exporter));
     return ErrorWrap{};
 }
 
