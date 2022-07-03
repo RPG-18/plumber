@@ -21,5 +21,4 @@ Dialog {
         wrapMode: Text.WordWrap
         font.family: Style.FontFamily
     }
-
 }

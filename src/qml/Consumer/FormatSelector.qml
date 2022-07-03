@@ -60,7 +60,6 @@ Item {
                     contentGrid.visible = !contentGrid.visible;
                 }
             }
-
         }
 
         ColumnLayout {
@@ -78,7 +77,6 @@ Item {
                 TypeCombobox {
                     id: keyCbx
                 }
-
             }
 
             ProtobufOptions {
@@ -109,7 +107,6 @@ Item {
                 TypeCombobox {
                     id: valueCbx
                 }
-
             }
 
             ProtobufOptions {
@@ -127,9 +124,6 @@ Item {
                 Layout.columnSpan: 2
                 Layout.preferredWidth: 320
             }
-
         }
-
     }
-
 }

@@ -17,11 +17,10 @@ Item {
         property int selectedIdx: 0
 
         buttons: compressionLayout.children
-        onClicked: (btn) => {
+        onClicked: btn => {
             for (var i = 0; i < compressionLayout.children.length; i++) {
                 if (compressionLayout.children[i] === btn)
                     selectedIdx = i;
-
             }
         }
     }
@@ -32,11 +31,10 @@ Item {
         property int selectedIdx: 2
 
         buttons: ackLayout.children
-        onClicked: (btn) => {
+        onClicked: btn => {
             for (var i = 0; i < ackLayout.children.length; i++) {
                 if (ackLayout.children[i] === btn)
                     selectedIdx = i;
-
             }
         }
     }
@@ -90,7 +88,6 @@ Item {
             Item {
                 Layout.fillWidth: true
             }
-
         }
 
         Text {
@@ -135,14 +132,11 @@ Item {
             Item {
                 Layout.fillWidth: true
             }
-
         }
 
         Item {
             Layout.columnSpan: 2
             Layout.fillHeight: true
         }
-
     }
-
 }

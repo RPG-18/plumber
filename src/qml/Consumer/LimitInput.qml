@@ -47,7 +47,6 @@ Item {
                     color: "#d4d4d4"
                     anchors.verticalCenter: label.verticalCenter
                 }
-
             }
 
             MouseArea {
@@ -61,7 +60,6 @@ Item {
                     popup.open();
                 }
             }
-
         }
 
         SpinBox {
@@ -101,7 +99,6 @@ Item {
             stepSize: 1
             Layout.preferredWidth: 230
         }
-
     }
 
     Popup {
@@ -133,23 +130,18 @@ Item {
                         item.selectedLimit = limitId;
                         if (limitId === 2)
                             specificDate.setupDate();
-
                         popup.close();
                     }
                 }
 
                 model: LimitModel {
                 }
-
             }
-
         }
 
         background: Rectangle {
             border.color: Style.BorderColor
             radius: 4
         }
-
     }
-
 }

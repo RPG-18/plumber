@@ -35,7 +35,6 @@ Controls.Button {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
-
     }
 
     background: Rectangle {
@@ -44,5 +43,4 @@ Controls.Button {
         border.color: Style.BorderColor
         border.width: 1
     }
-
 }

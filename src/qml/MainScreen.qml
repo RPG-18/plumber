@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import "Components" as Components
 import "style.js" as Style
-import "./LeftPanel" as LeftPanel
+import "LeftPanel" as LeftPanel
 import "pages.js" as Pages
 import plumber
 
@@ -41,7 +41,6 @@ Rectangle {
                     Pages.createProducerScreen(mainCluster.topicModel(), mainScreen.broker);
                 }
             }
-
         }
 
         RowLayout {
@@ -55,7 +54,7 @@ Rectangle {
                 broker: mainScreen.broker
                 settings: mainSettings
                 Layout.fillHeight: true
-                onActivatedItem: (indx) => {
+                onActivatedItem: indx => {
                     stackLayout.currentIndex = indx;
                 }
             }
@@ -73,7 +72,7 @@ Rectangle {
                     Overview {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        onActivatedItem: (indx) => {
+                        onActivatedItem: indx => {
                             stackLayout.currentIndex = indx;
                             menu.setActiveItem(indx);
                         }
@@ -93,13 +92,8 @@ Rectangle {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

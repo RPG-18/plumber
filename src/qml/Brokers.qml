@@ -53,15 +53,10 @@ Rectangle {
                             Item {
                                 Layout.fillHeight: true
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         Item {
@@ -83,7 +78,6 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 color: "#f2f2f2"
             }
-
         }
 
         ListView {
@@ -115,11 +109,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     color: "#f2f2f2"
                 }
-
             }
-
         }
-
     }
-
 }

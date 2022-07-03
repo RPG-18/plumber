@@ -188,7 +188,5 @@ Item {
             Layout.columnSpan: 2
             Layout.fillHeight: true
         }
-
     }
-
 }

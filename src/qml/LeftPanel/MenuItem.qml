@@ -36,7 +36,6 @@ Item {
                 sourceSize.width: 25
                 sourceSize.height: 25
             }
-
         }
 
         Text {
@@ -49,7 +48,6 @@ Item {
         Item {
             Layout.fillWidth: true
         }
-
     }
 
     MouseArea {
@@ -68,7 +66,6 @@ Item {
                 target: bg
                 color: "#ffffff"
             }
-
         },
         State {
             name: "checked"
@@ -77,7 +74,6 @@ Item {
                 target: bg
                 color: Style.LightGray
             }
-
         }
     ]
 }

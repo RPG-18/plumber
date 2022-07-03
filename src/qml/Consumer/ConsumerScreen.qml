@@ -62,9 +62,7 @@ Window {
             headerKey: filter.headerKeyFilter
             headerValue: filter.headerValueFilter
         }
-
     }
-
 
     RowLayout {
         anchors.fill: parent
@@ -94,7 +92,6 @@ Window {
                     Component.onCompleted: {
                         if (window.topic !== "")
                             currentIndex = indexOfValue(window.topic);
-
                     }
 
                     background: Rectangle {
@@ -102,7 +99,6 @@ Window {
                         implicitHeight: 30
                         border.color: Style.BorderColor
                     }
-
                 }
 
                 FormatSelector {
@@ -123,9 +119,7 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                 }
-
             }
-
         }
 
         ColumnLayout {
@@ -201,18 +195,14 @@ Window {
                                             table.hideColumn(index, checked);
                                         }
                                     }
-
                                 }
-
                             }
 
                             background: Rectangle {
                                 border.color: Style.BorderColor
                                 radius: 4
                             }
-
                         }
-
                     }
 
                     Item {
@@ -234,7 +224,7 @@ Window {
                                 text: qsTr("Visible rows only")
                                 onTriggered: {
                                     exportDialog.exportHandler = consumer.exportVisibleRows;
-                                    exportDialog.open()
+                                    exportDialog.open();
                                 }
                             }
 
@@ -242,7 +232,7 @@ Window {
                                 text: qsTr("By restarting a consumer")
                                 onTriggered: {
                                     //exportDialog.exportHandler = window.onExportByRestarting;
-                                    exportDialog.open()
+                                    exportDialog.open();
                                 }
                             }
                         }
@@ -264,7 +254,6 @@ Window {
                                 let err = consumer.start();
                                 if (err.isError)
                                     consumerErrDialog.show(err);
-
                             } else {
                                 consumer.stop();
                             }
@@ -277,7 +266,6 @@ Window {
                                     target: start
                                     text: qsTr("START")
                                 }
-
                             },
                             State {
                                 name: "stop"
@@ -286,17 +274,12 @@ Window {
                                     target: start
                                     text: qsTr("STOP")
                                 }
-
                             }
                         ]
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Components.ErrorDialog {
@@ -305,5 +288,4 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

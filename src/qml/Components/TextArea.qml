@@ -17,7 +17,5 @@ Flickable {
             implicitWidth: 500
             border.color: "#ababab"
         }
-
     }
-
 }

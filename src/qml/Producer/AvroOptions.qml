@@ -40,7 +40,6 @@ Item {
             implicitWidth: 38
             onClicked: fileDialog.open()
         }
-
     }
 
     FileDialog {
@@ -51,5 +50,4 @@ Item {
             itm.schemaFile = file;
         }
     }
-
 }

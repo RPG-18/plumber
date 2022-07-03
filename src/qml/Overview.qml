@@ -51,15 +51,10 @@ Item {
                             Item {
                                 Layout.fillHeight: true
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         OverviewItem {
@@ -97,16 +92,12 @@ Item {
                             Item {
                                 Layout.fillHeight: true
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
+
         /*
         OverviewItem {
             Layout.fillWidth: true
@@ -119,12 +110,9 @@ Item {
             onClicked: overview.activatedItem(Constants.ConsumersIndex);
         }
 */
-
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
-
 }

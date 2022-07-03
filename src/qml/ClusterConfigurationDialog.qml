@@ -18,8 +18,7 @@ ssl.enabled.protocols=...
 
     function open() {
         if (dialog.visible)
-            return ;
-
+            return;
         let startX = appWindow.x + appWindow.width / 2 - dialog.width / 2;
         let startY = appWindow.y + appWindow.height / 2 - dialog.height / 2;
         dialog.x = startX;
@@ -62,7 +61,6 @@ ssl.enabled.protocols=...
                         text: qsTr("Kafka Cluster")
                         width: implicitWidth
                     }
-
                 }
 
                 StackLayout {
@@ -135,7 +133,6 @@ ssl.enabled.protocols=...
                                         implicitWidth: 500
                                         border.color: "#ababab"
                                     }
-
                                 }
 
                                 ScrollBar.vertical: ScrollBar {
@@ -143,7 +140,6 @@ ssl.enabled.protocols=...
 
                                 ScrollBar.horizontal: ScrollBar {
                                 }
-
                             }
 
                             Text {
@@ -178,11 +174,8 @@ ssl.enabled.protocols=...
                                             elide: Text.ElideRight
                                             verticalAlignment: Text.AlignVCenter
                                         }
-
                                     }
-
                                 }
-
                             }
 
                             Components.Button {
@@ -200,13 +193,12 @@ ssl.enabled.protocols=...
                                 ConnectivityTester {
                                     id: tester
 
-                                    onIsTested: (result) => {
+                                    onIsTested: result => {
                                         page.state = "default";
                                         testConnectDialog.open();
                                         staclLayout.currentIndex = result ? 0 : 1;
                                     }
                                 }
-
                             }
 
                             Item {
@@ -215,13 +207,9 @@ ssl.enabled.protocols=...
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                             }
-
                         }
-
                     }
-
                 }
-
             }
 
             BusyIndicator {
@@ -230,7 +218,6 @@ ssl.enabled.protocols=...
                 anchors.centerIn: parent
                 running: false
             }
-
         }
 
         Dialog {
@@ -258,9 +245,7 @@ ssl.enabled.protocols=...
                     wrapMode: Text.WordWrap
                     text: qsTr("It looks like [") + bootstrapServers.text + qsTr("] is not even accessible, check if the broker is up and its port opened.")
                 }
-
             }
-
         }
 
         header: RowLayout {
@@ -271,7 +256,6 @@ ssl.enabled.protocols=...
                 Layout.leftMargin: 20
                 Layout.topMargin: 15
             }
-
         }
 
         states: [
@@ -287,7 +271,6 @@ ssl.enabled.protocols=...
                     target: busy
                     running: false
                 }
-
             },
             State {
                 name: "testing"
@@ -301,7 +284,6 @@ ssl.enabled.protocols=...
                     target: busy
                     running: true
                 }
-
             }
         ]
 
@@ -327,9 +309,6 @@ ssl.enabled.protocols=...
                     dialog.clearAndClose();
                 }
             }
-
         }
-
     }
-
 }

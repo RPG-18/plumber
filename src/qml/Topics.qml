@@ -69,9 +69,7 @@ Rectangle {
                             Item {
                                 Layout.fillHeight: true
                             }
-
                         }
-
                     }
 
                     Item {
@@ -92,13 +90,9 @@ Rectangle {
                         Item {
                             Layout.fillHeight: true
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         Item {
@@ -136,7 +130,6 @@ Rectangle {
                                 implicitHeight: 1
                                 color: "#f2f2f2"
                             }
-
                         }
 
                         MenuItem {
@@ -146,7 +139,7 @@ Rectangle {
                                     let e = topicModel.removeSelectedTopics();
                                     if (e.isError) {
                                         err.show(e);
-                                        return ;
+                                        return;
                                     }
                                 };
                                 confirm.title = qsTr("Delete %1 topics").arg(topicModel.selected);
@@ -154,9 +147,7 @@ Rectangle {
                                 confirm.open();
                             }
                         }
-
                     }
-
                 }
 
                 Item {
@@ -182,9 +173,7 @@ Rectangle {
                                 privateFilterModel.hide = !privateFilterModel.hide;
                             }
                         }
-
                     }
-
                 }
 
                 TextField {
@@ -194,7 +183,6 @@ Rectangle {
                     selectByMouse: true
                     placeholderText: qsTr("Filter topic name...")
                 }
-
             }
 
             Rectangle {
@@ -203,7 +191,6 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 color: "#f2f2f2"
             }
-
         }
 
         Item {
@@ -225,7 +212,6 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 color: "#f2f2f2"
             }
-
         }
 
         ListView {
@@ -267,7 +253,6 @@ Rectangle {
                                     privateFilterModel.checked(index, box.checked);
                                 }
                             }
-
                         }
 
                         Button {
@@ -287,7 +272,6 @@ Rectangle {
                         Item {
                             Layout.fillWidth: true
                         }
-
                     }
 
                     Rectangle {
@@ -296,13 +280,9 @@ Rectangle {
                         anchors.bottom: parent.bottom
                         color: "#f2f2f2"
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Components.ErrorDialog {
@@ -318,5 +298,4 @@ Rectangle {
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

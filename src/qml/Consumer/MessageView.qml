@@ -61,7 +61,6 @@ Window {
                         width: 1
                         color: Style.BorderColor
                     }
-
                 }
 
                 Components.TabButton {
@@ -73,7 +72,6 @@ Window {
                         width: 1
                         color: Style.BorderColor
                     }
-
                 }
 
                 Components.TabButton {
@@ -86,9 +84,7 @@ Window {
                         width: 1
                         color: Style.BorderColor
                     }
-
                 }
-
             }
 
             StackLayout {
@@ -130,13 +126,9 @@ Window {
                                     implicitWidth: 500
                                     border.color: "#ababab"
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
 
                 ColumnLayout {
@@ -197,15 +189,10 @@ Window {
                                             xAxis.enabled: true
                                             cursorShape: Qt.SizeHorCursor
                                         }
-
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
 
                     TableView {
@@ -239,11 +226,8 @@ Window {
                                 anchors.bottom: parent.bottom
                                 color: "#f2f2f2"
                             }
-
                         }
-
                     }
-
                 }
 
                 Item {
@@ -301,9 +285,7 @@ Window {
                             Layout.fillHeight: true
                             Layout.columnSpan: 2
                         }
-
                     }
-
                 }
 
                 ScrollView {
@@ -322,17 +304,10 @@ Window {
                             dataSource: MessageValueDataSource {
                                 message: window.message
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

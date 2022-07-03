@@ -34,9 +34,6 @@ Controls.TabBar {
                 y: parent.height - height
                 color: "#5186f9"
             }
-
         }
-
     }
-
 }

@@ -10,7 +10,7 @@ Dialog {
 
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    property var exportHandler;
+    property var exportHandler
 
     property url schemaFile: fileDialog.file
 
@@ -24,8 +24,8 @@ Dialog {
     Platform.FileDialog {
         id: fileDialog
         fileMode: Platform.FileDialog.SaveFile
-        nameFilters: csvButton.checked ? ["CSV files (*.csv)"] : [ "JSON files (*.json)"]
-     }    
+        nameFilters: csvButton.checked ? ["CSV files (*.csv)"] : ["JSON files (*.json)"]
+    }
 
     ExportImportFabric {
         id: exportFabric
@@ -39,13 +39,15 @@ Dialog {
         useValue: valueCb.checked
     }
 
-    ButtonGroup { id: formatGroup }
+    ButtonGroup {
+        id: formatGroup
+    }
 
     GridLayout {
         columns: 2
 
         Text {
-            text:  qsTr("Format")
+            text: qsTr("Format")
         }
 
         RowLayout {
