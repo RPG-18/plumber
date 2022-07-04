@@ -4,6 +4,7 @@
 #include <QtCore/QUrl>
 
 #include "ConsumerRecordsExporter.h"
+#include "ErrorWrap.h"
 #include "Types.h"
 
 /**!
@@ -14,6 +15,8 @@ class ExportImportFabric : public QObject
     Q_OBJECT
 
 public:
+    using ExporterPtr = std::unique_ptr<core::AbstractConsumerRecordsExporter>;
+
     enum Format { CSVFormat, JSONFormat };
     Q_ENUM(Format);
 
@@ -48,7 +51,7 @@ public:
     bool useValue() const;
     void setUseValue(bool use);
 
-    std::unique_ptr<core::AbstractConsumerRecordsExporter> makeExporter(Types key, Types value);
+    std::tuple<ExporterPtr, ErrorWrap> makeExporter(Types key, Types value);
 
 private:
     QUrl m_file;

@@ -83,11 +83,11 @@ void ExportImportFabric::setUseValue(bool use)
     m_useValue = use;
 }
 
-std::unique_ptr<core::AbstractConsumerRecordsExporter> ExportImportFabric::makeExporter(Types key,
+std::tuple<ExportImportFabric::ExporterPtr, ErrorWrap> ExportImportFabric::makeExporter(Types key,
                                                                                         Types value)
 {
     if (!m_file.isValid()) {
-        return nullptr;
+        return std::make_tuple(nullptr, ErrorWrap("Export records", "output file is not valid"));
     }
 
     auto file = m_file.toString(QUrl::RemoveScheme);
@@ -111,7 +111,7 @@ std::unique_ptr<core::AbstractConsumerRecordsExporter> ExportImportFabric::makeE
 
     if (!exporter->open()) {
         spdlog::error("failed open file to write {}", m_file.path().toStdString());
-        return nullptr;
+        return std::make_tuple(nullptr, ErrorWrap("Export records", exporter->error()));
     }
 
     exporter->appendHeader();
@@ -120,5 +120,6 @@ std::unique_ptr<core::AbstractConsumerRecordsExporter> ExportImportFabric::makeE
     exporter->setUseOffset(m_useOffset);
     exporter->setUseKey(m_useKey);
     exporter->setUseValue(m_useValue);
-    return exporter;
+
+    return std::make_tuple(std::move(exporter), ErrorWrap());
 }

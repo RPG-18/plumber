@@ -9,6 +9,7 @@
 #include "ExportImportFabric.h"
 #include "KafkaConsumer.h"
 #include "KafkaStatistic.h"
+#include "Registry.h"
 
 #include "formats/protobuf/ProtobufConverter.h"
 
@@ -408,16 +409,12 @@ ErrorWrap Consumer::setConverter()
 
 ErrorWrap Consumer::exportVisibleRows(ExportImportFabric *fabric)
 {
-    auto exporter = fabric->makeExporter(m_typeSelector->keyType(), m_typeSelector->valueType());
+    auto [exporter, err] = fabric->makeExporter(m_typeSelector->keyType(),
+                                                m_typeSelector->valueType());
 
-    //TODO refactoring. Move to error service and global ErrorDialog
     if (exporter == nullptr) {
-        return ErrorWrap("export visible rows", "create exporter error");
+        return err;
     }
-
-    //    if (!exporter->error().isEmpty()) {
-    //        return ErrorWrap("export visible rows, open file", exporter->error());
-    //    }
 
     m_messageModel->exportMessages(std::move(exporter));
     return ErrorWrap{};

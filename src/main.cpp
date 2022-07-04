@@ -5,7 +5,10 @@
 #include <QtCore/QFile>
 
 #include <QtGui/QFontDatabase>
+
 #include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QQmlContext>
+
 #include <QtQuickControls2/QQuickStyle>
 
 #include <QtWidgets/QApplication>
@@ -29,6 +32,9 @@ void init()
     auto cfg = std::make_shared<ConfigurationService>();
     cfg->load();
     Services->setConfiguration(cfg);
+
+    auto errs = std::make_shared<ErrorsService>();
+    Services->setErrors(errs);
 }
 
 void loadFonts()
@@ -83,6 +89,10 @@ int main(int argc, char *argv[])
             }
         },
         Qt::QueuedConnection);
+
+    engine.rootContext()->setContextProperty("errorService", &Services->errors());
+    engine.setObjectOwnership(&Services->errors(), QJSEngine::CppOwnership);
+
     engine.load(url);
 
     return QApplication::exec();

@@ -15,3 +15,13 @@ Registry *Registry::instance() noexcept
     static Registry obj;
     return &obj;
 }
+
+ErrorsService &Registry::errors()
+{
+    return *m_errors.get();
+}
+
+void Registry::setErrors(std::shared_ptr<ErrorsService> service)
+{
+    m_errors = std::move(service);
+}

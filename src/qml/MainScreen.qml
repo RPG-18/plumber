@@ -96,4 +96,17 @@ Rectangle {
             }
         }
     }
+
+    Components.ErrorDialog {
+        id: errors
+        anchors.centerIn: parent
+        width: parent.width * 0.8
+
+        Connections {
+            target: errorService
+            function onError(err) {
+                errors.show(err);
+            }
+        }
+    }
 }
