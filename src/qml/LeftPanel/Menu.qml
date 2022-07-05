@@ -19,7 +19,6 @@ Item {
         for (var i = 0; i < layout.children.length; i++) {
             if (i !== indx)
                 layout.children[i].state = "default";
-
         }
         menu.activatedItem(indx);
     }
@@ -38,7 +37,7 @@ Item {
             icon: "qrc:/home.svg"
             Layout.fillWidth: true
             state: "checked"
-            onClicked: (index) => {
+            onClicked: index => {
                 menu.onClickHandler(index);
             }
         }
@@ -48,7 +47,7 @@ Item {
             text: qsTr("Brokers")
             icon: "qrc:/brokers.svg"
             Layout.fillWidth: true
-            onClicked: (index) => {
+            onClicked: index => {
                 menu.onClickHandler(index);
             }
         }
@@ -58,10 +57,11 @@ Item {
             text: qsTr("Topics")
             icon: "qrc:/topics.svg"
             Layout.fillWidth: true
-            onClicked: (index) => {
+            onClicked: index => {
                 menu.onClickHandler(index);
             }
         }
+
         /*
         MenuItem{
             index: 3
@@ -71,12 +71,9 @@ Item {
             onClicked: menu.onClickHandler(index)
         }
 */
-
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
-
 }

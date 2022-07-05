@@ -96,8 +96,11 @@ void KafkaConsumer::pool()
             }
 
             if (!m_limiter->ExcessOfLimit(rec)) {
-                m_buff.push(std::move(rec));
+                if (m_recorder) {
+                    m_recorder->writeRecord(rec.get());
+                }
 
+                m_buff.push(std::move(rec));
             } else {
                 manualStop();
                 break;
@@ -178,6 +181,11 @@ void KafkaConsumer::setLimiter(std::unique_ptr<core::AbstractLimiter> limiter)
 void KafkaConsumer::setFilter(std::unique_ptr<core::AbstractFilter> filter)
 {
     m_filter = std::move(filter);
+}
+
+void KafkaConsumer::setRecorder(std::unique_ptr<core::AbstractConsumerExporter> recorder)
+{
+    m_recorder = std::move(recorder);
 }
 
 void KafkaConsumer::manualStop()

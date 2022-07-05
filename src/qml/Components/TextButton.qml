@@ -4,7 +4,7 @@ import "../style.js" as Style
 Text {
     id: label
 
-    signal clickecd()
+    signal clickecd
 
     color: Style.LabelColorDark
     font.underline: mouseArea.containsMouse
@@ -19,5 +19,4 @@ Text {
             label.clickecd();
         }
     }
-
 }

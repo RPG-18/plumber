@@ -31,7 +31,6 @@ Item {
             font.pointSize: 6
             color: "#d4d4d4"
         }
-
     }
 
     MouseArea {
@@ -79,9 +78,7 @@ Item {
 
                     model: ConsumerTypesModel {
                     }
-
                 }
-
             }
 
             Column {
@@ -111,18 +108,13 @@ Item {
 
                     model: CustomTypesModel {
                     }
-
                 }
-
             }
-
         }
 
         background: Rectangle {
             border.color: Style.BorderColor
             radius: 4
         }
-
     }
-
 }

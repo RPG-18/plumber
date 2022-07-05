@@ -55,7 +55,6 @@ Rectangle {
             Item {
                 Layout.fillWidth: true
             }
-
         }
 
         states: [
@@ -71,7 +70,6 @@ Rectangle {
                     target: headerLabel
                     visible: true
                 }
-
             },
             State {
                 name: "small"
@@ -85,7 +83,6 @@ Rectangle {
                     target: headerLabel
                     visible: false
                 }
-
             }
         ]
     }
@@ -103,11 +100,10 @@ Rectangle {
             id: leftMenu
 
             anchors.fill: parent
-            onActivatedItem: (indx) => {
+            onActivatedItem: indx => {
                 menu.activatedItem(indx);
             }
         }
-
     }
 
     Rectangle {
@@ -136,7 +132,6 @@ Rectangle {
                     settings.leftPanelState = "default";
             }
         }
-
     }
 
     states: [
@@ -163,7 +158,6 @@ Rectangle {
                 target: kafka_icon
                 source: "qrc:/kafka_icon.svg"
             }
-
         },
         State {
             name: "small"
@@ -188,7 +182,6 @@ Rectangle {
                 target: kafka_icon
                 source: menu.broker.color !== Style.BrokerColor[0] ? "qrc:/kafka_icon_reverse.svg" : "qrc:/kafka_icon.svg"
             }
-
         }
     ]
 }

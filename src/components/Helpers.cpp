@@ -7,6 +7,7 @@
 #include "ConfigModel.h"
 #include "Consumer.h"
 #include "ConsumerHelperModels.h"
+#include "ExportImportFabric.h"
 #include "HexView.h"
 #include "KafkaConnectivityTester.h"
 #include "Producer.h"
@@ -52,4 +53,6 @@ void registerTypes()
     qmlRegisterType<MessageValueDataSource>("plumber", 1, 0, "MessageValueDataSource");
 
     qmlRegisterAnonymousType<AbstractDataSource>("HexView", 1);
+
+    qmlRegisterType<ExportImportFabric>("plumber", 1, 0, "ExportImportFabric");
 }

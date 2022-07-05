@@ -6,8 +6,10 @@
 
 #include "AbstractConverter.h"
 #include "Consumer.h"
+#include "ExportImportFabric.h"
 #include "KafkaConsumer.h"
 #include "KafkaStatistic.h"
+#include "Registry.h"
 
 #include "formats/protobuf/ProtobufConverter.h"
 
@@ -80,6 +82,10 @@ ErrorWrap Consumer::start()
             if (err.isError) {
                 return err;
             }
+        }
+
+        if (m_recordExporter) {
+            m_consumer->setRecorder(std::move(m_recordExporter));
         }
 
         m_connections.push_back(
@@ -404,6 +410,32 @@ ErrorWrap Consumer::setConverter()
 
     return ErrorWrap{};
 }
+
+ErrorWrap Consumer::exportVisibleRows(ExportImportFabric *fabric)
+{
+    auto [exporter, err] = fabric->makeExporter(m_typeSelector->keyType(),
+                                                m_typeSelector->valueType());
+    if (exporter == nullptr) {
+        return err;
+    }
+
+    m_messageModel->exportMessages(std::move(exporter));
+    return ErrorWrap{};
+}
+
+ErrorWrap Consumer::exportByRestarting(ExportImportFabric *fabric)
+{
+    auto [exporter, err] = fabric->makeExporter(m_typeSelector->keyType(),
+                                                m_typeSelector->valueType());
+    if (exporter == nullptr) {
+        return err;
+    }
+
+    stop();
+    m_recordExporter = std::move(exporter);
+    return ErrorWrap{};
+}
+
 
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     : QObject(parent)

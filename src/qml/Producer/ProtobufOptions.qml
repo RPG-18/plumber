@@ -50,7 +50,6 @@ Item {
             model: protoMessages
             textRole: "message"
         }
-
     }
 
     FileDialog {
@@ -66,7 +65,7 @@ Item {
         id: protoMessages
 
         file: fileDialog.file
-        onParseErrors: (errs) => {
+        onParseErrors: errs => {
             let e = {
                 "what": errs
             };
@@ -76,5 +75,4 @@ Item {
             messageCbx.currentIndex = 0;
         }
     }
-
 }

@@ -8,7 +8,7 @@ Rectangle {
     property alias text: label.text
     property alias content: loader.sourceComponent
 
-    signal clicked()
+    signal clicked
 
     width: 300
     height: 130
@@ -34,7 +34,6 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 onClicked: item.clicked()
             }
-
         }
 
         Loader {
@@ -43,7 +42,5 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
-
 }

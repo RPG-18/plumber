@@ -44,7 +44,6 @@ Item {
                     resize();
                 }
             }
-
         }
 
         GridLayout {
@@ -96,7 +95,6 @@ Item {
                 Layout.minimumWidth: 80
                 onSelectedFilterIdChanged: resize()
             }
-
         }
 
         Grid {
@@ -152,11 +150,7 @@ Item {
                     persistentSelection: true
                     selectByMouse: true
                 }
-
             }
-
         }
-
     }
-
 }

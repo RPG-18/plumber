@@ -43,7 +43,6 @@ Window {
             ack: optionsPage.ack
             idempotence: optionsPage.idempotence
         }
-
     }
 
     SplitView {
@@ -89,9 +88,7 @@ Window {
                                 width: 1
                                 color: Style.BorderColor
                             }
-
                         }
-
                     }
 
                     StackLayout {
@@ -114,9 +111,7 @@ Window {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                         }
-
                     }
-
                 }
 
                 Rectangle {
@@ -158,7 +153,6 @@ Window {
                                 Item {
                                     Layout.fillHeight: true
                                 }
-
                             }
 
                             MouseArea {
@@ -167,11 +161,8 @@ Window {
                                 anchors.fill: parent
                                 hoverEnabled: true
                             }
-
                         }
-
                     }
-
                 }
 
                 Item {
@@ -193,17 +184,13 @@ Window {
                                 let e = producer.send(dataPage.keyData(), dataPage.valueData());
                                 if (e.isError) {
                                     err.show(e);
-                                    return ;
+                                    return;
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         handle: Rectangle {
@@ -211,7 +198,6 @@ Window {
             implicitHeight: 2
             color: Style.BorderColor
         }
-
     }
 
     Components.ErrorDialog {
@@ -220,5 +206,4 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

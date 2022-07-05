@@ -78,16 +78,12 @@ Item {
 
                 model: FiltersModel {
                 }
-
             }
-
         }
 
         background: Rectangle {
             border.color: Style.BorderColor
             radius: 4
         }
-
     }
-
 }

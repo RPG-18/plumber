@@ -9,8 +9,8 @@ Item {
     property string brokerName
     property string brokerBootstrap
 
-    signal remove()
-    signal open()
+    signal remove
+    signal open
 
     width: 150
     height: 40
@@ -46,9 +46,7 @@ Item {
                 clip: true
                 Layout.fillWidth: true
             }
-
         }
-
     }
 
     MouseArea {
@@ -83,7 +81,5 @@ Item {
             text: "Removed"
             onTriggered: menuItem.remove()
         }
-
     }
-
 }

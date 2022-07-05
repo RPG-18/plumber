@@ -20,7 +20,6 @@ ApplicationWindow {
 
         pushExit: Transition {
         }
-
     }
 
     Component {
@@ -28,7 +27,6 @@ ApplicationWindow {
 
         StartScreen {
         }
-
     }
 
     Component {
@@ -36,7 +34,5 @@ ApplicationWindow {
 
         MainScreen {
         }
-
     }
-
 }

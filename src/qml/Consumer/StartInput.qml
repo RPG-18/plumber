@@ -45,7 +45,6 @@ Item {
                     color: "#d4d4d4"
                     anchors.verticalCenter: label.verticalCenter
                 }
-
             }
 
             MouseArea {
@@ -59,7 +58,6 @@ Item {
                     popup.open();
                 }
             }
-
         }
 
         TextField {
@@ -77,7 +75,6 @@ Item {
             width: 150
             Layout.minimumWidth: 150
         }
-
     }
 
     Popup {
@@ -115,16 +112,12 @@ Item {
 
                 model: StartFromTimeBasedModel {
                 }
-
             }
-
         }
 
         background: Rectangle {
             border.color: Style.BorderColor
             radius: 4
         }
-
     }
-
 }

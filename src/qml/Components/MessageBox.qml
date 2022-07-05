@@ -13,7 +13,6 @@ Dialog {
     onAccepted: {
         if (accaptHanlder !== null)
             accaptHanlder();
-
     }
 
     Text {
@@ -23,5 +22,4 @@ Dialog {
         wrapMode: Text.WordWrap
         font.family: Style.FontFamily
     }
-
 }

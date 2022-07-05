@@ -4,7 +4,7 @@ import QtQuick.Controls
 import plumber
 import "style.js" as Style
 import "pages.js" as Pages
-import "./Components" as Components
+import "Components" as Components
 
 Item {
     RowLayout {
@@ -63,7 +63,6 @@ Item {
                 ScrollBar.vertical: ScrollBar {
                     policy: ScrollBar.AsNeeded
                 }
-
             }
 
             Rectangle {
@@ -72,7 +71,6 @@ Item {
                 color: Style.BorderColor
                 anchors.right: parent.right
             }
-
         }
 
         Rectangle {
@@ -92,9 +90,7 @@ Item {
                     dialog.open();
                 }
             }
-
         }
-
     }
 
     ClusterConfigurationDialog {
@@ -111,5 +107,4 @@ Item {
         anchors.centerIn: parent
         running: false
     }
-
 }

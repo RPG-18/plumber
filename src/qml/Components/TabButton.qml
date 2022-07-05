@@ -10,5 +10,4 @@ Controls.TabButton {
         implicitHeight: 44
         color: control.hovered ? Style.LightGray : "white"
     }
-
 }

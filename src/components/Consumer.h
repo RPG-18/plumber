@@ -70,6 +70,7 @@ private:
     AvroOption *m_valueAvro;
 };
 
+class ExportImportFabric;
 class ConsumerLimiterSelector;
 class ConsumerFilterSelector;
 class ConsumerBeginningSelector;
@@ -94,6 +95,8 @@ class Consumer : public QObject
     Q_PROPERTY(QString stat READ stat NOTIFY statChanged)
 
 public:
+    using ExporterPtr = std::unique_ptr<core::AbstractConsumerExporter>;
+
     static constexpr auto RefreshInterval = std::chrono::seconds(1);
 
     enum StartFromTimeBased { Now, LastHour, Today, Yesterday, SpecificDate, Earliest };
@@ -117,6 +120,8 @@ public:
 
     Q_INVOKABLE ErrorWrap start();
     Q_INVOKABLE void stop();
+    Q_INVOKABLE ErrorWrap exportVisibleRows(ExportImportFabric *fabric);
+    Q_INVOKABLE ErrorWrap exportByRestarting(ExportImportFabric *fabric);
 
     ConsumerTypeSelector *typeSelector();
     void setTypeSelector(ConsumerTypeSelector *selector);
@@ -175,6 +180,7 @@ private:
     core::KafkaConsumer::ConsumeStat m_stat;
 
     MessageModel *m_messageModel;
+    ExporterPtr m_recordExporter;
 };
 Q_DECLARE_METATYPE(Consumer::StartFromTimeBased)
 Q_DECLARE_METATYPE(Consumer::Filters)

@@ -23,6 +23,11 @@ Window {
         consumer.topics = topicModel.selectedTopics();
     }
 
+    Components.ExportImportDialog {
+        id: exportDialog
+        anchors.centerIn: parent
+    }
+
     Consumer {
         id: consumer
 
@@ -57,7 +62,6 @@ Window {
             headerKey: filter.headerKeyFilter
             headerValue: filter.headerValueFilter
         }
-
     }
 
     RowLayout {
@@ -88,7 +92,6 @@ Window {
                     Component.onCompleted: {
                         if (window.topic !== "")
                             currentIndex = indexOfValue(window.topic);
-
                     }
 
                     background: Rectangle {
@@ -96,7 +99,6 @@ Window {
                         implicitHeight: 30
                         border.color: Style.BorderColor
                     }
-
                 }
 
                 FormatSelector {
@@ -117,9 +119,7 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                 }
-
             }
-
         }
 
         ColumnLayout {
@@ -195,18 +195,14 @@ Window {
                                             table.hideColumn(index, checked);
                                         }
                                     }
-
                                 }
-
                             }
 
                             background: Rectangle {
                                 border.color: Style.BorderColor
                                 radius: 4
                             }
-
                         }
-
                     }
 
                     Item {
@@ -215,6 +211,31 @@ Window {
 
                     Text {
                         text: consumer.stat
+                    }
+
+                    Components.Button {
+                        text: qsTr("EXPORT ▼")
+                        onClicked: exportMenu.open()
+
+                        Menu {
+                            id: exportMenu
+
+                            MenuItem {
+                                text: qsTr("Visible rows only")
+                                onTriggered: {
+                                    exportDialog.exportHandler = consumer.exportVisibleRows;
+                                    exportDialog.open();
+                                }
+                            }
+
+                            MenuItem {
+                                text: qsTr("By restarting a consumer")
+                                onTriggered: {
+                                    exportDialog.exportHandler = consumer.exportByRestarting;
+                                    exportDialog.open();
+                                }
+                            }
+                        }
                     }
 
                     Components.Button {
@@ -233,7 +254,6 @@ Window {
                                 let err = consumer.start();
                                 if (err.isError)
                                     consumerErrDialog.show(err);
-
                             } else {
                                 consumer.stop();
                             }
@@ -246,7 +266,6 @@ Window {
                                     target: start
                                     text: qsTr("START")
                                 }
-
                             },
                             State {
                                 name: "stop"
@@ -255,17 +274,12 @@ Window {
                                     target: start
                                     text: qsTr("STOP")
                                 }
-
                             }
                         ]
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Components.ErrorDialog {
@@ -274,5 +288,4 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

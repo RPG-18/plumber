@@ -93,7 +93,6 @@ Window {
                         onCheckedChanged: {
                             if (!retention.checked)
                                 compaction.checked = true;
-
                         }
                     }
 
@@ -107,10 +106,8 @@ Window {
                         onCheckedChanged: {
                             if (!compaction.checked)
                                 retention.checked = true;
-
                         }
                     }
-
                 }
 
                 Item {
@@ -118,9 +115,7 @@ Window {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                 }
-
             }
-
         }
 
         footer: Rectangle {
@@ -144,17 +139,14 @@ Window {
                         let e = topic.create();
                         if (e.isError) {
                             err.show(e);
-                            return ;
+                            return;
                         }
                         mainCluster.topicModel().refresh();
                         dialog.close();
                     }
                 }
-
             }
-
         }
-
     }
 
     Components.ErrorDialog {
@@ -163,5 +155,4 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 0.8
     }
-
 }

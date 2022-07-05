@@ -66,7 +66,6 @@ Rectangle {
             name: "Headers"
             isVisible: true
         }
-
     }
 
     StackLayout {
@@ -126,7 +125,6 @@ Rectangle {
                             font.family: Style.FontFamily
                             color: Style.MessageGrayColor
                         }
-
                     }
 
                     Text {
@@ -138,7 +136,6 @@ Rectangle {
                         font.pixelSize: fontPixelSize
                         font.family: Style.FontFamily
                     }
-
                 }
 
                 MouseArea {
@@ -168,11 +165,8 @@ Rectangle {
                             Pages.createMessageScreen(window.x, window.y, window.width, window.height, main.model.getMessage(index));
                         }
                     }
-
                 }
-
             }
-
         }
 
         ColumnLayout {
@@ -234,15 +228,10 @@ Rectangle {
                                     xAxis.enabled: true
                                     cursorShape: Qt.SizeHorCursor
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             }
 
             TableView {
@@ -349,7 +338,6 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                         }
-
                     }
 
                     Rectangle {
@@ -365,7 +353,6 @@ Rectangle {
                             Pages.createMessageScreen(window.x, window.y, window.width, window.height, main.model.getMessage(row));
                         }
                     }
-
                 }
 
                 ScrollBar.vertical: ScrollBar {
@@ -380,11 +367,8 @@ Rectangle {
                     policy: ScrollBar.AsNeeded
                     minimumSize: 0.06
                 }
-
             }
-
         }
-
     }
 
     Rectangle {
@@ -393,5 +377,4 @@ Rectangle {
         height: 1
         color: Style.BorderColor
     }
-
 }
