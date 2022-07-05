@@ -23,7 +23,7 @@ install:
   - vcpkg install boost-crc:x64-windows
   - vcpkg install protobuf:x64-windows
   - vcpkg install snappy:x64-windows
-#cache: c:\tools\vcpkg\installed
+cache: c:\tools\vcpkg\installed
 before_build:
   - ps: win\build.ps1
 artifacts:

@@ -36,7 +36,7 @@ public:
     Q_INVOKABLE Message getMessage(int index) const;
     Q_INVOKABLE void clear();
 
-    void exportMessages(std::unique_ptr<core::AbstractConsumerRecordsExporter> exporter);
+    void exportMessages(std::unique_ptr<core::AbstractConsumerExporter> exporter);
 
 private:
     QVector<QString> m_headers;

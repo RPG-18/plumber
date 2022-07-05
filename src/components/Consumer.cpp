@@ -84,6 +84,10 @@ ErrorWrap Consumer::start()
             }
         }
 
+        if (m_recordExporter) {
+            m_consumer->setRecorder(std::move(m_recordExporter));
+        }
+
         m_connections.push_back(
             connect(&m_consumerThread, &QThread::finished, m_consumer, &QObject::deleteLater));
         m_connections.push_back(
@@ -411,7 +415,6 @@ ErrorWrap Consumer::exportVisibleRows(ExportImportFabric *fabric)
 {
     auto [exporter, err] = fabric->makeExporter(m_typeSelector->keyType(),
                                                 m_typeSelector->valueType());
-
     if (exporter == nullptr) {
         return err;
     }
@@ -419,6 +422,20 @@ ErrorWrap Consumer::exportVisibleRows(ExportImportFabric *fabric)
     m_messageModel->exportMessages(std::move(exporter));
     return ErrorWrap{};
 }
+
+ErrorWrap Consumer::exportByRestarting(ExportImportFabric *fabric)
+{
+    auto [exporter, err] = fabric->makeExporter(m_typeSelector->keyType(),
+                                                m_typeSelector->valueType());
+    if (exporter == nullptr) {
+        return err;
+    }
+
+    stop();
+    m_recordExporter = std::move(exporter);
+    return ErrorWrap{};
+}
+
 
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     : QObject(parent)

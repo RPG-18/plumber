@@ -15,7 +15,7 @@ class ExportImportFabric : public QObject
     Q_OBJECT
 
 public:
-    using ExporterPtr = std::unique_ptr<core::AbstractConsumerRecordsExporter>;
+    using ExporterPtr = std::unique_ptr<core::AbstractConsumerExporter>;
 
     enum Format { CSVFormat, JSONFormat };
     Q_ENUM(Format);

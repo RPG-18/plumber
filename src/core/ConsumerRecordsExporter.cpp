@@ -2,7 +2,7 @@
 
 namespace core {
 
-AbstractConsumerRecordsExporter::AbstractConsumerRecordsExporter(const QString &name)
+AbstractConsumerExporter::AbstractConsumerExporter(const QString &name)
     : m_file(name)
     , m_useTimestamp(true)
     , m_usePartition(true)
@@ -11,22 +11,22 @@ AbstractConsumerRecordsExporter::AbstractConsumerRecordsExporter(const QString &
     , m_useValue(true)
 {}
 
-AbstractConsumerRecordsExporter::~AbstractConsumerRecordsExporter()
+AbstractConsumerExporter::~AbstractConsumerExporter()
 {
     closeFile();
 }
 
-void AbstractConsumerRecordsExporter::appendHeader()
+void AbstractConsumerExporter::appendHeader()
 {
     writeHeader(m_stream);
 }
 
-void AbstractConsumerRecordsExporter::writeHeader(QTextStream &stream)
+void AbstractConsumerExporter::writeHeader(QTextStream &stream)
 {
     Q_UNUSED(stream);
 }
 
-void AbstractConsumerRecordsExporter::writeRecord(core::ConsumerRecord *record)
+void AbstractConsumerExporter::writeRecord(core::ConsumerRecord *record)
 {
     if (!m_file.isOpen()) {
         return;
@@ -35,7 +35,7 @@ void AbstractConsumerRecordsExporter::writeRecord(core::ConsumerRecord *record)
     write(m_stream, record);
 }
 
-void AbstractConsumerRecordsExporter::closeFile()
+void AbstractConsumerExporter::closeFile()
 {
     if (!m_file.isOpen()) {
         return;
@@ -44,7 +44,7 @@ void AbstractConsumerRecordsExporter::closeFile()
     m_file.close();
 }
 
-bool AbstractConsumerRecordsExporter::open()
+bool AbstractConsumerExporter::open()
 {
     if (!m_file.open(QIODevice::Text | QIODeviceBase::Truncate | QIODeviceBase::WriteOnly)) {
         return false;
@@ -55,32 +55,32 @@ bool AbstractConsumerRecordsExporter::open()
     return true;
 }
 
-QString AbstractConsumerRecordsExporter::error()
+QString AbstractConsumerExporter::error()
 {
     return m_file.errorString();
 }
 
-void AbstractConsumerRecordsExporter::setUseTimestamp(bool use)
+void AbstractConsumerExporter::setUseTimestamp(bool use)
 {
     m_useTimestamp = use;
 }
 
-void AbstractConsumerRecordsExporter::setUsePartition(bool use)
+void AbstractConsumerExporter::setUsePartition(bool use)
 {
     m_usePartition = use;
 }
 
-void AbstractConsumerRecordsExporter::setUseOffset(bool use)
+void AbstractConsumerExporter::setUseOffset(bool use)
 {
     m_useOffset = use;
 }
 
-void AbstractConsumerRecordsExporter::setUseKey(bool use)
+void AbstractConsumerExporter::setUseKey(bool use)
 {
     m_useKey = use;
 }
 
-void AbstractConsumerRecordsExporter::setUseValue(bool use)
+void AbstractConsumerExporter::setUseValue(bool use)
 {
     m_useValue = use;
 }

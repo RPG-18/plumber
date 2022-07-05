@@ -107,7 +107,7 @@ void writeType(Types tp, JSONWriter &w, const QByteArray &data)
 } // namespace
 
 CSVConsumerRecordsExporter::CSVConsumerRecordsExporter(Types key, Types value, const QString &file)
-    : core::AbstractConsumerRecordsExporter(file)
+    : core::AbstractConsumerExporter(file)
     , m_key(key)
     , m_value(value)
 {}
@@ -193,7 +193,7 @@ void CSVConsumerRecordsExporter::write(QTextStream &stream, core::ConsumerRecord
 }
 
 JSONConsumerRecordsExporter::JSONConsumerRecordsExporter(Types key, Types value, const QString &file)
-    : core::AbstractConsumerRecordsExporter(file)
+    : core::AbstractConsumerExporter(file)
     , m_key(key)
     , m_value(value)
 {}

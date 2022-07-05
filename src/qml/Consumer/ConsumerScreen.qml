@@ -231,7 +231,7 @@ Window {
                             MenuItem {
                                 text: qsTr("By restarting a consumer")
                                 onTriggered: {
-                                    //exportDialog.exportHandler = window.onExportByRestarting;
+                                    exportDialog.exportHandler = consumer.exportByRestarting;
                                     exportDialog.open();
                                 }
                             }

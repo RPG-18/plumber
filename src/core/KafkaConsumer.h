@@ -14,6 +14,7 @@
 #include "ConsumerRecordBuffer.h"
 #include "Filter.h"
 #include "Limiter.h"
+#include "ConsumerRecordsExporter.h"
 
 namespace core {
 
@@ -50,6 +51,7 @@ public:
 
     void setLimiter(std::unique_ptr<core::AbstractLimiter> limiter);
     void setFilter(std::unique_ptr<core::AbstractFilter> filter);
+    void setRecorder(std::unique_ptr<core::AbstractConsumerExporter> recorder);
 
     void setKeyConverter(ConverterPtr &&key);
     void setValueConverter(ConverterPtr &&value);
@@ -57,6 +59,7 @@ public:
      * get consume stat
      */
     ConsumeStat stat();
+
 
 signals:
 
@@ -99,6 +102,7 @@ private:
     bool m_toBeginning;
     std::unique_ptr<core::AbstractLimiter> m_limiter;
     std::unique_ptr<core::AbstractFilter> m_filter;
+    std::unique_ptr<core::AbstractConsumerExporter> m_recorder;
     ConsumerRecordBuffer m_buff;
     ConsumeStat m_stat;
     std::mutex m_statMu;

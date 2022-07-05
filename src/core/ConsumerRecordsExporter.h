@@ -8,13 +8,13 @@
 namespace core {
 
 /**!
- * cass AbstractConsumerRecordsExporter abstract exporter
+ * cass AbstractConsumerExporter abstract exporter
  */
-class AbstractConsumerRecordsExporter
+class AbstractConsumerExporter
 {
 public:
-    AbstractConsumerRecordsExporter(const QString &name);
-    virtual ~AbstractConsumerRecordsExporter();
+    AbstractConsumerExporter(const QString &name);
+    virtual ~AbstractConsumerExporter();
 
     void writeRecord(core::ConsumerRecord *record);
 

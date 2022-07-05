@@ -102,7 +102,7 @@ std::tuple<ExportImportFabric::ExporterPtr, ErrorWrap> ExportImportFabric::makeE
         }
     }
 
-    std::unique_ptr<core::AbstractConsumerRecordsExporter> exporter;
+    std::unique_ptr<core::AbstractConsumerExporter> exporter;
     if (m_format == CSVFormat) {
         exporter = std::make_unique<CSVConsumerRecordsExporter>(key, value, file);
     } else {

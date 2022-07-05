@@ -177,7 +177,7 @@ void MessageModel::clear()
     endRemoveRows();
 }
 
-void MessageModel::exportMessages(std::unique_ptr<core::AbstractConsumerRecordsExporter> exporter)
+void MessageModel::exportMessages(std::unique_ptr<core::AbstractConsumerExporter> exporter)
 {
     for (auto record : m_records) {
         exporter->writeRecord(record);

@@ -7,7 +7,7 @@
 /**!
  * class CSVConsumerRecordsExporter export to CSV
  */
-class CSVConsumerRecordsExporter final : public core::AbstractConsumerRecordsExporter
+class CSVConsumerRecordsExporter final : public core::AbstractConsumerExporter
 {
 public:
     CSVConsumerRecordsExporter(Types key, Types value, const QString &file);
@@ -24,7 +24,7 @@ private:
 /**!
  * class JSONConsumerRecordsExporter export to JSON
  */
-class JSONConsumerRecordsExporter final : public core::AbstractConsumerRecordsExporter
+class JSONConsumerRecordsExporter final : public core::AbstractConsumerExporter
 {
 public:
     JSONConsumerRecordsExporter(Types key, Types value, const QString &file);
