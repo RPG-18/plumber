@@ -6,10 +6,10 @@ environment:
   matrix:
     - platform: x64
 install:
-#  - cd C:\Tools\vcpkg
-#  - git pull
-#  - .\bootstrap-vcpkg.bat
-#  - cd %APPVEYOR_BUILD_FOLDER%
+  - cd C:\Tools\vcpkg
+  - git pull
+  - .\bootstrap-vcpkg.bat
+  - cd %APPVEYOR_BUILD_FOLDER%
   - vcpkg install librdkafka[*]:x64-windows --recurse
   - vcpkg install spdlog:x64-windows
   - vcpkg install boost-core:x64-windows
@@ -23,7 +23,8 @@ install:
   - vcpkg install boost-crc:x64-windows
   - vcpkg install protobuf:x64-windows
   - vcpkg install snappy:x64-windows
-cache: c:\tools\vcpkg\installed
+cache:
+#  - c:\tools\vcpkg\installed
 before_build:
   - ps: win\build.ps1
 artifacts:

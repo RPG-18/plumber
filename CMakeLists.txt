@@ -21,7 +21,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_definitions(-D_CRT_SECURE_NO_WARNINGS )
 endif ()
 
-add_definitions(-DRAPIDJSON_SSE42)
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    add_definitions(-DRAPIDJSON_SSE42)
+endif()
 
 clang_tidy(-header-filter='${CMAKE_SOURCE_DIR}/src/*')
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
