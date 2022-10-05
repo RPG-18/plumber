@@ -22,6 +22,9 @@ bool ConfigurationService::save()
 {
     const auto path = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
     const QDir dir(path);
+    if (dir.isEmpty()) {
+        dir.mkpath(path);
+    }
     return m_cfg.saveToFile(dir.filePath(ConfigName));
 }
 

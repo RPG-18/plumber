@@ -31,7 +31,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>${MACOSX_BUNDLE_COPYRIGHT}</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>11.5</string>
+	<string>12.0</string>
 	<key>NSRequiresAquaSystemAppearance</key>
 	<string>true</string>
 </dict>
