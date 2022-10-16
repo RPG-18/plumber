@@ -31,6 +31,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include_directories(3rdparty/modern-cpp-kafka/include
         3rdparty/avro-cpp
+        3rdparty/avro-cpp/avro
         3rdparty/rapidjson-1.1.0/include
         src/components
         src/configuration
