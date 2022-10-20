@@ -18,6 +18,7 @@ set(AVRO_SOURCE_FILES
         impl/json/JsonIO.cc
         impl/json/JsonDom.cc
         impl/Resolver.cc impl/Validator.cc
+        impl/CustomFields.cc
         )
 
 set_property(SOURCE ${AVRO_SOURCE_FILES} PROPERTY SKIP_AUTOGEN ON)
