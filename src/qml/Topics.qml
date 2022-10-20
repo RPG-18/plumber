@@ -135,7 +135,7 @@ Rectangle {
                         MenuItem {
                             text: qsTr("Delete selected Topics...")
                             onTriggered: {
-                                confirm.accaptHanlder = () => {
+                                confirm.acceptHandler = () => {
                                     let e = topicModel.removeSelectedTopics();
                                     if (e.isError) {
                                         err.show(e);

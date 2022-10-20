@@ -6,13 +6,13 @@ Dialog {
     id: dialog
 
     property alias text: label.text
-    property var accaptHanlder: null
+    property var acceptHandler: null
 
     modal: true
     standardButtons: Dialog.Ok | Dialog.Cancel
     onAccepted: {
-        if (accaptHanlder !== null)
-            accaptHanlder();
+        if (acceptHandler !== null)
+            acceptHandler();
     }
 
     Text {
