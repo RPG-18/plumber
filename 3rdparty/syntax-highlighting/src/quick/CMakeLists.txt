@@ -8,7 +8,14 @@ target_sources(kquicksyntaxhighlightingplugin PRIVATE
     kquicksyntaxhighlighter.cpp
     repositorywrapper.cpp
 )
+
 target_link_libraries(kquicksyntaxhighlightingplugin PRIVATE
     KF5SyntaxHighlighting
     Qt${QT_MAJOR_VERSION}::Quick
+)
+
+target_compile_definitions(
+        kquicksyntaxhighlightingplugin
+        PRIVATE
+        KSYNTAXHIGHLIGHTING_STATIC_DEFINE
 )

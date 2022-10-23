@@ -25,7 +25,13 @@ target_sources(KF5SyntaxHighlighting PRIVATE
     $<TARGET_OBJECTS:SyntaxHighlightingData>
 )
 
-target_compile_definitions(KF5SyntaxHighlighting PRIVATE QT_USE_QSTRINGBUILDER HAS_SYNTAX_RESOURCE)
+target_compile_definitions(KF5SyntaxHighlighting
+        PRIVATE
+        QT_USE_QSTRINGBUILDER
+        HAS_SYNTAX_RESOURCE
+        KSYNTAXHIGHLIGHTING_STATIC_DEFINE
+)
+
 set_target_properties(KF5SyntaxHighlighting PROPERTIES
     EXPORT_NAME SyntaxHighlighting
 )
