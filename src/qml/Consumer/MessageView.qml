@@ -136,8 +136,14 @@ Window {
                                     definition: lang.currentValue
                                     theme: Repository.theme("GitHub Light, GitHub Light")
 
-                                    onDefinitionChanged: { valueArea.selectAll(); valueArea.deselect(); }
-                                    onThemeChanged: { valueArea.selectAll(); valueArea.deselect(); }
+                                    onDefinitionChanged: {
+                                        valueArea.selectAll();
+                                        valueArea.deselect();
+                                    }
+                                    onThemeChanged: {
+                                        valueArea.selectAll();
+                                        valueArea.deselect();
+                                    }
                                 }
                             }
                         }
@@ -147,7 +153,7 @@ Window {
                             }
 
                             Text {
-                                text:"syntax"
+                                text: "syntax"
                             }
 
                             ComboBox {
@@ -156,7 +162,6 @@ Window {
                                 model: ["JSON", "XML"]
                             }
                         }
-
                     }
                 }
 
