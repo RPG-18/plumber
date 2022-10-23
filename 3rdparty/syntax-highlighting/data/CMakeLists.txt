@@ -1,0 +1,5 @@
+add_library(SyntaxHighlightingData OBJECT)
+target_sources(SyntaxHighlightingData PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/syntax_data.qrc)
+target_sources(SyntaxHighlightingData PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/themes/theme_data.qrc)
+set_property(TARGET SyntaxHighlightingData PROPERTY POSITION_INDEPENDENT_CODE 1)
+target_link_libraries(SyntaxHighlightingData PRIVATE Qt6::Core)

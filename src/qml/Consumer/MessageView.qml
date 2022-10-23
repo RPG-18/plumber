@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import plumber
+import org.kde.syntaxhighlighting
 import "../constants.js" as Constants
 import "../Components" as Components
 import "../style.js" as Style
@@ -115,6 +116,7 @@ Window {
                             Layout.fillHeight: true
 
                             TextArea {
+                                id: valueArea
                                 text: msg.value
                                 focus: true
                                 readOnly: true
@@ -126,8 +128,35 @@ Window {
                                     implicitWidth: 500
                                     border.color: "#ababab"
                                 }
+
+                                SyntaxHighlighter {
+                                    id: highlighter
+
+                                    textEdit: valueArea
+                                    definition: lang.currentValue
+                                    theme: Repository.theme("GitHub Light, GitHub Light")
+
+                                    onDefinitionChanged: { valueArea.selectAll(); valueArea.deselect(); }
+                                    onThemeChanged: { valueArea.selectAll(); valueArea.deselect(); }
+                                }
                             }
                         }
+                        RowLayout {
+                            Item {
+                                Layout.fillWidth: true
+                            }
+
+                            Text {
+                                text:"syntax"
+                            }
+
+                            ComboBox {
+                                id: lang
+                                currentIndex: 0
+                                model: ["JSON", "XML"]
+                            }
+                        }
+
                     }
                 }
 

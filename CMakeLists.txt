@@ -33,6 +33,7 @@ include_directories(3rdparty/modern-cpp-kafka/include
         3rdparty/avro-cpp
         3rdparty/avro-cpp/avro
         3rdparty/rapidjson-1.1.0/include
+        3rdparty/syntax-highlighting/src
         src/components
         src/configuration
         src/services
@@ -44,7 +45,7 @@ include_directories(3rdparty/modern-cpp-kafka/include
 set(Boost_USE_RELEASE_LIBS       ON)
 set(Boost_USE_MULTITHREADED      ON)
 
-find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick LinguistTools QuickControls2 Svg Widgets Network REQUIRED)
 find_package(Librdkafka REQUIRED)
 find_package(Threads REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
@@ -69,6 +70,7 @@ set(PROJECT_SOURCES
         ${APP_ICON_MACOSX})
 
 add_subdirectory(3rdparty/avro-cpp)
+add_subdirectory(3rdparty/syntax-highlighting)
 add_subdirectory(src)
 
 qt_add_executable(plumber
@@ -92,6 +94,7 @@ target_link_libraries(plumber
         Qt6::QuickControls2
         Qt6::Svg
         Qt6::Widgets
+        kquicksyntaxhighlightingplugin
         spdlog::spdlog
         spdlog::spdlog_header_only
         Boost::boost

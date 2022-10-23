@@ -1,0 +1,11 @@
+<RCC version="1.0">
+    <qresource prefix="/org.kde.syntax-highlighting/syntax">
+        <file alias="index.katesyntax">index.katesyntax</file>
+        <file alias="alert.xml">syntax/alert.xml</file>
+        <file alias="comments.xml">syntax/comments.xml</file>
+        <file alias="modelines.xml">syntax/modelines.xml</file>
+        <file alias="spdx-comments.xml">syntax/spdx-comments.xml</file>
+        <file alias="json.xml">syntax/json.xml</file>
+        <file alias="xml.xml">syntax/xml.xml</file>
+    </qresource>
+</RCC>
