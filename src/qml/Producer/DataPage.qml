@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import plumber
+import org.kde.syntaxhighlighting
 import "../Components" as Components
 
 Item {
@@ -132,6 +133,23 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 200
             visible: keyCbx.typeId === 0 || keyCbx.typeId === 7 || keyCbx.typeId === 8
+
+            SyntaxHighlighter {
+                id: highlighterKey
+
+                textEdit: keyArea.internalArea
+                definition: "JSON"
+                theme: Repository.theme("GitHub Light, GitHub Light")
+
+                onDefinitionChanged: {
+                    keyArea.selectAll();
+                    keyArea.deselect();
+                }
+                onThemeChanged: {
+                    keyArea.selectAll();
+                    keyArea.deselect();
+                }
+            }
         }
 
         Rectangle {
@@ -181,6 +199,23 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             visible: valueCbx.typeId === 0 || valueCbx.typeId === 7 || valueCbx.typeId === 8
+
+            SyntaxHighlighter {
+                id: highlighterValue
+
+                textEdit: valueArea.internalArea
+                definition: "JSON"
+                theme: Repository.theme("GitHub Light, GitHub Light")
+
+                onDefinitionChanged: {
+                    valueArea.selectAll();
+                    valueArea.deselect();
+                }
+                onThemeChanged: {
+                    valueArea.selectAll();
+                    valueArea.deselect();
+                }
+            }
         }
 
         Item {

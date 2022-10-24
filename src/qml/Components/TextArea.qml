@@ -4,6 +4,7 @@ import QtQuick.Controls 6.0
 Flickable {
     id: control
 
+    property alias internalArea: area
     property alias text: area.text
 
     TextArea.flickable: TextArea {
