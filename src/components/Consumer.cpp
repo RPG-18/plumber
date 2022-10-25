@@ -436,7 +436,6 @@ ErrorWrap Consumer::exportByRestarting(ExportImportFabric *fabric)
     return ErrorWrap{};
 }
 
-
 ConsumerTypeSelector::ConsumerTypeSelector(QObject *parent)
     : QObject(parent)
     , m_keyType(Types::String)

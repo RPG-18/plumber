@@ -15,6 +15,7 @@
 
 #include <kafka/KafkaClient.h>
 
+#include "3rdparty/syntax-highlighting/src/quick/kquicksyntaxhighlightingplugin.h"
 #include "Cluster.h"
 #include "ConfigModel.h"
 #include "Consumer.h"
@@ -62,6 +63,10 @@ void loadFonts()
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(protobuf);
+    Q_INIT_RESOURCE(syntax_data);
+
+    KQuickSyntaxHighlightingPlugin syntaxHighlightingPlugin;
+    syntaxHighlightingPlugin.registerTypes("org.kde.syntaxhighlighting");
 
     registerTypes();
     qmlRegisterType<formats::protobuf::ProtobufMessagesModel>("plumber",

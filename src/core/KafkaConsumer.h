@@ -12,9 +12,9 @@
 #include "AbstractConverter.h"
 #include "ClusterConfig.h"
 #include "ConsumerRecordBuffer.h"
+#include "ConsumerRecordsExporter.h"
 #include "Filter.h"
 #include "Limiter.h"
-#include "ConsumerRecordsExporter.h"
 
 namespace core {
 
@@ -59,7 +59,6 @@ public:
      * get consume stat
      */
     ConsumeStat stat();
-
 
 signals:
 
