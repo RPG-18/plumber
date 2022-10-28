@@ -1,6 +1,9 @@
 #include <QtCore/QDebug>
 
 #include "ConsumerRecordBuffer.h"
+#ifdef Q_OS_WINDOWS
+#undef min
+#endif
 #include <algorithm>
 
 namespace core {
