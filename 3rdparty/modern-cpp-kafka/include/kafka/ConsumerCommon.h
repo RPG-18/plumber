@@ -1,17 +1,17 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/Error.h"
-#include "kafka/RdKafkaHelper.h"
-#include "kafka/Types.h"
+#include <kafka/Error.h>
+#include <kafka/RdKafkaHelper.h>
+#include <kafka/Types.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <functional>
 
 
-namespace KAFKA_API::clients::consumer {
+namespace KAFKA_API { namespace clients { namespace consumer {
 
     /**
      * To identify which kind of re-balance event is handling, when the set of partitions assigned to the consumer changes.
@@ -61,5 +61,5 @@ namespace KAFKA_API::clients::consumer {
         rd_kafka_consumer_group_metadata_unique_ptr _rkConsumerGroupMetadata;
     };
 
-} // end of KAFKA_API::clients::consumer
+} } } // end of KAFKA_API::clients::consumer
 

@@ -1,18 +1,18 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/Error.h"
-#include "kafka/Header.h"
-#include "kafka/Timestamp.h"
-#include "kafka/Types.h"
+#include <kafka/Error.h>
+#include <kafka/Header.h>
+#include <kafka/Timestamp.h>
+#include <kafka/Types.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <sstream>
 
 
-namespace KAFKA_API::clients::consumer {
+namespace KAFKA_API { namespace clients { namespace consumer {
 
 /**
  * A key/value pair to be received from Kafka.
@@ -107,7 +107,7 @@ ConsumerRecord::headers() const
     const char* name      = nullptr;
     const void* valuePtr  = nullptr;
     std::size_t valueSize = 0;
-    for (int i = 0; !rd_kafka_header_get_all(hdrs, i, &name, &valuePtr, &valueSize); i++)
+    for (std::size_t i = 0; !rd_kafka_header_get_all(hdrs, i, &name, &valuePtr, &valueSize); i++)
     {
         headers.emplace_back(name, Header::Value(valuePtr, valueSize));
     }
@@ -150,5 +150,5 @@ ConsumerRecord::toString() const
     return oss.str();
 }
 
-} // end of KAFKA_API::clients::consumer
+} } } // end of KAFKA_API::clients::consumer
 

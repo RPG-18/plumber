@@ -1,25 +1,26 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/ConsumerCommon.h"
-#include "kafka/KafkaClient.h"
-#include "kafka/ProducerCommon.h"
-#include "kafka/ProducerConfig.h"
-#include "kafka/ProducerRecord.h"
-#include "kafka/Timestamp.h"
-#include "kafka/Types.h"
+#include <kafka/ConsumerCommon.h>
+#include <kafka/KafkaClient.h>
+#include <kafka/ProducerCommon.h>
+#include <kafka/ProducerConfig.h>
+#include <kafka/ProducerRecord.h>
+#include <kafka/Timestamp.h>
+#include <kafka/Types.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <cassert>
 #include <condition_variable>
+#include <cstdint>
 #include <memory>
 #include <mutex>
 #include <unordered_map>
 
 
-namespace KAFKA_API::clients {
+namespace KAFKA_API { namespace clients {
 
 /**
  * KafkaProducer class.
@@ -38,8 +39,9 @@ public:
      *   - RD_KAFKA_RESP_ERR__INVALID_ARG      : Invalid BOOTSTRAP_SERVERS property
      *   - RD_KAFKA_RESP_ERR__CRIT_SYS_RESOURCE: Fail to create internal threads
      */
-    explicit KafkaProducer(const Properties&   properties,
-                           EventsPollingOption eventsPollingOption = EventsPollingOption::Auto);
+    explicit KafkaProducer(const Properties&    properties,
+                           EventsPollingOption  eventsPollingOption = EventsPollingOption::Auto,
+                           const Interceptors&  interceptors        = Interceptors{});
 
     /**
      * The destructor for KafkaProducer.
@@ -52,7 +54,7 @@ public:
      * Possible error values:
      *   - RD_KAFKA_RESP_ERR__TIMED_OUT: The `timeout` was reached before all outstanding requests were completed.
      */
-    Error flush(std::chrono::milliseconds timeout = std::chrono::milliseconds::max());
+    Error flush(std::chrono::milliseconds timeout = InfiniteTimeout);
 
     /**
      * Purge messages currently handled by the KafkaProducer.
@@ -62,7 +64,7 @@ public:
     /**
      * Close this producer. This method would wait up to timeout for the producer to complete the sending of all incomplete requests (before purging them).
      */
-    void close(std::chrono::milliseconds timeout = std::chrono::milliseconds::max());
+    void close(std::chrono::milliseconds timeout = InfiniteTimeout);
 
     /**
      * Options for sending messages.
@@ -140,7 +142,7 @@ public:
     /**
      * Needs to be called before any other methods when the transactional.id is set in the configuration.
      */
-    void initTransactions(std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaProducer::DEFAULT_INIT_TRANSACTIONS_TIMEOUT_MS));
+    void initTransactions(std::chrono::milliseconds timeout = InfiniteTimeout);
 
     /**
      * Should be called before the start of each new transaction.
@@ -150,12 +152,12 @@ public:
     /**
      * Commit the ongoing transaction.
      */
-    void commitTransaction(std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaProducer::DEFAULT_COMMIT_TRANSACTION_TIMEOUT_MS));
+    void commitTransaction(std::chrono::milliseconds timeout = InfiniteTimeout);
 
     /**
      * Abort the ongoing transaction.
      */
-    void abortTransaction(std::chrono::milliseconds timeout = std::chrono::milliseconds::max());
+    void abortTransaction(std::chrono::milliseconds timeout = InfiniteTimeout);
 
 
     /**
@@ -164,14 +166,6 @@ public:
     void sendOffsetsToTransaction(const TopicPartitionOffsets&           topicPartitionOffsets,
                                   const consumer::ConsumerGroupMetadata& groupMetadata,
                                   std::chrono::milliseconds              timeout);
-
-#if COMPILER_SUPPORTS_CPP_17
-    static constexpr int DEFAULT_INIT_TRANSACTIONS_TIMEOUT_MS  = 10000;
-    static constexpr int DEFAULT_COMMIT_TRANSACTION_TIMEOUT_MS = 10000;
-#else
-    enum { DEFAULT_INIT_TRANSACTIONS_TIMEOUT_MS  = 10000 };
-    enum { DEFAULT_COMMIT_TRANSACTION_TIMEOUT_MS = 10000 };
-#endif
 
 private:
     void pollCallbacks(int timeoutMs)
@@ -228,11 +222,14 @@ private:
 };
 
 inline
-KafkaProducer::KafkaProducer(const Properties& properties, EventsPollingOption eventsPollingOption)
+KafkaProducer::KafkaProducer(const Properties&      properties,
+                             EventsPollingOption    eventsPollingOption,
+                             const Interceptors&    interceptors)
     : KafkaClient(ClientType::KafkaProducer,
                   validateAndReformProperties(properties),
                   registerConfigCallbacks,
-                  eventsPollingOption)
+                  eventsPollingOption,
+                  interceptors)
 {
     // Start background polling (if needed)
     startBackgroundPollingIfNecessary([this](int timeoutMs){ pollCallbacks(timeoutMs); });
@@ -398,7 +395,7 @@ KafkaProducer::send(const producer::ProducerRecord& record,
         vu.vtype         = RD_KAFKA_VTYPE_HEADER;
         vu.u.header.name = header.key.c_str();
         vu.u.header.val  = header.value.data();
-        vu.u.header.size = header.value.size();
+        vu.u.header.size = static_cast<int64_t>(header.value.size());
     }
 
     assert(uvCount == rkVUs.size());
@@ -511,5 +508,5 @@ KafkaProducer::sendOffsetsToTransaction(const TopicPartitionOffsets&           t
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
-} // end of KAFKA_API::clients
+} } // end of KAFKA_API::clients
 

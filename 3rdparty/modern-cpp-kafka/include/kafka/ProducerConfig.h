@@ -1,11 +1,11 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/Types.h"
+#include <kafka/Properties.h>
 
 
-namespace KAFKA_API::clients::producer {
+namespace KAFKA_API { namespace clients { namespace producer {
 
 /**
  * Configuration for the Kafka Producer.
@@ -146,5 +146,5 @@ public:
     static const constexpr char* SASL_KERBEROS_SERVICE_NAME   = "sasl.kerberos.service.name";
 };
 
-} // end of KAFKA_API::clients::producer
+} } } // end of KAFKA_API::clients::producer
 

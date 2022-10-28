@@ -1,12 +1,12 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/Error.h"
-#include "kafka/Types.h"
+#include <kafka/Error.h>
+#include <kafka/Types.h>
 
 
-namespace KAFKA_API::clients::admin {
+namespace KAFKA_API { namespace clients { namespace admin {
 
 /**
  * The result of AdminClient::createTopics().
@@ -66,5 +66,5 @@ struct ListTopicsResult
     Topics topics;
 };
 
-} // end of KAFKA_API::clients::admin
+} } } // end of KAFKA_API::clients::admin
 

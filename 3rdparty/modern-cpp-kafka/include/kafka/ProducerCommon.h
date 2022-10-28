@@ -1,19 +1,19 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/ProducerRecord.h"
-#include "kafka/RdKafkaHelper.h"
-#include "kafka/Timestamp.h"
-#include "kafka/Types.h"
+#include <kafka/ProducerRecord.h>
+#include <kafka/RdKafkaHelper.h>
+#include <kafka/Timestamp.h>
+#include <kafka/Types.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <functional>
 #include <memory>
 
 
-namespace KAFKA_API::clients::producer {
+namespace KAFKA_API { namespace clients { namespace producer {
 
 /**
  * The metadata for a record that has been acknowledged by the server.
@@ -29,7 +29,7 @@ public:
 
     // This is only called by the KafkaProducer::deliveryCallback (with a valid rkmsg pointer)
     RecordMetadata(const rd_kafka_message_t* rkmsg, Optional<ProducerRecord::Id> recordId)
-        : _cachedInfo(), _rkmsg(rkmsg), _recordId(recordId) {}
+        : _rkmsg(rkmsg), _recordId(recordId) {}
 
     RecordMetadata& operator=(const RecordMetadata& another)
     {
@@ -181,5 +181,5 @@ private:
  */
 using Callback = std::function<void(const RecordMetadata& metadata, const Error& error)>;
 
-} // end of KAFKA_API::clients::producer
+} } } // end of KAFKA_API::clients::producer
 
