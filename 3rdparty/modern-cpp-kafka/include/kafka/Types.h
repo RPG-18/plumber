@@ -1,6 +1,6 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
 #include <algorithm>
 #include <cctype>
@@ -59,6 +59,17 @@ private:
     const void* _data;
     std::size_t _size;
 };
+
+
+/**
+ * Infinite timeout.
+ */
+#if COMPILER_SUPPORTS_CPP_17
+const inline std::chrono::milliseconds InfiniteTimeout = (std::chrono::milliseconds::max)();
+#else
+const static std::chrono::milliseconds InfiniteTimeout = (std::chrono::milliseconds::max)();
+#endif
+
 
 /**
  * Topic name.

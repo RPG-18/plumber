@@ -1,14 +1,14 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/ConsumerCommon.h"
-#include "kafka/ConsumerConfig.h"
-#include "kafka/ConsumerRecord.h"
-#include "kafka/Error.h"
-#include "kafka/KafkaClient.h"
+#include <kafka/ConsumerCommon.h>
+#include <kafka/ConsumerConfig.h>
+#include <kafka/ConsumerRecord.h>
+#include <kafka/Error.h>
+#include <kafka/KafkaClient.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <algorithm>
 #include <cassert>
@@ -17,7 +17,7 @@
 #include <memory>
 
 
-namespace KAFKA_API::clients {
+namespace KAFKA_API { namespace clients {
 
 /**
  * KafkaConsumer class.
@@ -39,8 +39,9 @@ public:
      *   - RD_KAFKA_RESP_ERR__INVALID_ARG      : Invalid BOOTSTRAP_SERVERS property
      *   - RD_KAFKA_RESP_ERR__CRIT_SYS_RESOURCE: Fail to create internal threads
      */
-    explicit KafkaConsumer(const Properties&   properties,
-                           EventsPollingOption eventsPollingOption = EventsPollingOption::Auto);
+    explicit KafkaConsumer(const Properties&    properties,
+                           EventsPollingOption  eventsPollingOption = EventsPollingOption::Auto,
+                           const Interceptors&  interceptors        = Interceptors{});
 
     /**
      * The destructor for KafkaConsumer.
@@ -205,6 +206,8 @@ public:
      * Returns the polled records.
      * Note: 1) The result could be fetched through ConsumerRecord (with member function `error`).
      *       2) Make sure the `ConsumerRecord` be destructed before the `KafkaConsumer.close()`.
+     * Throws KafkaException with errors:
+     *   - RD_KAFKA_RESP_ERR__UNKNOWN_PARTITION: Unknow partition
      */
     std::vector<consumer::ConsumerRecord> poll(std::chrono::milliseconds timeout);
 
@@ -213,6 +216,8 @@ public:
      * Returns the number of polled records (which have been saved into parameter `output`).
      * Note: 1) The result could be fetched through ConsumerRecord (with member function `error`).
      *       2) Make sure the `ConsumerRecord` be destructed before the `KafkaConsumer.close()`.
+     * Throws KafkaException with errors:
+     *   - RD_KAFKA_RESP_ERR__UNKNOWN_PARTITION: Unknow partition
      */
     std::size_t poll(std::chrono::milliseconds timeout, std::vector<consumer::ConsumerRecord>& output);
 
@@ -286,8 +291,8 @@ private:
 
     std::string  _groupId;
 
-    unsigned int _maxPollRecords   = 500;   // From "max.poll.records" property, and here is the default for batch-poll
-    bool         _enableAutoCommit = false; // From "enable.auto.commit" property
+    std::size_t _maxPollRecords   = 500;   // From "max.poll.records" property, and here is the default for batch-poll
+    bool        _enableAutoCommit = false; // From "enable.auto.commit" property
 
     rd_kafka_queue_unique_ptr _rk_queue;
 
@@ -369,17 +374,20 @@ KafkaConsumer::registerConfigCallbacks(rd_kafka_conf_t* conf)
 }
 
 inline
-KafkaConsumer::KafkaConsumer(const Properties &properties, EventsPollingOption eventsPollingOption)
+KafkaConsumer::KafkaConsumer(const Properties&      properties,
+                             EventsPollingOption    eventsPollingOption,
+                             const Interceptors&    interceptors)
     : KafkaClient(ClientType::KafkaConsumer,
                   validateAndReformProperties(properties),
                   registerConfigCallbacks,
-                  eventsPollingOption)
+                  eventsPollingOption,
+                  interceptors)
 {
     // Pick up the "max.poll.records" property
     if (auto maxPollRecordsProperty = properties.getProperty(consumer::Config::MAX_POLL_RECORDS))
     {
         const std::string maxPollRecords = *maxPollRecordsProperty;
-        _maxPollRecords = std::stoi(maxPollRecords);
+        _maxPollRecords = static_cast<std::size_t>(std::stoi(maxPollRecords));
     }
     _properties.put(consumer::Config::MAX_POLL_RECORDS, std::to_string(_maxPollRecords));
 
@@ -434,7 +442,7 @@ KafkaConsumer::close()
         // Commit the offsets for these messages which had been polled last time (for `enable.auto.commit=true` case.)
         commitStoredOffsetsIfNecessary(CommitType::Sync);
     }
-    catch(const KafkaException& e)
+    catch (const KafkaException& e)
     {
         KAFKA_API_DO_LOG(Log::Level::Err, "met error[%s] while closing", e.what());
     }
@@ -703,7 +711,7 @@ KafkaConsumer::offsetsForTime(const TopicPartitions& topicPartitions,
                               std::chrono::time_point<std::chrono::system_clock> timepoint,
                               std::chrono::milliseconds timeout) const
 {
-    if (topicPartitions.empty()) return TopicPartitionOffsets();
+    if (topicPartitions.empty()) return {};
 
     auto msSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint.time_since_epoch()).count();
 
@@ -812,11 +820,15 @@ KafkaConsumer::pollMessages(int timeoutMs, std::vector<consumer::ConsumerRecord>
 
     // Poll messages with librdkafka's API
     std::vector<rd_kafka_message_t*> msgPtrArray(_maxPollRecords);
-    std::size_t msgReceived = rd_kafka_consume_batch_queue(_rk_queue.get(), timeoutMs, msgPtrArray.data(), _maxPollRecords);
+    auto msgReceived = rd_kafka_consume_batch_queue(_rk_queue.get(), timeoutMs, msgPtrArray.data(), _maxPollRecords);
+    if (msgReceived < 0)
+    {
+        KAFKA_THROW_ERROR(Error(rd_kafka_last_error()));
+    }
 
     // Wrap messages with ConsumerRecord
     output.clear();
-    output.reserve(msgReceived);
+    output.reserve(static_cast<std::size_t>(msgReceived));
     std::for_each(msgPtrArray.begin(), msgPtrArray.begin() + msgReceived, [&output](rd_kafka_message_t* rkMsg) { output.emplace_back(rkMsg); });
 
     // Store the offsets for all these polled messages (for "enable.auto.commit=true" case)
@@ -1039,5 +1051,5 @@ KafkaConsumer::commitAsync(const consumer::OffsetCommitCallback& offsetCommitCal
     commitAsync(TopicPartitionOffsets(), offsetCommitCallback);
 }
 
-} // end of KAFKA_API::clients
+} } // end of KAFKA_API::clients
 

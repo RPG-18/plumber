@@ -1,16 +1,16 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/KafkaClient.h"
-#include "kafka/KafkaProducer.h"
-#include "kafka/Types.h"
+#include <kafka/KafkaClient.h>
+#include <kafka/KafkaProducer.h>
+#include <kafka/Types.h>
 
 #include <deque>
 #include <mutex>
 #include <vector>
 
-namespace KAFKA_API::clients {
+namespace KAFKA_API { namespace clients {
 
 class KafkaRecoverableProducer
 {
@@ -138,7 +138,7 @@ public:
      * Possible error values:
      *   - RD_KAFKA_RESP_ERR__TIMED_OUT: The `timeout` was reached before all outstanding requests were completed.
      */
-    Error flush(std::chrono::milliseconds timeout = std::chrono::milliseconds::max())
+    Error flush(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
         std::lock_guard<std::mutex> lock(_producerMutex);
 
@@ -158,7 +158,7 @@ public:
     /**
      * Close this producer. This method would wait up to timeout for the producer to complete the sending of all incomplete requests (before purging them).
      */
-    void close(std::chrono::milliseconds timeout = std::chrono::milliseconds::max())
+    void close(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
         std::lock_guard<std::mutex> lock(_producerMutex);
 
@@ -247,7 +247,7 @@ public:
     /**
      * Needs to be called before any other methods when the transactional.id is set in the configuration.
      */
-    void initTransactions(std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaProducer::DEFAULT_INIT_TRANSACTIONS_TIMEOUT_MS))
+    void initTransactions(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
         std::lock_guard<std::mutex> lock(_producerMutex);
 
@@ -267,7 +267,7 @@ public:
     /**
      * Commit the ongoing transaction.
      */
-    void commitTransaction(std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaProducer::DEFAULT_COMMIT_TRANSACTION_TIMEOUT_MS))
+    void commitTransaction(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
         std::lock_guard<std::mutex> lock(_producerMutex);
 
@@ -277,7 +277,7 @@ public:
     /**
      * Abort the ongoing transaction.
      */
-    void abortTransaction(std::chrono::milliseconds timeout = std::chrono::milliseconds::max())
+    void abortTransaction(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
         std::lock_guard<std::mutex> lock(_producerMutex);
 
@@ -356,5 +356,5 @@ private:
     std::unique_ptr<KafkaProducer> _producer;
 };
 
-} // end of KAFKA_API::clients
+} } // end of KAFKA_API::clients
 

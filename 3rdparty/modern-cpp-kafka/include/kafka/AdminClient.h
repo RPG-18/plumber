@@ -1,14 +1,14 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/AdminClientConfig.h"
-#include "kafka/AdminCommon.h"
-#include "kafka/Error.h"
-#include "kafka/KafkaClient.h"
-#include "kafka/RdKafkaHelper.h"
+#include <kafka/AdminClientConfig.h>
+#include <kafka/AdminCommon.h>
+#include <kafka/Error.h>
+#include <kafka/KafkaClient.h>
+#include <kafka/RdKafkaHelper.h>
 
-#include "librdkafka/rdkafka.h"
+#include <librdkafka/rdkafka.h>
 
 #include <array>
 #include <cassert>
@@ -18,7 +18,7 @@
 #include <vector>
 
 
-namespace KAFKA_API::clients {
+namespace KAFKA_API { namespace clients {
 
 /**
  * The administrative client for Kafka, which supports managing and inspecting topics, etc.
@@ -28,7 +28,10 @@ class AdminClient: public KafkaClient
 public:
     explicit AdminClient(const Properties& properties)
         : KafkaClient(ClientType::AdminClient,
-                      KafkaClient::validateAndReformProperties(properties))
+                      KafkaClient::validateAndReformProperties(properties),
+                      ConfigCallbacksRegister{},
+                      EventsPollingOption::Auto,
+                      Interceptors{})
     {
     }
 
@@ -67,7 +70,7 @@ private:
 #if COMPILER_SUPPORTS_CPP_17
     static constexpr int DEFAULT_COMMAND_TIMEOUT_MS = 30000;
 #else
-    enum { DefaultCommandTimeoutMS = 30000 };
+    enum { DEFAULT_COMMAND_TIMEOUT_MS = 30000 };
 #endif
 };
 
@@ -341,5 +344,5 @@ AdminClient::deleteRecords(const TopicPartitionOffsets& topicPartitionOffsets,
     return admin::DeleteRecordsResult(combineErrors(errors));
 }
 
-} // end of KAFKA_API::clients
+} } // end of KAFKA_API::clients
 

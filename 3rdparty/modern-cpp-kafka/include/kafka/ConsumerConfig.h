@@ -1,11 +1,11 @@
 #pragma once
 
-#include "kafka/Project.h"
+#include <kafka/Project.h>
 
-#include "kafka/Properties.h"
+#include <kafka/Properties.h>
 
 
-namespace KAFKA_API::clients::consumer {
+namespace KAFKA_API { namespace clients { namespace consumer {
 
 /**
  * Configuration for the Kafka Consumer.
@@ -111,5 +111,5 @@ public:
     static const constexpr char* SASL_KERBEROS_SERVICE_NAME = "sasl.kerberos.service.name";
 };
 
-} // end of KAFKA_API::clients::consumer
+} } } // end of KAFKA_API::clients::consumer
 
