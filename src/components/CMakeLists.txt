@@ -19,7 +19,9 @@ add_library(components
         AvroOption.cpp AvroOption.h
         HexView.cpp HexView.h
         ExportImportFabric.cpp ExportImportFabric.h
-        RecordsExporter.cpp RecordsExporter.h)
+        RecordsExporter.cpp RecordsExporter.h
+        ConsumerModel.cpp ConsumerModel.h
+)
 
 target_compile_definitions(components
         PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

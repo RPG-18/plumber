@@ -4,6 +4,7 @@
 
 #include "BrokerModel.h"
 #include "ClusterConfig.h"
+#include "ConsumerModel.h"
 #include "TopicModel.h"
 
 /**!
@@ -22,6 +23,7 @@ public:
 
     Q_INVOKABLE BrokerModel *brokerModel();
     Q_INVOKABLE TopicModel *topicModel();
+    Q_INVOKABLE ConsumerModel *consumerModel();
 
 signals:
 
@@ -31,4 +33,5 @@ private:
     ClusterConfig m_broker;
     BrokerModel *m_brokerModel;
     TopicModel *m_topicModel;
+    ConsumerModel *m_consumerModel;
 };

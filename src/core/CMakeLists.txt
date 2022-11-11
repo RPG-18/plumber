@@ -11,7 +11,9 @@ add_library(core AdminClient.hpp
         KafkaAdmin.cpp KafkaAdmin.h
         KafkaStatistic.cpp KafkaStatistic.h
         Error.cpp Error.h
-        ConsumerRecordsExporter.cpp ConsumerRecordsExporter.h)
+        ConsumerRecordsExporter.cpp ConsumerRecordsExporter.h
+        GroupInfo.hpp
+)
 
 target_link_libraries(core
         PRIVATE

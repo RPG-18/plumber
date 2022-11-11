@@ -31,7 +31,6 @@ std::tuple<KafkaAdmin::Topics, Error> KafkaAdmin::listTopics(std::chrono::millis
         }
 
         spdlog::error("list topic error: {}", response.error.message());
-
         return std::make_tuple(Topics{},
                                Error{when, QString::fromStdString(response.error.message())});
 
@@ -58,7 +57,7 @@ std::optional<Error> KafkaAdmin::deleteTopics(const Topics &topics,
             toDelete.insert(topic.toStdString());
         }
 
-        auto result = client.deleteTopics(toDelete, timeout);
+        const auto result = client.deleteTopics(toDelete, timeout);
         if (result.error) {
             spdlog::error("topic remove error {}", result.error.message());
             return Error{when, QString::fromStdString(result.error.message())};
@@ -84,7 +83,7 @@ std::tuple<std::optional<KafkaAdmin::BrokerMetadata>, Error> KafkaAdmin::fetchNo
 
         core::AdminClient client(cfg);
 
-        auto md = client.fetchNodesMetadata(timeout);
+        const auto md = client.fetchNodesMetadata(timeout);
         return std::make_tuple(md, Error{});
 
     } catch (const kafka::KafkaException &e) {
@@ -112,7 +111,11 @@ std::optional<Error> KafkaAdmin::createTopics(const Topics &topics,
         }
 
         core::AdminClient client(cfg);
-        auto res = client.createTopics(t, numPartitions, replicationFactor, topicConfig, timeout);
+        const auto res = client.createTopics(t,
+                                             numPartitions,
+                                             replicationFactor,
+                                             topicConfig,
+                                             timeout);
         if (res.error) {
             return Error{when, QString::fromStdString(res.error.message())};
         }
@@ -121,6 +124,32 @@ std::optional<Error> KafkaAdmin::createTopics(const Topics &topics,
         return Error{when, QString::fromStdString(e.what())};
     }
     return {};
+}
+
+std::tuple<std::vector<GroupInfo>, Error> KafkaAdmin::listGroups(const QString &group,
+                                                                 std::chrono::milliseconds timeout)
+{
+    using namespace kafka::clients::admin;
+    const QString when("list group");
+
+    try {
+        Config cfg(m_cfg.properties->map());
+        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClient client(cfg);
+
+        const auto groupFilter = group.toStdString();
+        const auto result = client.listGroups(groupFilter, timeout);
+        if (result.error) {
+            spdlog::error("list group error {}", result.error.toString());
+            return std::make_tuple(std::vector<GroupInfo>(),
+                                   Error(when, QString::fromStdString(result.error.message())));
+        }
+
+        return std::make_tuple(result.groups, Error());
+    } catch (const kafka::KafkaException &e) {
+        spdlog::error("unexpected exception caught: {}", e.what());
+        return std::make_tuple(std::vector<GroupInfo>(), Error(when, e.what()));
+    }
 }
 
 } // namespace core

@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     engine.rootContext()->setContextProperty("errorService", &Services->errors());
-    engine.setObjectOwnership(&Services->errors(), QJSEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(&Services->errors(), QJSEngine::CppOwnership);
 
     engine.load(url);
 
