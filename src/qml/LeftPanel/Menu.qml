@@ -62,7 +62,7 @@ Item {
             }
         }
 
-        MenuItem{
+        MenuItem {
             index: 3
             text: qsTr("Consumers")
             icon: "qrc:/consumers.svg"

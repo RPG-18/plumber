@@ -11,7 +11,7 @@ Rectangle {
     signal clicked
 
     width: 300
-    height: 130
+    height: 140
     border.color: Style.BorderColor
 
     ColumnLayout {

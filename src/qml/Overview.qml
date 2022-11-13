@@ -9,6 +9,7 @@ Item {
 
     property var brokerModel: mainCluster.brokerModel()
     property var topicModel: mainCluster.topicModel()
+    property var consumerModel: mainCluster.consumerModel()
 
     signal activatedItem(int indx)
 
@@ -98,18 +99,157 @@ Item {
             }
         }
 
-        /*
         OverviewItem {
             Layout.fillWidth: true
             text: qsTr("CONSUMERS")
-            content: Rectangle{
-                width: 10
-                height: 10
-                color: "green"
+            onClicked: overview.activatedItem(Constants.ConsumersIndex)
+
+            content: Item {
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 16
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inActive
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Active")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 1
+                        Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inEmpty
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Empty")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 1
+                        Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inRebalancing
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Rebalancing")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 1
+                        Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inDead
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Dead")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                }
             }
-            onClicked: overview.activatedItem(Constants.ConsumersIndex);
         }
-*/
+
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true

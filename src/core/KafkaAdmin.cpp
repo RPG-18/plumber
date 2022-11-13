@@ -23,7 +23,7 @@ std::tuple<KafkaAdmin::Topics, Error> KafkaAdmin::listTopics(std::chrono::millis
         const auto response = client.listTopics(timeout);
         if (!response.error) {
             Topics topics;
-            topics.reserve(qsizetype(response.topics.size()));
+            topics.reserve(static_cast<qsizetype>(response.topics.size()));
             for (const auto &topic : response.topics) {
                 topics.emplaceBack(QString::fromStdString(topic));
             }

@@ -26,13 +26,13 @@ MessageModel::MessageModel(QObject *parent)
 int MessageModel::rowCount(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return int(m_records.size());
+    return static_cast<int>(m_records.size());
 }
 
 int MessageModel::columnCount(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return int(m_headers.size());
+    return static_cast<int>(m_headers.size());
 }
 
 QVariant MessageModel::data(const QModelIndex &index, int role) const
@@ -131,7 +131,7 @@ void MessageModel::append(core::ConsumerRecords &&records)
         return;
     }
 
-    beginInsertRows(QModelIndex(), 0, int(records.size() - 1));
+    beginInsertRows(QModelIndex(), 0, static_cast<int>(records.size() - 1));
     for (const auto &record : records) {
         m_records.push_front(record);
     }
@@ -139,7 +139,7 @@ void MessageModel::append(core::ConsumerRecords &&records)
 
     if (m_records.size() > MaxMessages) {
         const auto delta = m_records.size() - MaxMessages;
-        beginRemoveRows(QModelIndex(), MaxMessages, int(MaxMessages + delta));
+        beginRemoveRows(QModelIndex(), MaxMessages, static_cast<int>(MaxMessages + delta));
         while (m_records.size() > MaxMessages) {
             delete m_records.back();
             m_records.removeLast();
@@ -172,14 +172,14 @@ Message MessageModel::getMessage(int index) const
 
 void MessageModel::clear()
 {
-    beginRemoveRows(QModelIndex{}, 0, int(m_records.size()));
+    beginRemoveRows(QModelIndex{}, 0, static_cast<int>(m_records.size()));
     m_records.clear();
     endRemoveRows();
 }
 
 void MessageModel::exportMessages(std::unique_ptr<core::AbstractConsumerExporter> exporter)
 {
-    for (auto record : m_records) {
+    for (auto *record : m_records) {
         exporter->writeRecord(record);
     }
 }

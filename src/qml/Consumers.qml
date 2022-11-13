@@ -3,17 +3,11 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "style.js" as Style
 import "Components" as Components
+import "Group" as Group
 
 Rectangle {
     id: item
     property var consumerModel: mainCluster.consumerModel()
-    property int rowHeight: 40
-    property int fontPixelSize: 18
-    property var columnWidths: [900, 100, 60, 60]
-
-    function columnWidthProvider(column) {
-        return columnWidths[column];
-    }
 
     width: 300
     height: 150
@@ -23,88 +17,163 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
-        TableView {
-            Layout.fillHeight: true
+        OverviewItem {
             Layout.fillWidth: true
+            text: qsTr("CONSUMERS")
+            onClicked: overview.activatedItem(Constants.ConsumersIndex)
 
-            columnWidthProvider: item.columnWidthProvider
-            clip: true
-            model: item.consumerModel
-            boundsMovement: Flickable.StopAtBounds
-
-            delegate: Item {
-                implicitWidth: 100
-                implicitHeight: rowHeight
-
-                StackLayout {
+            content: Item {
+                RowLayout {
                     anchors.fill: parent
-                    currentIndex: column
+                    anchors.margins: 16
 
-                    Components.TextButton {
-                        // topic group
-                        text: display
-                        leftPadding: 8
-                        font.pixelSize: fontPixelSize
-                        font.family: Style.FontFamily
+                    Item {
                         Layout.fillHeight: true
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inActive
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Active")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
                     }
 
-                    Text {
-                        // state
-                        text: display
-                        font.pixelSize: fontPixelSize
-                        font.family: Style.FontFamily
-                        color: Style.LabelColor
+                    Rectangle {
+                        width: 1
                         Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inEmpty
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Empty")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 1
+                        Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inRebalancing
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Rebalancing")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 1
+                        Layout.fillHeight: true
+                        color: Style.BorderColor
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 150
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 8
+
+                            Text {
+                                text: consumerModel.inDead
+                                font.bold: true
+                                font.pixelSize: 22
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Text {
+                                font.pixelSize: 22
+                                text: qsTr("Dead")
+                                color: Style.LabelColor
+                                Layout.alignment: Qt.AlignCenter
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+
+                    Item {
                         Layout.fillWidth: true
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
                     }
-
-                    Text {
-                        // members
-                        text: display
-                        font.pixelSize: fontPixelSize
-                        font.family: Style.FontFamily
-                        color: Style.LabelColor
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-
-                    Text {
-                        // partition/topics
-                        text: display
-                        font.pixelSize: fontPixelSize
-                        font.family: Style.FontFamily
-                        color: Style.LabelColor
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-
                 }
             }
+        }
 
-            ScrollBar.vertical: ScrollBar {
-                id: tableVerticalBar
+        Group.ConsumerTableView {
+            Layout.topMargin: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-                policy: ScrollBar.AsNeeded
-                minimumSize: 0.06
-            }
-
-            ScrollBar.horizontal: ScrollBar {
-                policy: ScrollBar.AsNeeded
-                minimumSize: 0.06
-            }
+            model: item.consumerModel
         }
     }
 }
