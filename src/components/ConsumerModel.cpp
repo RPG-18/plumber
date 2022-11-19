@@ -37,17 +37,32 @@ QVector<ConsumerGroupInfo> convertGroup(std::vector<core::GroupInfo> &groups)
         if (group.protocolType != "consumer") {
             continue;
         }
-        std::cout << group.group << " " << group.members.size() << std::endl;
-        std::cout << "  state:" << group.state << std::endl;
-        std::cout << "  protocol:" << group.protocol << std::endl;
-        for (auto &member : group.members) {
-            std::cout << "    " << member.clientId << " - " << member.memberId << " "
-                      << member.assignment.size() << std::endl;
-        }
+
         ConsumerGroupInfo info;
         info.group = QString::fromStdString(group.group);
         info.state = string2state.value(group.state, ConsumerGroupInfo::State::Unknown);
-        //info.state = QString::fromStdString(group.state);
+
+        QSet<QString> topics;
+        int partitions = 0;
+        for (auto &member : group.members) {
+            ConsumerGroupInfo::Member m;
+            m.host = QString::fromStdString(member.clientHost);
+            m.id = QString::fromStdString(member.memberId);
+            m.clientID = QString::fromStdString(member.clientId);
+
+            core::MemberAssignmentInformation memberInfo(member.assignment);
+
+            for (auto &tp : memberInfo.topicPartitions()) {
+                auto topic = QString::fromStdString(tp.first);
+                topics.insert(topic);
+                m.topicPartitions.insert(std::make_pair(topic, tp.second));
+                ++partitions;
+            }
+
+            info.members.emplace_back(m);
+        }
+        info.topics = topics.size();
+        info.partitions = partitions;
         out.emplace_back(info);
     }
     return out;
@@ -161,18 +176,19 @@ QVariant ConsumerModel::data(const QModelIndex &index, int role) const
     }
 
     const auto row = index.row();
+    auto &group = m_groups[row];
     switch (role) {
     case Group:
-        return m_groups[row].group;
+        return group.group;
 
     case State:
-        return groupStateToString(m_groups[row].state);
+        return groupStateToString(group.state);
 
     case Members:
-        return m_groups[row].members.size();
+        return group.members.size();
 
     case PartitionTopics:
-        return "0/0";
+        return QString("%1/%2").arg(group.partitions).arg(group.topics);
 
     default:
         return QString{};

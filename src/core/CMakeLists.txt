@@ -12,7 +12,7 @@ add_library(core AdminClient.hpp
         KafkaStatistic.cpp KafkaStatistic.h
         Error.cpp Error.h
         ConsumerRecordsExporter.cpp ConsumerRecordsExporter.h
-        GroupInfo.hpp
+        GroupInfo.cpp GroupInfo.h
 )
 
 target_link_libraries(core

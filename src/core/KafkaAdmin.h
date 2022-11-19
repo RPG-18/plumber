@@ -8,7 +8,7 @@
 
 #include "ClusterConfig.h"
 #include "Error.h"
-#include "GroupInfo.hpp"
+#include "GroupInfo.h"
 
 namespace core {
 

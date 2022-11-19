@@ -1,6 +1,7 @@
 #pragma once
 
 #include <kafka/Error.h>
+#include <kafka/Types.h>
 
 namespace core {
 /**
@@ -78,7 +79,29 @@ struct GroupInfo
 
     std::vector<Member> members;
 
-    explicit GroupInfo(Broker broker)
-        : broker(std::move(broker)){};
+    explicit GroupInfo(Broker broker);
+};
+
+class MemberAssignmentInformation
+{
+public:
+    /**
+     * Constructs an instance
+     */
+    MemberAssignmentInformation(const std::vector<uint8_t> &data);
+
+    /**
+     * Gets the version
+     */
+    uint16_t version() const;
+
+    /**
+     * Gets the topic/partition assignment
+     */
+    const kafka::TopicPartitions &topicPartitions() const;
+
+private:
+    uint16_t m_version;
+    kafka::TopicPartitions m_topic_partitions;
 };
 } // namespace core

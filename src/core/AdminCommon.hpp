@@ -1,8 +1,8 @@
 #pragma once
 
+#include "GroupInfo.h"
 #include <kafka/Error.h>
 #include <vector>
-#include "GroupInfo.hpp"
 
 namespace core {
 /**

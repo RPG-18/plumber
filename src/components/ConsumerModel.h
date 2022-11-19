@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ClusterConfig.h"
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QHash>
-
-#include "ClusterConfig.h"
+#include <QtCore/QSet>
 
 struct ConsumerGroupInfo
 {
@@ -12,8 +12,19 @@ struct ConsumerGroupInfo
     QString group;
     State state;
     struct Member
-    {};
+    {
+        using Topic = QString;
+        using Partition = int32_t;
+        using TopicParition = std::pair<Topic, Partition>;
+
+        QString id;
+        QString clientID;
+        QString host;
+        QSet<TopicParition> topicPartitions;
+    };
     QVector<Member> members;
+    int topics;
+    int partitions;
 };
 Q_DECLARE_METATYPE(ConsumerGroupInfo)
 
