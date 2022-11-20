@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import plumber
 import "style.js" as Style
 import "Components" as Components
 import "Group" as Group
@@ -12,6 +13,13 @@ Rectangle {
     width: 300
     height: 150
     border.color: Style.BorderColor
+
+    ConsumerFilterModel {
+        id: groupFilterModel
+
+        model: consumerModel
+        filter: filterField.text
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -168,12 +176,44 @@ Rectangle {
             }
         }
 
+        Item {
+            implicitWidth: 250
+            Layout.fillWidth: true
+            height: 60
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+                anchors.verticalCenter: parent.verticalCenter
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                TextField {
+                    id: filterField
+                    Layout.preferredWidth: 180
+                    persistentSelection: true
+                    selectByMouse: true
+                    placeholderText: qsTr("Filter consumer group name...")
+                }
+            }
+
+            Rectangle {
+                height: 1
+                width: parent.width
+                anchors.bottom: parent.bottom
+                color: "#f2f2f2"
+            }
+        }
+
         Group.ConsumerTableView {
             Layout.topMargin: 2
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            model: item.consumerModel
+            model: groupFilterModel
         }
     }
 }

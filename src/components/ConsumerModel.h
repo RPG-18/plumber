@@ -1,9 +1,11 @@
 #pragma once
 
-#include "ClusterConfig.h"
 #include <QtCore/QAbstractTableModel>
 #include <QtCore/QHash>
 #include <QtCore/QSet>
+#include <QtCore/QSortFilterProxyModel>
+
+#include "ClusterConfig.h"
 
 struct ConsumerGroupInfo
 {
@@ -81,4 +83,23 @@ private:
     int m_inEmpty;
     int m_inRebalancing;
     int m_inDead;
+};
+
+class ConsumerFilterModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+    Q_PROPERTY(ConsumerModel *model READ model WRITE setModel)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter)
+
+public:
+    ConsumerFilterModel(QObject *parent = nullptr);
+
+    void setModel(ConsumerModel *model);
+    ConsumerModel *model() const;
+
+    QString filter() const;
+    void setFilter(const QString &topic);
+
+private:
+    QString m_filter;
 };

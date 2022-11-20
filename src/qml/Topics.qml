@@ -178,6 +178,7 @@ Rectangle {
 
                 TextField {
                     id: filterField
+                    Layout.preferredWidth: 180
 
                     persistentSelection: true
                     selectByMouse: true

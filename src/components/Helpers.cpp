@@ -57,4 +57,5 @@ void registerTypes()
     qmlRegisterAnonymousType<AbstractDataSource>("HexView", 1);
 
     qmlRegisterType<ExportImportFabric>("plumber", 1, 0, "ExportImportFabric");
+    qmlRegisterType<ConsumerFilterModel>("plumber", 1, 0, "ConsumerFilterModel");
 }

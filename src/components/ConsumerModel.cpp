@@ -188,7 +188,7 @@ QVariant ConsumerModel::data(const QModelIndex &index, int role) const
         return group.members.size();
 
     case PartitionTopics:
-        return QString("%1/%2").arg(group.partitions).arg(group.topics);
+        return QString("%1 / %2").arg(group.partitions).arg(group.topics);
 
     default:
         return QString{};
@@ -250,4 +250,31 @@ void ConsumerModel::setInDead(int val)
 {
     m_inDead = val;
     emit inDeadChanged();
+}
+
+ConsumerFilterModel::ConsumerFilterModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+{
+    setFilterRole(ConsumerModel::Group);
+    setFilterCaseSensitivity(Qt::CaseInsensitive);
+}
+
+void ConsumerFilterModel::setModel(ConsumerModel *model)
+{
+    setSourceModel(model);
+}
+ConsumerModel *ConsumerFilterModel::model() const
+{
+    return dynamic_cast<ConsumerModel *>(sourceModel());
+}
+
+QString ConsumerFilterModel::filter() const
+{
+    return m_filter;
+}
+
+void ConsumerFilterModel::setFilter(const QString &topic)
+{
+    m_filter = topic;
+    setFilterFixedString(m_filter);
 }
