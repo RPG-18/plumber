@@ -7,6 +7,7 @@ import "../Components" as Components
 
 Item {
     id: main
+    signal selectedGroup(var group)
 
     clip: true
     property var model
@@ -131,6 +132,9 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignLeft
                         color: "#2a5fb0"
+                        onClickecd: {
+                            main.selectedGroup(groupItem);
+                        }
                     }
 
                     Text {

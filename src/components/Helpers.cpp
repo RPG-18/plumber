@@ -58,4 +58,6 @@ void registerTypes()
 
     qmlRegisterType<ExportImportFabric>("plumber", 1, 0, "ExportImportFabric");
     qmlRegisterType<ConsumerFilterModel>("plumber", 1, 0, "ConsumerFilterModel");
+    qmlRegisterType<ConsumerGroupInfoItem>("plumber", 1, 0, "ConsumerGroupInfoItem");
+    qmlRegisterAnonymousType<GroupMemberModel>("plumber", 1);
 }

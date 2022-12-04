@@ -41,6 +41,7 @@ QVector<ConsumerGroupInfo> convertGroup(std::vector<core::GroupInfo> &groups)
         ConsumerGroupInfo info;
         info.group = QString::fromStdString(group.group);
         info.state = string2state.value(group.state, ConsumerGroupInfo::State::Unknown);
+        info.protocol = QString::fromStdString(group.protocol);
 
         QSet<QString> topics;
         int partitions = 0;
@@ -190,6 +191,9 @@ QVariant ConsumerModel::data(const QModelIndex &index, int role) const
     case PartitionTopics:
         return QString("%1 / %2").arg(group.partitions).arg(group.topics);
 
+    case GroupItem:
+        return QVariant::fromValue(m_groups[row]);
+
     default:
         return QString{};
     }
@@ -197,13 +201,12 @@ QVariant ConsumerModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> ConsumerModel::roleNames() const
 {
-    static QHash<int, QByteArray> roles{
-        {Qt::DisplayRole, "display"},
-        {Group, "group"},
-        {State, "state"},
-        {Members, "members"},
-        {PartitionTopics, "partitionTopics"},
-    };
+    static QHash<int, QByteArray> roles{{Qt::DisplayRole, "display"},
+                                        {Group, "group"},
+                                        {State, "state"},
+                                        {Members, "members"},
+                                        {PartitionTopics, "partitionTopics"},
+                                        {GroupItem, "groupItem"}};
 
     return roles;
 }
@@ -277,4 +280,145 @@ void ConsumerFilterModel::setFilter(const QString &topic)
 {
     m_filter = topic;
     setFilterFixedString(m_filter);
+}
+
+ConsumerGroupInfoItem::ConsumerGroupInfoItem(QObject *parent)
+    : QObject(parent)
+    , m_members(new GroupMemberModel(this))
+{}
+
+void ConsumerGroupInfoItem::setGroupInfo(const QVariant &info)
+{
+    if (info.isNull() || !info.isValid()) {
+        return;
+    }
+
+    m_group = info.value<ConsumerGroupInfo>();
+    m_members->setMembers(m_group.members);
+    sendChangeSignals();
+}
+
+void ConsumerGroupInfoItem::sendChangeSignals()
+{
+    emit nameChanged();
+    emit stateChanged();
+    emit topicsChanged();
+    emit partitionsChanged();
+    emit strategyChanged();
+}
+
+QString ConsumerGroupInfoItem::name() const
+{
+    return m_group.group;
+}
+
+QString ConsumerGroupInfoItem::strategy() const
+{
+    return m_group.protocol;
+}
+
+QString ConsumerGroupInfoItem::state() const
+{
+    switch (m_group.state) {
+    case ConsumerGroupInfo::State::Stable:
+        return QLatin1String("Stable");
+    case ConsumerGroupInfo::State::Empty:
+        return QLatin1String("Empty");
+    case ConsumerGroupInfo::State::Rebalance:
+        return QLatin1String("Rebalance");
+    case ConsumerGroupInfo::State::Dead:
+        return QLatin1String("Dead");
+    default:
+        return QLatin1String("Unknown state");
+    }
+}
+
+int ConsumerGroupInfoItem::topics() const
+{
+    return m_group.topics;
+}
+
+int ConsumerGroupInfoItem::partitions() const
+{
+    return m_group.partitions;
+}
+
+GroupMemberModel *ConsumerGroupInfoItem::members()
+{
+    return m_members;
+}
+
+GroupMemberModel::GroupMemberModel(QObject *parent)
+    : QAbstractListModel(parent)
+{}
+
+int GroupMemberModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return m_members.size();
+}
+
+QVariant GroupMemberModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid()) {
+        return {};
+    }
+
+    if (index.row() >= m_members.size()) {
+        return {};
+    }
+
+    if (role < Qt::DisplayRole) {
+        return {};
+    }
+
+    const auto row = index.row();
+    auto &member = m_members[row];
+
+    switch (role) {
+    case MemberID:
+        return member.id;
+    case ClientID:
+        return member.clientID;
+    case HostName:
+        return member.host;
+    case Partitions:
+        return member.topicPartitions.size();
+    case TopicsPartitions:
+        return topicPartitions(member.topicPartitions);
+
+    default:
+        return QString{};
+    }
+}
+
+void GroupMemberModel::setMembers(const QVector<ConsumerGroupInfo::Member> &members)
+{
+    beginResetModel();
+    m_members = members;
+    endResetModel();
+}
+
+QHash<int, QByteArray> GroupMemberModel::roleNames() const
+{
+    static QHash<int, QByteArray> roles{
+        {MemberID, "memberID"},
+        {ClientID, "clientID"},
+        {HostName, "host"},
+        {Partitions, "partitions"},
+        {TopicsPartitions, "topicsPartitions"},
+    };
+    return roles;
+}
+
+QStringList GroupMemberModel::topicPartitions(
+    const QSet<ConsumerGroupInfo::Member::TopicParition> &tps) const
+{
+    QStringList list;
+    list.reserve(tps.size());
+
+    for (const auto &tp : tps) {
+        list << QString("%1-%2").arg(tp.first).arg(tp.second);
+    }
+    return list;
 }
