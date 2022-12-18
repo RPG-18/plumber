@@ -205,18 +205,18 @@ Rectangle {
                                 font.bold: true
                             }
 
-                            Rectangle {
+                            Item {
                                 id: splitter
 
-                                color: Style.BorderColor
                                 height: parent.height
-                                width: 1
+                                width: 5
                                 visible: headerHover.containsMouse
-                                x: columnWidths[index] - 1
+                                x: columnWidths[index] - 5
+
                                 onXChanged: {
                                     if (drag.active) {
                                         main.columnWidths[index] = splitter.x;
-                                        root.width = splitter.x + 1;
+                                        root.width = splitter.x + 5;
                                         view.forceLayout();
                                     }
                                 }
@@ -227,6 +227,13 @@ Rectangle {
                                     yAxis.enabled: false
                                     xAxis.enabled: true
                                     cursorShape: Qt.SizeHorCursor
+                                }
+
+                                Rectangle {
+                                    anchors.centerIn: parent
+                                    color: Style.BorderColor
+                                    height: parent.height
+                                    width: 1
                                 }
                             }
                         }

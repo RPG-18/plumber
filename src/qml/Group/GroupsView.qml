@@ -1,103 +1,30 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
-import "style.js" as Style
-import "constants.js" as Constants
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import plumber
+import "../style.js" as Style
+import "../Components" as Components
+import "../"
 
-Item {
-    id: overview
-
-    property var brokerModel: mainCluster.brokerModel()
-    property var topicModel: mainCluster.topicModel()
+Rectangle {
+    id: item
     property var consumerModel: mainCluster.consumerModel()
+    signal selectedGroup(var group)
 
-    signal activatedItem(int indx)
+    width: 300
+    height: 150
+    border.color: Style.BorderColor
+
+    ConsumerFilterModel {
+        id: groupFilterModel
+
+        model: consumerModel
+        filter: filterField.text
+    }
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 8
-
-        OverviewItem {
-            Layout.fillWidth: true
-            text: qsTr("BROKERS")
-            onClicked: overview.activatedItem(Constants.BrokersIndex)
-
-            content: Item {
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 16
-
-                    Item {
-                        Layout.fillHeight: true
-
-                        ColumnLayout {
-                            anchors.fill: parent
-                            spacing: 8
-
-                            Text {
-                                text: brokerModel.brokers
-                                font.bold: true
-                                font.pixelSize: 22
-                                color: Style.LabelColor
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            Text {
-                                font.pixelSize: 22
-                                text: qsTr("Brokers")
-                                color: Style.LabelColor
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            Item {
-                                Layout.fillHeight: true
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        OverviewItem {
-            Layout.fillWidth: true
-            text: qsTr("TOPICS")
-            onClicked: overview.activatedItem(Constants.TopicsIndex)
-
-            content: Item {
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 16
-
-                    Item {
-                        Layout.fillHeight: true
-
-                        ColumnLayout {
-                            anchors.fill: parent
-                            spacing: 8
-
-                            Text {
-                                text: topicModel.topics
-                                font.bold: true
-                                font.pixelSize: 22
-                                color: Style.LabelColor
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            Text {
-                                font.pixelSize: 22
-                                text: qsTr("Topics")
-                                color: Style.LabelColor
-                                Layout.alignment: Qt.AlignCenter
-                            }
-
-                            Item {
-                                Layout.fillHeight: true
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        spacing: 0
 
         OverviewItem {
             Layout.fillWidth: true
@@ -251,8 +178,47 @@ Item {
         }
 
         Item {
-            Layout.fillHeight: true
+            implicitWidth: 250
             Layout.fillWidth: true
+            height: 60
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+                anchors.verticalCenter: parent.verticalCenter
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                TextField {
+                    id: filterField
+                    Layout.preferredWidth: 180
+                    persistentSelection: true
+                    selectByMouse: true
+                    placeholderText: qsTr("Filter consumer group name...")
+                }
+            }
+
+            Rectangle {
+                height: 1
+                width: parent.width
+                anchors.bottom: parent.bottom
+                color: "#f2f2f2"
+            }
+        }
+
+        ConsumerTableView {
+            Layout.topMargin: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            onSelectedGroup: group => {
+                item.selectedGroup(group);
+            }
+
+            model: groupFilterModel
         }
     }
 }

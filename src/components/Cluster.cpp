@@ -6,6 +6,7 @@ Cluster::Cluster(QObject *parent)
     : QObject(parent)
     , m_brokerModel(new BrokerModel(this))
     , m_topicModel(new TopicModel(this))
+    , m_consumerModel(new ConsumerModel(this))
 {}
 
 ClusterConfig Cluster::broker() const
@@ -24,6 +25,7 @@ void Cluster::setBroker(const ClusterConfig &broker)
 
     m_brokerModel->setConfig(m_broker);
     m_topicModel->setConfig(m_broker);
+    m_consumerModel->setConfig(m_broker);
 }
 
 BrokerModel *Cluster::brokerModel()
@@ -34,4 +36,9 @@ BrokerModel *Cluster::brokerModel()
 TopicModel *Cluster::topicModel()
 {
     return m_topicModel;
+}
+
+ConsumerModel *Cluster::consumerModel()
+{
+    return m_consumerModel;
 }

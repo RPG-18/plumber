@@ -7,6 +7,7 @@
 #include "ConfigModel.h"
 #include "Consumer.h"
 #include "ConsumerHelperModels.h"
+#include "ConsumerModel.h"
 #include "ExportImportFabric.h"
 #include "HexView.h"
 #include "KafkaConnectivityTester.h"
@@ -47,6 +48,7 @@ void registerTypes()
     qmlRegisterAnonymousType<BrokerModel>("plumber", 1);
     qmlRegisterAnonymousType<TopicModel>("plumber", 1);
     qmlRegisterAnonymousType<MessageModel>("plumber", 1);
+    qmlRegisterAnonymousType<ConsumerModel>("plumber", 1);
 
     qmlRegisterType<HexView>("plumber", 1, 0, "HexView");
     qmlRegisterType<FileDataSource>("plumber", 1, 0, "FileDataSource");
@@ -55,4 +57,7 @@ void registerTypes()
     qmlRegisterAnonymousType<AbstractDataSource>("HexView", 1);
 
     qmlRegisterType<ExportImportFabric>("plumber", 1, 0, "ExportImportFabric");
+    qmlRegisterType<ConsumerFilterModel>("plumber", 1, 0, "ConsumerFilterModel");
+    qmlRegisterType<ConsumerGroupInfoItem>("plumber", 1, 0, "ConsumerGroupInfoItem");
+    qmlRegisterAnonymousType<GroupMemberModel>("plumber", 1);
 }

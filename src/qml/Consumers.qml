@@ -1,12 +1,58 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import plumber
 import "style.js" as Style
+import "Components" as Components
+import "Group" as Group
 
-Rectangle {
+Item {
     id: item
 
     width: 300
     height: 150
-    border.color: Style.BorderColor
+
+    StackView {
+        id: groupStack
+        anchors.fill: parent
+        initialItem: groupsView
+
+        pushEnter: Transition {
+        }
+
+        pushExit: Transition {
+        }
+
+        popEnter: Transition {
+        }
+
+        popExit: Transition {
+        }
+    }
+
+    Component {
+        id: groupsView
+        Group.GroupsView {
+            width: item.width
+            height: item.height
+
+            onSelectedGroup: group => {
+                let obj = groupView.createObject(item, {
+                        "group": group
+                    });
+                groupStack.push(obj);
+            }
+
+            consumerModel: mainCluster.consumerModel()
+        }
+    }
+
+    Component {
+        id: groupView
+
+        Group.GroupView {
+            width: item.width
+            height: item.height
+        }
+    }
 }

@@ -2,8 +2,11 @@
 
 #include <kafka/AdminClient.h>
 
+#include "AdminCommon.hpp"
+#include "KafkaHelper.hpp"
 
 namespace core {
+
 class AdminClient : public kafka::clients::AdminClient
 {
 public:
@@ -12,6 +15,8 @@ public:
     {}
 
     Optional<kafka::BrokerMetadata> fetchNodesMetadata(std::chrono::milliseconds timeout);
+
+    ListGroupsResult listGroups(const std::string &group, std::chrono::milliseconds timeout);
 };
 
 inline Optional<kafka::BrokerMetadata> AdminClient::fetchNodesMetadata(
@@ -43,4 +48,66 @@ inline Optional<kafka::BrokerMetadata> AdminClient::fetchNodesMetadata(
     ret = metadata;
     return ret;
 }
+
+inline ListGroupsResult AdminClient::listGroups(const std::string &group,
+                                                std::chrono::milliseconds timeout)
+{
+    const rd_kafka_group_list *rk_group_list = nullptr;
+    rd_kafka_resp_err_t err = rd_kafka_list_groups(getClientHandle(),
+                                                   group.empty() ? nullptr : group.c_str(),
+                                                   &rk_group_list,
+                                                   convertMsDurationToInt(timeout));
+    auto guard = rd_kafka_group_list_unique_ptr(rk_group_list);
+
+    if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+        return ListGroupsResult(kafka::Error{err, rd_kafka_err2str(err)});
+    }
+
+    std::vector<GroupInfo> groups;
+    if (rk_group_list->group_cnt == 0) {
+        return ListGroupsResult(groups);
+    }
+
+    groups.reserve(rk_group_list->group_cnt);
+
+    for (int i = 0; i < rk_group_list->group_cnt; ++i) {
+        auto groupItem = rk_group_list->groups[i];
+
+        GroupInfo::Broker broker(groupItem.broker.id, groupItem.broker.host, groupItem.broker.port);
+
+        GroupInfo info(broker);
+
+        info.group = groupItem.group;
+        info.error = kafka::Error{groupItem.err, rd_kafka_err2str(err)};
+        info.state = groupItem.state;
+        info.protocolType = groupItem.protocol_type;
+        info.protocol = groupItem.protocol;
+
+        std::vector<GroupInfo::Member> members;
+        members.reserve(groupItem.member_cnt);
+        for (int j = 0; j < groupItem.member_cnt; ++j) {
+            auto memberItem = groupItem.members[j];
+            GroupInfo::Member member;
+            member.memberId = memberItem.member_id;
+            member.clientId = memberItem.client_id;
+            member.clientHost = memberItem.client_host;
+
+            auto *metaPtr = static_cast<uint8_t *>(memberItem.member_metadata);
+            member.metadata.insert(member.metadata.end(),
+                                   metaPtr,
+                                   metaPtr + memberItem.member_assignment_size);
+
+            auto *assignmentPtr = static_cast<uint8_t *>(memberItem.member_assignment);
+            member.assignment.insert(member.assignment.end(),
+                                     assignmentPtr,
+                                     assignmentPtr + memberItem.member_assignment_size);
+            members.emplace_back(member);
+        }
+
+        info.members.swap(members);
+        groups.emplace_back(info);
+    }
+
+    return ListGroupsResult(groups);
 }
+} // namespace core

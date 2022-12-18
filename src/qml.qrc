@@ -72,5 +72,8 @@
         <file>qml/Components/BlueButton.qml</file>
         <file>qml/Consumer/AvroOptions.qml</file>
         <file>qml/Producer/AvroOptions.qml</file>
+        <file>qml/Group/ConsumerTableView.qml</file>
+        <file>qml/Group/GroupsView.qml</file>
+        <file>qml/Group/GroupView.qml</file>
     </qresource>
 </RCC>

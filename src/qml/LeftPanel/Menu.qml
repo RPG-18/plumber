@@ -62,15 +62,16 @@ Item {
             }
         }
 
-        /*
-        MenuItem{
+        MenuItem {
             index: 3
             text: qsTr("Consumers")
-            icon: "qrc:/images/consumers.svg"
+            icon: "qrc:/consumers.svg"
             Layout.fillWidth: true
-            onClicked: menu.onClickHandler(index)
+            onClicked: index => {
+                menu.onClickHandler(index);
+            }
         }
-*/
+
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true

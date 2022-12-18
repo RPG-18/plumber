@@ -8,6 +8,7 @@
 
 #include "ClusterConfig.h"
 #include "Error.h"
+#include "GroupInfo.h"
 
 namespace core {
 
@@ -65,6 +66,16 @@ public:
         int numPartitions,
         int replicationFactor,
         const kafka::Properties &topicConfig,
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
+
+    /*!
+     * list groups
+     * @param group select one group
+     * @param timeout
+     * @return groups and error
+     */
+    std::tuple<std::vector<GroupInfo>, Error> listGroups(
+        const QString &group = QString(),
         std::chrono::milliseconds timeout = std::chrono::milliseconds(DefaultCommandTimeoutMS));
 
 private:
