@@ -22,6 +22,12 @@ Item {
 
         pushExit: Transition {
         }
+
+        popEnter: Transition {
+        }
+
+        popExit: Transition {
+        }
     }
 
     Component {

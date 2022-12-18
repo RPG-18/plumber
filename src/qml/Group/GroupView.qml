@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import plumber
 import "../style.js" as Style
@@ -15,6 +16,15 @@ Item {
     ColumnLayout {
         anchors.fill: parent
         spacing: 16
+
+        Button {
+            icon.source: "qrc:/left.svg"
+            implicitWidth: 28
+            implicitHeight: 28
+            onClicked: {
+                groupStack.pop();
+            }
+        }
 
         Rectangle {
             Layout.fillWidth: true
