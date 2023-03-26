@@ -2,15 +2,15 @@
 
 #include <kafka/Project.h>
 
-#include <kafka/KafkaClient.h>
 #include <kafka/KafkaProducer.h>
-#include <kafka/Types.h>
 
-#include <deque>
+#include <atomic>
+#include <memory>
 #include <mutex>
-#include <vector>
+#include <thread>
 
-namespace KAFKA_API { namespace clients {
+
+namespace KAFKA_API { namespace clients { namespace producer {
 
 class KafkaRecoverableProducer
 {
@@ -18,9 +18,8 @@ public:
     explicit KafkaRecoverableProducer(const Properties& properties)
         : _properties(properties), _running(true)
     {
-        _errorCb = [this](const Error& error) {
-            if (error.isFatal()) _fatalError = std::make_unique<Error>(error);
-        };
+        _properties.put(Config::ENABLE_MANUAL_EVENTS_POLL, "true");
+        _properties.put(Config::ERROR_CB, [this](const Error& error) { if (error.isFatal()) _fatalError = std::make_unique<Error>(error); });
 
         _producer = createProducer();
 
@@ -37,7 +36,7 @@ public:
      */
     const std::string& clientId() const
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->clientId();
     }
@@ -47,20 +46,9 @@ public:
      */
     const std::string& name() const
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->name();
-    }
-
-    /**
-     * Set the log callback for the kafka client (it's a per-client setting).
-     */
-    void setLogger(const Logger& logger)
-    {
-        std::lock_guard<std::mutex> lock(_producerMutex);
-
-        _logger = logger;
-        _producer->setLogger(*_logger);
     }
 
     /**
@@ -68,35 +56,10 @@ public:
      */
     void setLogLevel(int level)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
-        _logLevel = level;
-        _producer->setLogLevel(*_logLevel);
-    }
-
-    /**
-     * Set callback to receive the periodic statistics info.
-     * Note: 1) It only works while the "statistics.interval.ms" property is configured with a non-0 value.
-     *       2) The callback would be triggered periodically, receiving the internal statistics info (with JSON format) emited from librdkafka.
-     */
-    void setStatsCallback(const KafkaClient::StatsCallback& cb)
-    {
-        std::lock_guard<std::mutex> lock(_producerMutex);
-
-        _statsCb = cb;
-        _producer->setStatsCallback(*_statsCb);
-    }
-
-    void setErrorCallback(const KafkaClient::ErrorCallback& cb)
-    {
-        std::lock_guard<std::mutex> lock(_producerMutex);
-
-        _errorCb = [cb, this](const Error& error) {
-            cb(error);
-
-            if (error.isFatal()) _fatalError = std::make_unique<Error>(error);
-        };
-        _producer->setErrorCallback(*_errorCb);
+        _properties.put(Config::LOG_LEVEL, std::to_string(level));
+        _producer->setLogLevel(level);
     }
 
     /**
@@ -104,7 +67,7 @@ public:
      */
     const Properties& properties() const
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->properties();
     }
@@ -114,7 +77,7 @@ public:
      */
     Optional<std::string> getProperty(const std::string& name) const
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->getProperty(name);
     }
@@ -127,7 +90,7 @@ public:
                                                  std::chrono::milliseconds timeout = std::chrono::milliseconds(KafkaClient::DEFAULT_METADATA_TIMEOUT_MS),
                                                  bool disableErrorLogging = false)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->fetchBrokerMetadata(topic, timeout, disableErrorLogging);
     }
@@ -140,7 +103,7 @@ public:
      */
     Error flush(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->flush(timeout);
     }
@@ -150,7 +113,7 @@ public:
      */
     Error purge()
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->purge();
     }
@@ -160,7 +123,7 @@ public:
      */
     void close(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _running = false;
         if (_pollThread.joinable()) _pollThread.join();
@@ -181,7 +144,7 @@ public:
      */
     producer::RecordMetadata syncSend(const producer::ProducerRecord& record)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         return _producer->syncSend(record);
     }
@@ -209,7 +172,7 @@ public:
               KafkaProducer::SendOption             option = KafkaProducer::SendOption::NoCopyRecordValue,
               KafkaProducer::ActionWhileQueueIsFull action = KafkaProducer::ActionWhileQueueIsFull::Block)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->send(record, deliveryCb, option, action);
     }
@@ -239,7 +202,7 @@ public:
               KafkaProducer::SendOption             option = KafkaProducer::SendOption::NoCopyRecordValue,
               KafkaProducer::ActionWhileQueueIsFull action = KafkaProducer::ActionWhileQueueIsFull::Block)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->send(record, deliveryCb, error, option, action);
     }
@@ -249,7 +212,7 @@ public:
      */
     void initTransactions(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->initTransactions(timeout);
     }
@@ -259,7 +222,7 @@ public:
      */
     void beginTransaction()
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->beginTransaction();
     }
@@ -269,7 +232,7 @@ public:
      */
     void commitTransaction(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->commitTransaction(timeout);
     }
@@ -279,7 +242,7 @@ public:
      */
     void abortTransaction(std::chrono::milliseconds timeout = InfiniteTimeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->abortTransaction(timeout);
     }
@@ -291,7 +254,7 @@ public:
                                   const consumer::ConsumerGroupMetadata& groupMetadata,
                                   std::chrono::milliseconds              timeout)
     {
-        std::lock_guard<std::mutex> lock(_producerMutex);
+        const std::lock_guard<std::mutex> lock(_producerMutex);
 
         _producer->sendOffsetsToTransaction(topicPartitionOffsets, groupMetadata, timeout);
     }
@@ -314,7 +277,7 @@ private:
                 const std::string errStr = _fatalError->toString();
                 KAFKA_API_LOG(Log::Level::Notice, "met fatal error[%s], will re-initialize the internal producer", errStr.c_str());
 
-                std::lock_guard<std::mutex> lock(_producerMutex);
+                const std::lock_guard<std::mutex> lock(_producerMutex);
 
                 if (!_running) return;
 
@@ -330,22 +293,11 @@ private:
 
     std::unique_ptr<KafkaProducer> createProducer()
     {
-        auto producer = std::make_unique<KafkaProducer>(_properties, KafkaClient::EventsPollingOption::Manual);
-
-        if (_logger)   producer->setLogger(*_logger);
-        if (_logLevel) producer->setLogLevel(*_logLevel);
-        if (_statsCb)  producer->setStatsCallback(*_statsCb);
-        if (_errorCb)  producer->setErrorCallback(*_errorCb);
-
-        return producer;
+        return std::make_unique<KafkaProducer>(_properties);
     }
 
     // Configurations for producer
-    Properties                           _properties;
-    Optional<Logger>                     _logger;
-    Optional<int>                        _logLevel;
-    Optional<KafkaClient::StatsCallback> _statsCb;
-    Optional<KafkaClient::ErrorCallback> _errorCb;
+    Properties             _properties;
 
     std::unique_ptr<Error> _fatalError;
 
@@ -356,5 +308,5 @@ private:
     std::unique_ptr<KafkaProducer> _producer;
 };
 
-} } // end of KAFKA_API::clients
+} } } // end of KAFKA_API::clients::producer
 

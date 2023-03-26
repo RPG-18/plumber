@@ -18,7 +18,7 @@
 #include <vector>
 
 
-namespace KAFKA_API { namespace clients {
+namespace KAFKA_API { namespace clients { namespace admin {
 
 /**
  * The administrative client for Kafka, which supports managing and inspecting topics, etc.
@@ -27,11 +27,7 @@ class AdminClient: public KafkaClient
 {
 public:
     explicit AdminClient(const Properties& properties)
-        : KafkaClient(ClientType::AdminClient,
-                      KafkaClient::validateAndReformProperties(properties),
-                      ConfigCallbacksRegister{},
-                      EventsPollingOption::Auto,
-                      Interceptors{})
+        : KafkaClient(ClientType::AdminClient, KafkaClient::validateAndReformProperties(properties))
     {
     }
 
@@ -83,9 +79,9 @@ AdminClient::getPerTopicResults(const rd_kafka_topic_result_t** topicResults, st
     for (std::size_t i = 0; i < topicCount; ++i)
     {
         const rd_kafka_topic_result_t* topicResult = topicResults[i];
-        if (rd_kafka_resp_err_t topicError = rd_kafka_topic_result_error(topicResult))
+        if (const rd_kafka_resp_err_t topicError = rd_kafka_topic_result_error(topicResult))
         {
-            std::string detailedMsg = "topic[" + std::string(rd_kafka_topic_result_name(topicResult)) + "] with error[" + rd_kafka_topic_result_error_string(topicResult) + "]";
+            const std::string detailedMsg = "topic[" + std::string(rd_kafka_topic_result_name(topicResult)) + "] with error[" + rd_kafka_topic_result_error_string(topicResult) + "]";
             errors.emplace_back(topicError, detailedMsg);
         }
     }
@@ -99,9 +95,9 @@ AdminClient::getPerTopicPartitionResults(const rd_kafka_topic_partition_list_t* 
 
     for (int i = 0; i < (partitionResults ? partitionResults->cnt : 0); ++i)
     {
-        if (rd_kafka_resp_err_t partitionError = partitionResults->elems[i].err)
+        if (const rd_kafka_resp_err_t partitionError = partitionResults->elems[i].err)
         {
-            std::string detailedMsg = "topic-partition[" + std::string(partitionResults->elems[i].topic) + "-" + std::to_string(partitionResults->elems[i].partition) + "] with error[" + rd_kafka_err2str(partitionError) + "]";
+            const std::string detailedMsg = "topic-partition[" + std::string(partitionResults->elems[i].topic) + "-" + std::to_string(partitionResults->elems[i].partition) + "] with error[" + rd_kafka_err2str(partitionError) + "]";
             errors.emplace_back(partitionError, detailedMsg);
         }
     }
@@ -148,10 +144,14 @@ AdminClient::createTopics(const Topics&             topics,
 
         for (const auto& conf: topicConfig.map())
         {
-            rd_kafka_resp_err_t err = rd_kafka_NewTopic_set_config(rkNewTopics.back().get(), conf.first.c_str(), conf.second.c_str());
+            const auto& k = conf.first;
+            const auto& v = topicConfig.getProperty(k);
+            if (!v) continue;
+
+            const rd_kafka_resp_err_t err = rd_kafka_NewTopic_set_config(rkNewTopics.back().get(), k.c_str(), v->c_str());
             if (err != RD_KAFKA_RESP_ERR_NO_ERROR)
             {
-                std::string errMsg = "Invalid config[" + conf.first + "=" + conf.second + "]";
+                const std::string errMsg = "Invalid config[" + k + "=" + *v + "]";
                 KAFKA_API_DO_LOG(Log::Level::Err, errMsg.c_str());
                 return admin::CreateTopicsResult(Error{RD_KAFKA_RESP_ERR__INVALID_ARG, errMsg});
             }
@@ -189,7 +189,7 @@ AdminClient::createTopics(const Topics&             topics,
 
     std::list<Error> errors;
 
-    if (rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
+    if (const rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
     {
         errors.emplace_back(respErr, rd_kafka_event_error_string(rk_ev.get()));
     }
@@ -262,7 +262,7 @@ AdminClient::deleteTopics(const Topics& topics, std::chrono::milliseconds timeou
 
     std::list<Error> errors;
 
-    if (rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
+    if (const rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
     {
         errors.emplace_back(respErr, rd_kafka_event_error_string(rk_ev.get()));
     }
@@ -281,7 +281,7 @@ inline admin::ListTopicsResult
 AdminClient::listTopics(std::chrono::milliseconds timeout)
 {
     const rd_kafka_metadata_t* rk_metadata = nullptr;
-    rd_kafka_resp_err_t err = rd_kafka_metadata(getClientHandle(), true, nullptr, &rk_metadata, convertMsDurationToInt(timeout));
+    const rd_kafka_resp_err_t err = rd_kafka_metadata(getClientHandle(), true, nullptr, &rk_metadata, convertMsDurationToInt(timeout));
     auto guard = rd_kafka_metadata_unique_ptr(rk_metadata);
 
     if (err != RD_KAFKA_RESP_ERR_NO_ERROR)
@@ -303,7 +303,7 @@ AdminClient::deleteRecords(const TopicPartitionOffsets& topicPartitionOffsets,
 {
     auto rk_queue = rd_kafka_queue_unique_ptr(rd_kafka_queue_new(getClientHandle()));
 
-    rd_kafka_DeleteRecords_unique_ptr rkDeleteRecords(rd_kafka_DeleteRecords_new(createRkTopicPartitionList(topicPartitionOffsets)));
+    const rd_kafka_DeleteRecords_unique_ptr rkDeleteRecords(rd_kafka_DeleteRecords_new(createRkTopicPartitionList(topicPartitionOffsets)));
     std::array<rd_kafka_DeleteRecords_t*, 1> rk_del_records{rkDeleteRecords.get()};
 
     rd_kafka_DeleteRecords(getClientHandle(), rk_del_records.data(), rk_del_records.size(), nullptr, rk_queue.get());
@@ -331,7 +331,7 @@ AdminClient::deleteRecords(const TopicPartitionOffsets& topicPartitionOffsets,
 
     std::list<Error> errors;
 
-    if (rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
+    if (const rd_kafka_resp_err_t respErr = rd_kafka_event_error(rk_ev.get()))
     {
         errors.emplace_back(respErr, rd_kafka_event_error_string(rk_ev.get()));
     }
@@ -344,5 +344,5 @@ AdminClient::deleteRecords(const TopicPartitionOffsets& topicPartitionOffsets,
     return admin::DeleteRecordsResult(combineErrors(errors));
 }
 
-} } // end of KAFKA_API::clients
+} } } // end of KAFKA_API::clients::admin
 

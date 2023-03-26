@@ -8,6 +8,7 @@
 #include "ClusterConfig.h"
 #include "KafkaConnectivityTester.h"
 #include "spdlog/spdlog.h"
+#include "utils/KafkaUtility.h"
 
 using namespace kafka;
 
@@ -24,8 +25,9 @@ void KafkaConnectivityTester::test(const QString &url, const QString &props) noe
     }
 
     std::thread t([this, url, props]() {
-        Config cfg;
-        cfg.put(Config::BOOTSTRAP_SERVERS, url.toStdString());
+        AdminClientConfig cfg;
+        cfg.put(AdminClientConfig::LOG_CB, KafkaSpdLogger);
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, url.toStdString());
         const QChar sep('=');
 
         QString toParse = props;
@@ -45,7 +47,7 @@ void KafkaConnectivityTester::test(const QString &url, const QString &props) noe
         }
         bool noErr = false;
         try {
-            kafka::clients::AdminClient client(cfg);
+            AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
             noErr = !res.error;
         } catch (const kafka::KafkaException &e) {
@@ -73,10 +75,10 @@ void KafkaConnectivityTester::testBroker(const QVariant &variant) noexcept
     const auto broker = variant.value<ClusterConfig>();
     std::thread t([this, broker]() {
         try {
-            Config cfg(broker.properties->map());
-            cfg.put(Config::BOOTSTRAP_SERVERS, broker.bootstrap.toStdString());
+            AdminClientConfig cfg(broker.properties->map());
+            cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, broker.bootstrap.toStdString());
 
-            kafka::clients::AdminClient client(cfg);
+            AdminClient client(cfg);
             const auto res = client.listTopics(std::chrono::milliseconds(10000));
             const bool noErr = !res.error;
             QMetaObject::invokeMethod(this, "tested", Qt::QueuedConnection, Q_ARG(bool, noErr));

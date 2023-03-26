@@ -16,15 +16,8 @@
 #include <kafka/KafkaClient.h>
 
 #include "3rdparty/syntax-highlighting/src/quick/kquicksyntaxhighlightingplugin.h"
-#include "Cluster.h"
-#include "ConfigModel.h"
-#include "Consumer.h"
-#include "ConsumerHelperModels.h"
 #include "Helpers.h"
-#include "KafkaConnectivityTester.h"
-#include "Producer.h"
 #include "Registry.h"
-#include "TopicCreator.h"
 #include "protobuf/ProtobufMessagesModel.h"
 #include "utils/KafkaUtility.h"
 
@@ -74,7 +67,6 @@ int main(int argc, char *argv[])
                                                               0,
                                                               "ProtobufMessagesModel");
 
-    kafka::clients::KafkaClient::setGlobalLogger(KafkaSpdLogger);
     QCoreApplication::setApplicationName("plumber");
     QCoreApplication::setOrganizationName("plumber");
 

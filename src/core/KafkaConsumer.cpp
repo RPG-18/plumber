@@ -6,6 +6,7 @@
 
 #include "KafkaConsumer.h"
 #include "spdlog/spdlog.h"
+#include "utils/KafkaUtility.h"
 
 namespace core {
 KafkaConsumer::KafkaConsumer(ClusterConfig cfg, const QStringList &topics, QObject *parent)
@@ -115,12 +116,13 @@ void KafkaConsumer::pool()
 
 void KafkaConsumer::createConsumer()
 {
-    using namespace kafka::clients::consumer;
+    using namespace kafka::clients;
     try {
-        Config props(m_cfg.properties->map());
-        props.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        consumer::ConsumerConfig props(m_cfg.properties->map());
+        props.put(consumer::ConsumerConfig::LOG_CB, KafkaSpdLogger);
+        props.put(consumer::ConsumerConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
-        auto consumer = std::make_unique<kafka::clients::KafkaConsumer>(props);
+        auto consumer = std::make_unique<consumer::KafkaConsumer>(props);
         m_consumer = std::move(consumer);
         kafka::Topics topics;
         for (const auto &topic : m_topics) {
