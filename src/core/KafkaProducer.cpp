@@ -1,5 +1,6 @@
 #include "KafkaProducer.h"
 #include "spdlog/spdlog.h"
+#include "utils/KafkaUtility.h"
 
 namespace core {
 KafkaProducer::KafkaProducer(ClusterConfig cfg, QObject *parent)
@@ -17,10 +18,11 @@ void KafkaProducer::createProducer()
     }
 
     try {
-        Config props(m_cfg.properties->map());
-        props.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        ProducerConfig props(m_cfg.properties->map());
+        props.put(ProducerConfig::LOG_CB, KafkaSpdLogger);
+        props.put(ProducerConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
-        auto producer = std::make_unique<kafka::clients::KafkaProducer>(props);
+        auto producer = std::make_unique<kafka::clients::producer::KafkaProducer>(props);
         m_producer = std::move(producer);
     } catch (const kafka::KafkaException &e) {
         spdlog::error("Unexpected exception caught: {}", e.what());

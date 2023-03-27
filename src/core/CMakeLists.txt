@@ -9,7 +9,6 @@ add_library(core AdminClient.hpp
         Types.h
         AbstractConverter.cpp AbstractConverter.h
         KafkaAdmin.cpp KafkaAdmin.h
-        KafkaStatistic.cpp KafkaStatistic.h
         Error.cpp Error.h
         ConsumerRecordsExporter.cpp ConsumerRecordsExporter.h
         GroupInfo.cpp GroupInfo.h
@@ -22,6 +21,7 @@ target_link_libraries(core
         Rdkafka
         spdlog::spdlog
         spdlog::spdlog_header_only
+        utils
 )
 
 

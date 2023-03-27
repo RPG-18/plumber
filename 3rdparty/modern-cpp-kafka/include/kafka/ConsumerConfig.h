@@ -2,7 +2,7 @@
 
 #include <kafka/Project.h>
 
-#include <kafka/Properties.h>
+#include <kafka/ClientConfig.h>
 
 
 namespace KAFKA_API { namespace clients { namespace consumer {
@@ -10,18 +10,13 @@ namespace KAFKA_API { namespace clients { namespace consumer {
 /**
  * Configuration for the Kafka Consumer.
  */
-class Config: public Properties
+class ConsumerConfig: public Config
 {
 public:
-    Config() = default;
-    Config(const Config&) = default;
-    explicit Config(const PropertiesMap& kvMap): Properties(kvMap) {}
+    ConsumerConfig() = default;
+    ConsumerConfig(const ConsumerConfig&) = default;
+    explicit ConsumerConfig(const PropertiesMap& kvMap): Config(kvMap) {}
 
-    /**
-     * The string contains host:port pairs of brokers (splitted by ",") that the consumer will use to establish initial connection to the Kafka cluster.
-     * Note: It's mandatory.
-     */
-    static const constexpr char* BOOTSTRAP_SERVERS       = "bootstrap.servers";
 
     /**
      * Group identifier.
@@ -29,11 +24,6 @@ public:
      *
      */
     static const constexpr char* GROUP_ID                = "group.id";
-
-    /**
-     * Client identifier.
-     */
-    static const constexpr char* CLIENT_ID               = "client.id";
 
     /**
      * Automatically commits previously polled offsets on each `poll` operation.
@@ -75,12 +65,6 @@ public:
     static const constexpr char* SESSION_TIMEOUT_MS      = "session.timeout.ms";
 
     /**
-     * Timeout for network requests.
-     * Default value: 60000
-     */
-    static const constexpr char* SOCKET_TIMEOUT_MS       = "socket.timeout.ms";
-
-    /**
      * Control how to read messages written transactionally.
      * Available options: read_uncommitted, read_committed
      * Default value: read_committed
@@ -94,21 +78,6 @@ public:
      * Default value: range,roundrobin
      */
     static const constexpr char* PARTITION_ASSIGNMENT_STRATEGY = "partition.assignment.strategy";
-    /**
-     * Protocol used to communicate with brokers.
-     * Default value: plaintext
-     */
-    static const constexpr char* SECURITY_PROTOCOL          = "security.protocol";
-
-    /**
-     * Shell command to refresh or acquire the client's Kerberos ticket.
-     */
-    static const constexpr char* SASL_KERBEROS_KINIT_CMD    = "sasl.kerberos.kinit.cmd";
-
-    /**
-     * The client's Kerberos principal name.
-     */
-    static const constexpr char* SASL_KERBEROS_SERVICE_NAME = "sasl.kerberos.service.name";
 };
 
 } } } // end of KAFKA_API::clients::consumer

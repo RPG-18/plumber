@@ -1,7 +1,6 @@
 #include "TopicCreator.h"
 #include "AdminClient.hpp"
 #include "KafkaAdmin.h"
-#include "spdlog/spdlog.h"
 
 TopicCreator::TopicCreator(QObject *parent)
     : QObject(parent)

@@ -20,7 +20,7 @@
 #include <unordered_map>
 
 
-namespace KAFKA_API { namespace clients {
+namespace KAFKA_API { namespace clients { namespace producer {
 
 /**
  * KafkaProducer class.
@@ -31,17 +31,11 @@ public:
     /**
      * The constructor for KafkaProducer.
      *
-     * Options:
-     *   - EventsPollingOption::Auto (default) : An internal thread would be started for MessageDelivery callbacks handling.
-     *   - EventsPollingOption::Manual         : User have to call the member function `pollEvents()` to trigger MessageDelivery callbacks.
-     *
      * Throws KafkaException with errors:
      *   - RD_KAFKA_RESP_ERR__INVALID_ARG      : Invalid BOOTSTRAP_SERVERS property
      *   - RD_KAFKA_RESP_ERR__CRIT_SYS_RESOURCE: Fail to create internal threads
      */
-    explicit KafkaProducer(const Properties&    properties,
-                           EventsPollingOption  eventsPollingOption = EventsPollingOption::Auto,
-                           const Interceptors&  interceptors        = Interceptors{});
+    explicit KafkaProducer(const Properties& properties);
 
     /**
      * The destructor for KafkaProducer.
@@ -222,14 +216,8 @@ private:
 };
 
 inline
-KafkaProducer::KafkaProducer(const Properties&      properties,
-                             EventsPollingOption    eventsPollingOption,
-                             const Interceptors&    interceptors)
-    : KafkaClient(ClientType::KafkaProducer,
-                  validateAndReformProperties(properties),
-                  registerConfigCallbacks,
-                  eventsPollingOption,
-                  interceptors)
+KafkaProducer::KafkaProducer(const Properties&      properties)
+    : KafkaClient(ClientType::KafkaProducer, validateAndReformProperties(properties), registerConfigCallbacks)
 {
     // Start background polling (if needed)
     startBackgroundPollingIfNecessary([this](int timeoutMs){ pollCallbacks(timeoutMs); });
@@ -267,12 +255,14 @@ KafkaProducer::registerConfigCallbacks(rd_kafka_conf_t* conf)
 inline Properties
 KafkaProducer::validateAndReformProperties(const Properties& properties)
 {
+    using namespace producer;
+
     // Let the base class validate first
     auto newProperties = KafkaClient::validateAndReformProperties(properties);
 
     // Check whether it's an available partitioner
     const std::set<std::string> availPartitioners = {"murmur2_random", "murmur2", "random", "consistent", "consistent_random", "fnv1a", "fnv1a_random"};
-    auto partitioner = newProperties.getProperty(producer::Config::PARTITIONER);
+    auto partitioner = newProperties.getProperty(ProducerConfig::PARTITIONER);
     if (partitioner && !availPartitioners.count(*partitioner))
     {
         std::string errMsg = "Invalid partitioner [" + *partitioner + "]! Valid options: ";
@@ -288,10 +278,10 @@ KafkaProducer::validateAndReformProperties(const Properties& properties)
 
     // For "idempotence" feature
     constexpr int KAFKA_IDEMP_MAX_INFLIGHT = 5;
-    const auto enableIdempotence = newProperties.getProperty(producer::Config::ENABLE_IDEMPOTENCE);
+    const auto enableIdempotence = newProperties.getProperty(ProducerConfig::ENABLE_IDEMPOTENCE);
     if (enableIdempotence && *enableIdempotence == "true")
     {
-        if (const auto maxInFlight = newProperties.getProperty(producer::Config::MAX_IN_FLIGHT))
+        if (const auto maxInFlight = newProperties.getProperty(ProducerConfig::MAX_IN_FLIGHT))
         {
             if (std::stoi(*maxInFlight) > KAFKA_IDEMP_MAX_INFLIGHT)
             {
@@ -300,7 +290,7 @@ KafkaProducer::validateAndReformProperties(const Properties& properties)
             }
         }
 
-        if (const auto acks = newProperties.getProperty(producer::Config::ACKS))
+        if (const auto acks = newProperties.getProperty(ProducerConfig::ACKS))
         {
             if (*acks != "all" && *acks != "-1")
             {
@@ -400,7 +390,7 @@ KafkaProducer::send(const producer::ProducerRecord& record,
 
     assert(uvCount == rkVUs.size());
 
-    Error sendResult{ rd_kafka_produceva(rk, rkVUs.data(), rkVUs.size()) };
+    const Error sendResult{ rd_kafka_produceva(rk, rkVUs.data(), rkVUs.size()) };
     KAFKA_THROW_IF_WITH_ERROR(sendResult);
 
     // KafkaProducer::deliveryCallback would delete the "opaque"
@@ -416,7 +406,7 @@ KafkaProducer::syncSend(const producer::ProducerRecord& record)
     std::condition_variable  delivered;
 
     auto deliveryCb = [&deliveryResult, &recordMetadata, &mtx, &delivered] (const producer::RecordMetadata& metadata, const Error& error) {
-        std::lock_guard<std::mutex> guard(mtx);
+        const std::lock_guard<std::mutex> guard(mtx);
 
         deliveryResult = error;
         recordMetadata = metadata;
@@ -429,7 +419,7 @@ KafkaProducer::syncSend(const producer::ProducerRecord& record)
     std::unique_lock<std::mutex> lock(mtx);
     delivered.wait(lock, [&deliveryResult]{ return static_cast<bool>(deliveryResult); });
 
-    KAFKA_THROW_IF_WITH_ERROR(*deliveryResult);
+    KAFKA_THROW_IF_WITH_ERROR(*deliveryResult); // NOLINT
 
     return recordMetadata;
 }
@@ -454,7 +444,7 @@ KafkaProducer::close(std::chrono::milliseconds timeout)
 
     stopBackgroundPollingIfNecessary();
 
-    Error result = flush(timeout);
+    const Error result = flush(timeout);
     if (result.value() == RD_KAFKA_RESP_ERR__TIMED_OUT)
     {
         KAFKA_API_DO_LOG(Log::Level::Notice, "purge messages before close, outQLen[%d]", rd_kafka_outq_len(getClientHandle()));
@@ -470,28 +460,28 @@ KafkaProducer::close(std::chrono::milliseconds timeout)
 inline void
 KafkaProducer::initTransactions(std::chrono::milliseconds timeout)
 {
-    Error result{ rd_kafka_init_transactions(getClientHandle(), static_cast<int>(timeout.count())) };  // NOLINT
+    const Error result{ rd_kafka_init_transactions(getClientHandle(), static_cast<int>(timeout.count())) };
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
 inline void
 KafkaProducer::beginTransaction()
 {
-    Error result{ rd_kafka_begin_transaction(getClientHandle()) };
+    const Error result{ rd_kafka_begin_transaction(getClientHandle()) };
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
 inline void
 KafkaProducer::commitTransaction(std::chrono::milliseconds timeout)
 {
-    Error result{ rd_kafka_commit_transaction(getClientHandle(), static_cast<int>(timeout.count())) };  // NOLINT
+    const Error result{ rd_kafka_commit_transaction(getClientHandle(), static_cast<int>(timeout.count())) };
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
 inline void
 KafkaProducer::abortTransaction(std::chrono::milliseconds timeout)
 {
-    Error result{ rd_kafka_abort_transaction(getClientHandle(), static_cast<int>(timeout.count())) };   // NOLINT
+    const Error result{ rd_kafka_abort_transaction(getClientHandle(), static_cast<int>(timeout.count())) };
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
@@ -501,12 +491,12 @@ KafkaProducer::sendOffsetsToTransaction(const TopicPartitionOffsets&           t
                                         std::chrono::milliseconds              timeout)
 {
     auto rk_tpos = rd_kafka_topic_partition_list_unique_ptr(createRkTopicPartitionList(topicPartitionOffsets));
-    Error result{ rd_kafka_send_offsets_to_transaction(getClientHandle(),
-                                                       rk_tpos.get(),
-                                                       groupMetadata.rawHandle(),
-                                                       static_cast<int>(timeout.count())) };            // NOLINT
+    const Error result{ rd_kafka_send_offsets_to_transaction(getClientHandle(),
+                                                             rk_tpos.get(),
+                                                             groupMetadata.rawHandle(),
+                                                             static_cast<int>(timeout.count())) };
     KAFKA_THROW_IF_WITH_ERROR(result);
 }
 
-} } // end of KAFKA_API::clients
+} } } // end of KAFKA_API::clients::producer
 

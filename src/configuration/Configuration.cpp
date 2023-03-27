@@ -27,7 +27,7 @@ QJsonObject toJson(const ClusterConfig &cfg) noexcept
     {
         QJsonObject opt;
         for (const auto &[k, v] : cfg.properties->map()) {
-            opt[k.c_str()] = v.c_str();
+            opt[k.c_str()] = v.toString().c_str();
         }
         obj[PROPERTIES] = opt;
     }

@@ -1,6 +1,7 @@
 #include "KafkaAdmin.h"
 #include "AdminClient.hpp"
 #include "spdlog/spdlog.h"
+#include "utils/KafkaUtility.h"
 
 namespace core {
 
@@ -16,8 +17,10 @@ std::tuple<KafkaAdmin::Topics, Error> KafkaAdmin::listTopics(std::chrono::millis
     const QString when("list topic");
 
     try {
-        Config cfg(m_cfg.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClientConfig cfg(m_cfg.properties->map());
+        cfg.put(AdminClientConfig::LOG_CB, KafkaSpdLogger);
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+
         AdminClient client(cfg);
 
         const auto response = client.listTopics(timeout);
@@ -48,10 +51,11 @@ std::optional<Error> KafkaAdmin::deleteTopics(const Topics &topics,
     const QString when("topic remove");
 
     try {
-        Config cfg(m_cfg.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClientConfig cfg(m_cfg.properties->map());
+        cfg.put(AdminClientConfig::LOG_CB, KafkaSpdLogger);
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
-        kafka::clients::AdminClient client(cfg);
+        AdminClient client(cfg);
         kafka::Topics toDelete;
         for (const auto &topic : topics) {
             toDelete.insert(topic.toStdString());
@@ -78,8 +82,9 @@ std::tuple<std::optional<KafkaAdmin::BrokerMetadata>, Error> KafkaAdmin::fetchNo
     const QString when("topic remove");
 
     try {
-        Config cfg(m_cfg.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClientConfig cfg(m_cfg.properties->map());
+        cfg.put(AdminClientConfig::LOG_CB, KafkaSpdLogger);
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
         core::AdminClient client(cfg);
 
@@ -102,8 +107,9 @@ std::optional<Error> KafkaAdmin::createTopics(const Topics &topics,
 
     const QString when("create topic");
     try {
-        Config cfg(m_cfg.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClientConfig cfg(m_cfg.properties->map());
+        cfg.put(AdminClientConfig::LOG_CB, KafkaSpdLogger);
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
 
         kafka::Topics t;
         for (const auto &topic : topics) {
@@ -133,8 +139,8 @@ std::tuple<std::vector<GroupInfo>, Error> KafkaAdmin::listGroups(const QString &
     const QString when("list group");
 
     try {
-        Config cfg(m_cfg.properties->map());
-        cfg.put(Config::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
+        AdminClientConfig cfg(m_cfg.properties->map());
+        cfg.put(AdminClientConfig::BOOTSTRAP_SERVERS, m_cfg.bootstrap.toStdString());
         AdminClient client(cfg);
 
         const auto groupFilter = group.toStdString();

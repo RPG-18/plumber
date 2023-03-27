@@ -2,7 +2,7 @@
 
 #include <kafka/Project.h>
 
-#include <kafka/Properties.h>
+#include <kafka/ClientConfig.h>
 
 
 namespace KAFKA_API { namespace clients { namespace producer {
@@ -10,23 +10,13 @@ namespace KAFKA_API { namespace clients { namespace producer {
 /**
  * Configuration for the Kafka Producer.
  */
-class Config: public Properties
+class ProducerConfig: public Config
 {
 public:
-    Config() = default;
-    Config(const Config&) = default;
-    explicit Config(const PropertiesMap& kvMap): Properties(kvMap) {}
+    ProducerConfig() = default;
+    ProducerConfig(const ProducerConfig&) = default;
+    explicit ProducerConfig(const PropertiesMap& kvMap): Config(kvMap) {}
 
-    /**
-     * The string contains host:port pairs of brokers (splitted by ",") that the producer will use to establish initial connection to the Kafka cluster.
-     * Note: It's mandatory.
-     */
-    static const constexpr char* BOOTSTRAP_SERVERS            = "bootstrap.servers";
-
-    /**
-     * This can be any string, and will be used by the brokers to identify messages sent from the client.
-     */
-    static const constexpr char* CLIENT_ID                    = "client.id";
 
     /**
      * The acks parameter controls how many partition replicas must receive the record before the producer can consider the write successful.
@@ -128,22 +118,6 @@ public:
      * Default value: 60000
      */
     static const constexpr char* TRANSACTION_TIMEOUT_MS       = "transaction.timeout.ms";
-
-    /**
-     * Protocol used to communicate with brokers.
-     * Default value: plaintext
-     */
-    static const constexpr char* SECURITY_PROTOCOL            = "security.protocol";
-
-    /**
-     * Shell command to refresh or acquire the client's Kerberos ticket.
-     */
-    static const constexpr char* SASL_KERBEROS_KINIT_CMD      = "sasl.kerberos.kinit.cmd";
-
-    /**
-     * The client's Kerberos principal name.
-     */
-    static const constexpr char* SASL_KERBEROS_SERVICE_NAME   = "sasl.kerberos.service.name";
 };
 
 } } } // end of KAFKA_API::clients::producer
